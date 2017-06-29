@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>找回密码</title>
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://ors703hgy.bkt.clouddn.com/store/css/register-wap.css"/>
+</head>
+<body>
+
+<div>
+    <nav>
+        <a href="JavaScript:history.back(-1)" class='goback'>
+            <b></b>
+        </a>找回密码
+    </nav>
+</div>
+
+<form action="http://localhost:8080/user/setPassword" id="register_form" autocomplete="off" method="post">
+    <!-- 手机注册开始 -->
+    <div id="error_display" style="text-align:center;color:red;display:none;">
+        <!--错误信息显示区域-->
+    </div>
+    <section class="phone-register">
+        <div class="register-item">
+            <div class="inputs ">
+                <font color="white">手机号：</font>
+                <input type="text" id="phonenumber" name="phonenumber" class="required" />
+            </div>
+
+        </div>
+
+
+        <div class="register-item ">
+            <div class="inputs verifycode-inputs" style="display: flex;display: -webkit-flex;flex-flow: row nowrap;justify-content:space-between">
+                <div style="width: 80%;">
+                    <font color="white" style="margin-top: 10px">验证码：</font>
+                    <!--<button type="button" id="btn" onclick="settime(this)" name="vrifyCode">获取验证码</button>-->
+                    <input type="text" name="vrifyCode" class="required" id="phone_vcode"/>
+                </div>
+                <div style="display: flex;display: -webkit-flex;flex-flow: row nowrap;">
+                    <img style="display:none;" id="mykaptcha"/>
+                    <input style="border: none;float: right;" type="button" id="btn" value="获取验证码" onclick="settime(this)" name="vrifyCode"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="register-item " >
+            <div class="inputs " >
+                <font color="white">新密码：</font>
+                <input type="password" name="passpord" id="password" class="required" />
+            </div>
+        </div>
+
+        <div class="register-item ">
+            <div class="inputs ">
+                <font color="white">确认信新密码：</font>
+                <input type="password" name="repassword" id="repassword" class="required"/>
+            </div>
+        </div>
+
+
+    </section>
+
+    <!-- 注册按键 -->
+    <div style="margin: 0 auto;width: 95%;text-align: center">
+        <section class="register-btn">
+            <button type="submit" id="send" style="width: 90%;height: 3rem;background-color: #f44765;font-size: 1.2rem;color: #ffffff;">找回密码</button><br/>
+            <h1 style="color: #333333"  th:text="${info}" />
+        </section>
+    </div>
+</form>
+
+<script>
+    $(function () {
+        //显示验证码
+        $("#btn").click(function () {
+            $("#mykaptcha").attr("src","/user/getMykaptcha?d='+new Date()*1");
+            $("#mykaptcha").show();
+        })
+
+        //t失去焦点事件
+        //<![CDATA[
+        $("form :input").blur(function () {
+            var $parent = $(this).parent();
+            $parent.find(".formtips").remove();
+            //验证码
+            if( $(this).is('#phone_vcode') ){
+                if( this.value=="" || ( this.value!="" && !/(^s*)|(s*$)/g.test(this.value) ) ){
+                    var errorMsg = '请输入验证码';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+                }else{
+                    /*var okMsg = '输入正确.';
+                     $parent.append('<span class="formtips onSuccess">'+okMsg+'</span>');*/
+                }
+            }
+
+            //验证手机
+            if( $(this).is('#phonenumber') ){
+                if( this.value=="" || ( this.value!="" && !/^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/.test(this.value) ) ){
+                    var errorMsg = '请输入正确手机号码';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+                }else{
+                    /*var okMsg = '输入正确.';
+                    $parent.append('<span class="formtips onSuccess">'+okMsg+'</span>');*/
+                }
+            }
+
+            //验证密码
+            if( $(this).is('#password') ){
+                if( this.value=="" || ( this.value!="" && !/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,22}$/.test(this.value) ) ){
+                    var errorMsg = '请输入6位以上的密码';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+                }else{
+                    /*var okMsg = '输入正确.';
+                    $parent.append('<span class="formtips onSuccess">'+okMsg+'</span>');*/
+                }
+            }
+
+            //验证两次密码是否一致
+            if( $(this).is('#repassword') ){
+                var p1 = $("#password").val();
+                var p2 = $("#repassword").val();
+                if(p1 == p2 ){
+                    /*var errorMsg = '输入正确';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');*/
+                }else{
+                    var errorMsg = '密码不一致';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+                }
+            }
+
+
+        })
+        //]]>
+
+        $("#send").click(function () {//提交按钮事件
+            $("form .required:input").trigger('blur');
+            var numError = $('form .onError').length;
+
+            if(numError)
+            {
+                return false;
+            }
+
+        });
+    })
+
+    var countdown=60;
+    //倒计时
+    function settime(obj) {
+
+        if (countdown == 0) {
+            obj.removeAttribute("disabled");
+            obj.value="重新发送";
+            countdown = 60;
+            return;
+        } else {
+            obj.setAttribute("disabled", true);
+            obj.value="重新发送(" + countdown + ")";
+            countdown--;
+        }
+        setTimeout(function() {
+                settime(obj) }
+            ,1000)
+    }
+</script>
+</body>
+</html>

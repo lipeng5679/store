@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>用户注册</title>
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://ors703hgy.bkt.clouddn.com/store/css/register-wap.css"/>
+
+</head>
+<body>
+
+<div>
+    <nav>
+        <a href="JavaScript:history.back(-1)" class='goback'>
+            <b></b>
+        </a>
+        注册
+    </nav>
+</div>
+
+
+<form method="post" action="http://localhost:8080/user" id="register_form" autocomplete="off">
+
+    <section class="phone-register">
+        <div class="register-item">
+            <div class="inputs ">
+                <font color="white">手机号：</font>
+                <input type="text" class="required" id="phonenumber" name="phonenumber" />
+            </div>
+        </div>
+
+        <div class="register-item ">
+            <div class="inputs verifycode-inputs" style="display: flex;display: -webkit-flex;flex-flow: row nowrap;justify-content:space-between">
+                <div style="width: 80%;">
+                    <font color="white" style="margin-top: 10px">验证码：</font>
+                    <input type="text" name="vrifyCode" class="required" id="phone_vcode"/>
+                </div>
+                <div style="display: flex;display: -webkit-flex;flex-flow: row nowrap;">
+                    <img style="display:none;height: 2.8em" id="mykaptcha"/>
+                    <input style="border: none;float: right;" type="button" id="btn" value="获取验证码" onclick="settime(this)" name="vrifyCode"/>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="register-item">
+            <div class="inputs ">
+                <font color="white">昵称：</font>
+                <input type="text" name="nickname" id="nickname" />
+            </div>
+        </div>
+
+        <!-- 用户名 -->
+        <div class="register-item">
+            <div class="inputs ">
+                <font color="white">真实姓名：</font>
+                <input type="text" class="required" name="name" id="name" />
+            </div>
+        </div>
+
+        <div class="register-item">
+            <div class="inputs ">
+                <font color="white">所在小区：</font>
+                <input type="text" class="required" name="xiaoqu"/>
+            </div>
+        </div>
+
+        <div class="register-item">
+            <div class="inputs ">
+                <font color="white">详细地址：(可注册后补充填写)</font>
+                <input type="text" class="form-control" name="address" id="address"/>
+            </div>
+        </div>
+
+        <div class="register-item ">
+            <div class="inputs ">
+                <font color="white">密 码：</font>
+                <input type="password" class="required" name="password" id="password" />
+            </div>
+        </div>
+
+        <div class="register-item ">
+            <div class="inputs ">
+                <font color="white">再次输入密码：</font>
+                <input type="password" class="required" id="repassword" />
+            </div>
+        </div>
+
+    </section>
+    <!-- 注册按键 -->
+    <div style="margin: 0 auto;width: 95%;text-align: center">
+        <section class="register-btn">
+            <button type="submit" id="submit">提交注册</button>
+            <h1 style="color: #333333"  th:text="${info}" />
+        </section>
+    </div>
+
+
+</form>
+<script>
+
+    var countdown=60;
+    $(function () {
+
+        //显示验证码
+        $("#btn").click(function () {
+            $("#mykaptcha").attr("src","/user/getMykaptcha?d='+new Date()*1");
+           $("#mykaptcha").show();
+        })
+
+
+        //t失去焦点事件
+        //<![CDATA[
+        $("form :input").blur(function () {
+            var $parent = $(this).parent();
+            $parent.find(".formtips").remove();
+
+            //验证码
+            if( $(this).is('#phone_vcode') ){
+                if( this.value=="" || ( this.value!="" && !/(^s*)|(s*$)/g.test(this.value) ) ){
+                    var errorMsg = '请输入验证码';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+                }
+            }
+
+            //验证用户名
+            if ($(this).is('#name')) {
+                if (this.value == "" ||this.value!="" && !/^([\u4e00-\u9fa5]{1,20}|[a-zA-Z\.\s]{1,20})$/.test(this.value) ) {
+                    var errorMsg = "请输入正确的姓名";
+                    $parent.append('<span class="formtips onError">' + errorMsg + "</span>");
+                }
+            }
+
+            //验证手机
+            if( $(this).is('#phonenumber') ){
+                if( this.value=="" || ( this.value!="" && !/^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/.test(this.value) ) ){
+                    var errorMsg = '请输入正确手机号码.';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+                }
+            }
+
+            //验证密码
+            if( $(this).is('#password') ){
+                if( this.value=="" || ( this.value!="" && !/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,22}$/.test(this.value) ) ){
+                    var errorMsg = '请输入6位以上的密码';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+                }
+            }
+
+            //验证地址不能有特殊字符
+            if( $(this).is('#address') ){
+                if(  /^[\u4e00-\u9fa5a-z]+$/gi.test(this.value) ){
+                    var errorMsg = '不含有特殊字符';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+                }
+            }
+
+            //验证两次密码是否一致
+            if( $(this).is('#repassword') ){
+                var p1 = $("#password").val();
+                var p2 = $("#repassword").val();
+                if(p1 == p2 ){
+                    /*var errorMsg = '输入正确';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');*/
+                }else{
+                    var okMsg = '密码不一致.';
+                    $parent.append('<span class="formtips onError">'+okMsg+'</span>');
+                }
+            }
+
+
+        })
+        //]]>
+
+
+        $(".register-btn button").click(function () {//提交按钮事件
+            $("form .required:input").trigger('blur');
+            var numError = $('form .onError').length;
+            if(numError)
+            {
+
+                return false;
+            }
+
+        });
+
+
+    })
+
+    //倒计时
+    function settime(obj) {
+
+        if (countdown == 0) {
+            obj.removeAttribute("disabled");
+            obj.value="重新发送";
+            countdown = 60;
+            return;
+        } else {
+            obj.setAttribute("disabled", true);
+            obj.value="重新发送(" + countdown + ")";
+            countdown--;
+        }
+        setTimeout(function() {
+                settime(obj) }
+            ,1000)
+    }
+
+</script>
+</body>
+</html>

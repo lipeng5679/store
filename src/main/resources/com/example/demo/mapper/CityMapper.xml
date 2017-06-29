@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.CityMapper">
+
+    <resultMap id="cityList" type="com.example.demo.domain.City">
+        <id column="c_id" property="c_id"></id>
+        <result column="cityname" property="cityname"></result>
+        <collection property="villages" ofType="com.example.demo.domain.Village" column="v_id">
+            <id column="v_id" property="v_id"/>
+            <result column="villagename" property="villagename"/>
+        </collection>
+    </resultMap>
+
+
+
+
+
+
+</mapper>
+

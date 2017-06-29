@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>登陆页面</title>
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://ors703hgy.bkt.clouddn.com/store/css/register-wap.css"/>
+
+</head>
+<body>
+<div>
+    <nav>
+        <a href="JavaScript:history.back(-1)" class='goback'>
+            <b></b>
+        </a>
+
+        登陆
+
+        <div style="text-align: right;float: right;padding-right: 0.6em">
+            <a href="http://localhost:8080/user/register"><font color="white">注册</font></a>
+        </div>
+    </nav>
+</div>
+
+
+<form action="http://localhost:8080/user/login" id="register_form" autocomplete="off" method="post">
+
+    <section class="phone-register">
+        <div class="register-item" style="width: 50%;margin: 0 auto">
+            <img style="width:100%; height:100%;" src="http://ors703hgy.bkt.clouddn.com/store/image/1.jpg" height="158" width="278"/>
+        </div>
+        <div class="register-item">
+            <div class="inputs ">
+                <font color="white">手机号：</font>
+                <input type="phone" class="required" id="phonenumber" name="phonenumber" />
+            </div>
+        </div>
+
+        <div class="register-item ">
+            <div class="inputs ">
+                <font color="white">密 码：</font>
+                <input type="password" class="required" name="passpord" id="password" />
+            </div>
+        </div>
+
+
+    </section>
+    <!-- 注册按键 -->
+    <div style="margin: 0 auto;width: 95%;text-align: center">
+        <section class="register-btn">
+            <button type="submit" id="submit">登陆</button><br/>
+            <a href="http://localhost:8080/user/back"><font color="white">忘记密码?</font></a>
+            <h1 style="color: #333333"  th:text="${info}" />
+        </section>
+    </div>
+
+    <!--手机号：<input type="text" name="phonenumber"/>
+    密码<input type="password" name="password"/>
+    <input type="submit" value="登陆"/>
+    <a href="http://localhost:8080/user/toBackPassword">back</a>-->
+
+
+</form>
+<script>
+    $(function () {
+        //t失去焦点事件
+        //<![CDATA[
+        $("form :input").blur(function () {
+            var $parent = $(this).parent();
+            $parent.find(".formtips").remove();
+
+            //验证密码
+            if( $(this).is('#password') ){
+                if( this.value=="" || ( this.value!="" && !/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,22}$/.test(this.value) ) ){
+                    var errorMsg = '请输入6位以上的密码';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+                }else{
+                    /*var okMsg = '输入正确.';
+                     $parent.append('<span class="formtips onSuccess">'+okMsg+'</span>');*/
+                }
+            }
+
+            //验证手机
+            if( $(this).is('#phonenumber') ){
+                if( this.value=="" || ( this.value!="" && !/^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/.test(this.value) ) ){
+                    var errorMsg = '请输入正确手机号码';
+                    $parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+                }else{
+                    /*var okMsg = '输入正确.';
+                     $parent.append('<span class="formtips onSuccess">'+okMsg+'</span>');*/
+                }
+            }
+
+
+        })
+        //]]>
+
+        $(".register-btn button").click(function () {//提交按钮事件
+            $("form .required:input").trigger('blur');
+            var numError = $('form .onError').length;
+            if(numError)
+            {
+
+                return false;
+            }
+
+        });
+
+    })
+</script>
+</body>
+</html>

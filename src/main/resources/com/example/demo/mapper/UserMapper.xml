@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.UserMapper">
+
+    <resultMap id="userList" type="com.example.demo.domain.User">
+        <id column="id" property="id"></id>
+        <result column="phonenumber" property="phonenumber"></result>
+        <result column="nickname" property="nickname"></result>
+        <result column="xiaoqu" property="xiaoqu"></result>
+        <result column="name" property="name"></result>
+        <result column="address" property="address"></result>
+        <result column="password" property="password"></result>
+        <result column="date" property="date"></result>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="findAll" resultMap="userList">
+        SELECT * FROM  user order by id DESC
+    </select>
+
+    <!--查询一条-->
+    <select id="get" resultMap="userList">
+        SELECT * FROM user
+        WHERE id=#{id}
+    </select>
+
+    <!--新增-->
+    <insert id="insert" parameterType="com.example.demo.domain.User">
+      INSERT INTO user (phonenumber,nickname,name,xiaoqu,address,password,date)
+      VALUES
+      (
+        #{phonenumber},
+        #{nickname},
+        #{name},
+        #{xiaoqu},
+        #{address},
+        #{password},
+        #{date}
+      )
+    </insert>
+
+    <!--修改-->
+    <update id="update" parameterType="com.example.demo.domain.User">
+        UPDATE user
+        <set>
+            <if test="phonenumber!=null">phonenumber=#{phonenumber},</if>
+            <if test="nickname!=null">nickname=#{nickname},</if>
+            <if test="name!=null">name=#{name},</if>
+            <if test="xiaoqu!=null">name=#{xiaoqu},</if>
+            <if test="address!=null">address=#{address},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="date!=null">date=#{dates}</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <!--删除一条-->
+    <delete id="deleteById" parameterType="com.example.demo.domain.User">
+        DELETE FROM user
+        WHERE id=#{id}
+    </delete>
+
+    <!-- 删除多条 -->
+    <delete id="delete" parameterType="java.util.List">
+        delete from user
+        where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--根据用户名和密码-->
+    <select id="getnumberAndpassword" parameterType="java.util.Map" resultMap="userList">
+        SELECT * FROM user
+        WHERE phonenumber=#{phonenumber} AND password=#{password}
+    </select>
+
+    <!--根据手机号查找-->
+    <select id="getPhonenumber" resultMap="userList">
+        SELECT * FROM user
+        WHERE phonenumber=#{phonenumber}
+    </select>
+
+
+</mapper>
+
