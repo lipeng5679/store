@@ -59,9 +59,9 @@
         </div>
 
         <div class="register-item">
-            <div class="inputs ">
+            <div class="inputs " id="div_xiaoqu">
                 <font color="white">所在小区：</font>
-                <a href="http://localhost:8080/user/city"><input type="text" class="required" name="xiaoqu" value="点击进行选择"/></a>
+                <a id="xiaoqu"><input id="xiao" type="text" class="required" name="xiaoqu" value="点击进行选择"/></a>
             </div>
         </div>
 
@@ -183,6 +183,16 @@
             }
 
         });
+
+
+
+        $("#xiaoqu").click(function () {
+
+            var url = "http://localhost:8080/user/city";
+            var data = {};
+            window.open("http://localhost:8080/user/city")
+
+        })
 
 
     })

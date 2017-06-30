@@ -16,9 +16,9 @@
     </resultMap>
 
 
-    <!--查询所有-->
-    <select id="findAllCity" resultMap="cityList">
-        SELECT city.cityname,village.villagename,city.ping FROM  city,village WHERE city.v_id=village.v_id ORDER BY ping
+    <!--根据id查询-->
+    <select id="findById" resultMap="cityList">
+        SELECT c.cityname,v.villagename,c.ping from city c,village v WHERE c.v_id=v.v_id and c.c_id=#{cid}
     </select>
 
 

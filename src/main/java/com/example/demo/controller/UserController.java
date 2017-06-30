@@ -176,7 +176,7 @@ public class UserController {
     public ModelAndView toCity(){
         ModelAndView andView = new ModelAndView();
         andView.setViewName("user/city");
-        List<City> cityList = cityService.findAllCity();
+        List<City> cityList = cityService.findById(1l);
         andView.addObject("cityList",cityList);
 
         return andView;

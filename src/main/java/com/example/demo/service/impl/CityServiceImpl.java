@@ -22,7 +22,7 @@ public class CityServiceImpl implements CityService {
     private CityMapper cityMapper;
 
     @Override
-    public List<City> findAllCity() {
-        return cityMapper.findAllCity();
+    public List<City> findById(Serializable cid) {
+        return cityMapper.findById(cid);
     }
 }

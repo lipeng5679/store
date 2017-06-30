@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface CityService {
 
-    List<City> findAllCity();
+    List<City> findById(Serializable cid);
 }

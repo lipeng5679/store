@@ -73,11 +73,7 @@
 
 <script>
     $(function () {
-        //显示验证码
-        $("#btn").click(function () {
-            $("#mykaptcha").attr("src","/user/getMykaptcha?d='+new Date()*1");
-            $("#mykaptcha").show();
-        })
+
 
         //t失去焦点事件
         //<![CDATA[
@@ -144,6 +140,13 @@
             }
 
         });
+    })
+
+
+    //显示验证码
+    $("#btn").click(function () {
+        $("#mykaptcha").attr("src","/user/getMykaptcha?d='+new Date()*1");
+        $("#mykaptcha").show();
     })
 
     var countdown=60;

@@ -16,6 +16,6 @@ import java.util.List;
 @Mapper
 public interface CityMapper {
 
-    List<City> findAllCity();
+    List<City> findById(Serializable cid);
 
 }
