@@ -3,10 +3,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>小区选择</title>
-    <link href="http://ors703hgy.bkt.clouddn.com/store/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="http://ors703hgy.bkt.clouddn.com/store/css/style1.css" rel="stylesheet" type="text/css"/>
 
 </head>
 <body>
+
 
 <nav>
     <a href="#" class='goback'>
@@ -27,11 +28,16 @@
     </ul>
 </div>
 
+
 <div class="container" style="z-index: 9999;">
     <div class="city">
         <div class="city-list" th:each="city : ${cityList}">
-            <span style="background-color: #efecec;height: 0.3em;line-height: 0.3em" class="city-letter" id="A1">a</span>
+            <span style="background-color: #efecec;height: 0.3em;line-height: 0.3em" class="city-letter" th:text="${city.ping}"></span>
             <p data-id="210300" th:text="${city.cityname}"></p>
+            <div style="margin-left: 20px" th:each="village : ${city.villages}">
+                <p data-id="210300" th:text="${village.villagename}"></p>
+            </div>
+
         </div>
     </div>
 </div>

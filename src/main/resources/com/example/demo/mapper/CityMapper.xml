@@ -8,6 +8,7 @@
     <resultMap id="cityList" type="com.example.demo.domain.City">
         <id column="c_id" property="c_id"></id>
         <result column="cityname" property="cityname"></result>
+        <result column="ping" property="ping"></result>
         <collection property="villages" ofType="com.example.demo.domain.Village" column="v_id">
             <id column="v_id" property="v_id"/>
             <result column="villagename" property="villagename"/>
@@ -17,7 +18,7 @@
 
     <!--查询所有-->
     <select id="findAllCity" resultMap="cityList">
-        SELECT * FROM  city
+        SELECT city.cityname,village.villagename,city.ping FROM  city,village WHERE city.v_id=village.v_id ORDER BY ping
     </select>
 
 

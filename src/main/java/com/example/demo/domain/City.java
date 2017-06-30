@@ -18,5 +18,6 @@ public class City implements Serializable{
 
     private Long c_id;
     private String cityname;
+    private String ping;
     private List<Village> villages;
 }

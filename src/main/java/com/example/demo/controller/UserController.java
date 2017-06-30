@@ -120,15 +120,18 @@ public class UserController {
 
     //登陆
     @PostMapping("/login")
-    public ModelAndView login(String phonenumber, String password, ModelMap modelMap) {
+    public ModelAndView login(String phonenumber, String password) {
         ModelAndView modelAndView = new ModelAndView();
         User user = userService.getnumberAndpassword(phonenumber, password);
         if (user != null) {
             modelAndView.setViewName("index");
             modelAndView.addObject("user",user);
             return modelAndView;
+        }else {
+            modelAndView.addObject("info", "用户名或密码错误");
+            modelAndView.setViewName("user/login");
         }
-        modelAndView.setViewName("fail");
+
 
         return modelAndView;
     }

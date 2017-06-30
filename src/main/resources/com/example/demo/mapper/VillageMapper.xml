@@ -11,6 +11,7 @@
         <association property="city" javaType="com.example.demo.domain.City">
             <id column="c_id" property="c_id"/>
             <result column="cityname" property="cityname"/>
+            <result column="ping" property="ping"/>
         </association>
 
     </resultMap>
