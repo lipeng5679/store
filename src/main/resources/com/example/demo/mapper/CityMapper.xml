@@ -15,6 +15,10 @@
     </resultMap>
 
 
+    <!--查询所有-->
+    <select id="findAllCity" resultMap="cityList">
+        SELECT * FROM  city
+    </select>
 
 
 

@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.City;
 import com.example.demo.domain.User;
+import com.example.demo.service.CityService;
 import com.example.demo.service.UserService;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -21,6 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -34,6 +37,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private CityService cityService;
     @Autowired
     DefaultKaptcha defaultKaptcha;
 
@@ -159,6 +164,17 @@ public class UserController {
 
 
         }
+
+        return andView;
+    }
+
+    //跳转到选择小区页面并准备数据
+    @GetMapping("/city")
+    public ModelAndView toCity(){
+        ModelAndView andView = new ModelAndView();
+        andView.setViewName("user/city");
+        List<City> cityList = cityService.findAllCity();
+        andView.addObject("cityList",cityList);
 
         return andView;
     }

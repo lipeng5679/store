@@ -1,0 +1,61 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>小区选择</title>
+    <link href="http://ors703hgy.bkt.clouddn.com/store/css/style.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+
+<nav>
+    <a href="#" class='goback'>
+        <b></b>
+    </a>
+    选择城市
+</nav>
+
+
+<div class="loan_jm1">
+    <ul>
+        <li class="loan_jm_l1">
+
+            <div>
+                <span style="width: 90%" class="wbk_srn select_show select_gr" id="gr_zone_ids" data-id="130100"></span><b></b>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="container" style="z-index: 9999;">
+    <div class="city">
+        <div class="city-list" th:each="city : ${cityList}">
+            <span style="background-color: #efecec;height: 0.3em;line-height: 0.3em" class="city-letter" id="A1">a</span>
+            <p data-id="210300" th:text="${city.cityname}"></p>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="http://ors703hgy.bkt.clouddn.com/store/js/zepto.js"></script>
+<script type="text/javascript">
+    //加载城市事件
+    $('body').on('click', '#zone_ids,#gr_zone_ids', function () {
+        var zid = $(this).attr('id');
+        $('.container').show();
+
+    });
+    //选择城市 start
+    $('body').on('click', '.city-list p', function () {
+        var type = $('.container').data('type');
+        $('#zone_ids').html($(this).html()).attr('data-id', $(this).attr('data-id'));
+        $('#gr_zone_ids').html($(this).html()).attr('data-id', $(this).attr('data-id'));
+        $('.container').hide();
+    });
+    $('body').on('click', '.letter a', function () {
+        var s = $(this).html();
+        $(window).scrollTop($('#' + s + '1').offset().top);
+    });
+</script>
+
+</body>
+</html>
