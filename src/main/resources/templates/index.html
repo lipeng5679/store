@@ -1,12 +1,131 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="css/amazeui.min.css"/>
+    <link rel="stylesheet" href="css/wap.css?2"/>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/amazeui.min.js"></script>
+
+    <style>
+        .menu{position:relative;float:left;width:25%;height:50px;line-height:50px;background:#fff;border-right:1px solid #ebebeb;box-sizing:border-box;text-align: center;-webkit-box-sizing:border-box;  }
+        .new-sub{position:absolute;bottom:60px;z-index:10;width:100%;padding: 0px 10px;background: #fff;box-sizing:border-box;-webkit-box-sizing:border-box;border: 1px solid #EEEEEE;border-radius: 5px;display:none;}
+        .new-sub li{width: 100%;background:#fff;float:none;box-sizing:border-box;-webkit-box-sizing:border-box;border-top:1px solid #f2f2f2;}
+        .new-sub li a{display:block;height:50px;line-height:50px;text-align:left;background:#fff;color:#333;border:none;text-align:center;font-size:16px;}
+        .menu a{color: red}
+        nav {position: relative;width: 100%;height: 38px;line-height: 38px;background-color: #f44765;color: #ffffff;text-align: center;font-size: 2rem;}
+
+    </style>
+
     <title>首页</title>
-    <script src="/static/js/jquery-3.1.1.min.js"></script>
+
 </head>
-<body>
-主页面
-欢迎<p th:text="${user.name}"></p>登陆
+<body style="width: 80%;margin: auto">
+
+<nav>
+    <span style="float: left;padding-left: 1.5em">成华小区</span>
+    迷家
+    <img src="img/309.png" style="max-width:100%;height:75%;float: right;padding-top: 0.2em;"/>
+</nav>
+
+<div class="pet_mian" id="top">
+    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
+        <ul class="am-slides">
+            <li>
+                <img src="img/fl01.png"/>
+            </li>
+            <li>
+                <img src="img/fl02.png"/>
+            </li>
+            <li>
+                <img src="img/fl03.png"/>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="pet_circle_nav">
+        <ul class="pet_circle_nav_list">
+            <li><a href="" class="iconfont pet_nav_xinxianshi " style="background: url(img/301.jpg); background-size:100%;"></a><span>社区超市</span></li>
+            <li><a href="" class="iconfont pet_nav_zhangzhishi " style="background: url(img/302.jpg); background-size:100%;"></a><span>快递寄送</span></li>
+            <li><a href="" class="iconfont pet_nav_kantuya " style="background: url(img/303.jpg); background-size:100%;"></a><span>家政服务</span></li>
+            <li><a href="" class="iconfont pet_nav_mengzhuanti " style="background: url(img/304.jpg); background-size:100%;"></a><span>辨明洗涤</span></li>
+            <li><a href="" class="iconfont pet_nav_meirong " style="background: url(img/305.jpg); background-size:100%;"></a><span>洗车预约</span></li>
+            <li><a href="" class="iconfont pet_nav_yiyuan " style="background: url(img/306.jpg); background-size:100%;"></a><span>社区二手</span></li>
+            <li><a href="" class="iconfont pet_nav_dianpu " style="background: url(img/307.jpg); background-size:100%;"></a><span>物业服务</span></li>
+            <li><a href="" class="iconfont pet_nav_dianpu " style="background: url(img/308.jpg); background-size:100%;"></a><span>装修服务</span></li>
+        </ul>
+    </div>
+</div>
+<div class="pet_mian" style="display: flex;display: -webkit-flex;flex-flow: row nowrap;">
+
+    <div style="background-color: #6fc01e;width: 100%;">
+        物业工作展示
+    </div>
+
+    <div style="background-color: red;display: -webkit-flex;flex-flow: column wrap;width: 100%">
+        <div style="background-color: blue">
+            业主投票
+        </div>
+
+        <div style="background-color: #7f2d00">
+            小区公告
+        </div>
+
+        <div style="background-color: cyan">
+            物业保修
+        </div>
+    </div>
+
+</div>
+
+<div class="pet_mian" style="background-color: yellow">
+
+    <div class="menu">
+        <div class="bt-name"><a href="javascript:()">主页</a></div>
+    </div><!--menu-->
+
+    <div class="menu">
+        <div class="bt-name"><a href="javascript:()">订单</a></div>
+    </div><!--menu-->
+
+    <div class="menu">
+        <div class="bt-name"><a href="javascript:()">我的</a></div>
+    </div><!--menu-->
+
+
+    <div class="menu" >
+        <a class="bt-name" href="javascript:()">更多</a>
+        <div class="sanjiao"></div>
+        <div  class="new-sub">
+            <ul>
+                <li><a href="javascript:;">第一个</a></li>
+                <li><a href="javascript:;" >第二个</a></li>
+                <li><a href="javascript:;" >第三个</a></li>
+            </ul>
+            <div class="tiggle"></div>
+            <div class="innertiggle"></div>
+        </div>
+    </div><!--menu-->
+
+
+
+</div>
+
+<script type="text/javascript">
+    //弹出垂直菜单
+    $(".menu").click(function() {
+        if ($(this).hasClass("cura")) {
+            $(this).children(".new-sub").hide(); //当前菜单下的二级菜单隐藏
+            $(".menu").removeClass("cura"); //同一级的菜单项
+        } else {
+            $(".menu").removeClass("cura"); //移除所有的样式
+            $(this).addClass("cura"); //给当前菜单添加特定样式
+            $(".menu").children(".new-sub").slideUp("fast"); //隐藏所有的二级菜单
+            $(this).children(".new-sub").slideDown("fast"); //展示当前的二级菜单
+        }
+    });
+</script>
+
 </body>
 </html>

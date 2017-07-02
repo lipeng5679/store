@@ -15,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Village implements Serializable{
 
-    private Long v_id;
+    private Long vid;
     private String villagename;
     private City city;
 }

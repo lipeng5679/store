@@ -1,9 +1,8 @@
 package com.example.demo.mapper;
 
 import com.example.demo.domain.City;
-import com.example.demo.domain.User;
+import com.example.demo.domain.Village;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -14,10 +13,9 @@ import java.util.List;
  */
 @Component
 @Mapper
-public interface CityMapper {
+public interface VillageMapper {
 
-    City findById(Serializable cid);
+    Village findById(Serializable cid);
 
-    List<City> findAll();
 
 }

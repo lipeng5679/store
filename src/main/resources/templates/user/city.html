@@ -34,11 +34,10 @@
 <div class="container" style="z-index: 9999;">
     <div class="city">
         <div class="city-list" th:each="city : ${cityList}">
-            <span style="background-color: #efecec;height: 0.3em;line-height: 0.3em" class="city-letter">a</span>
+            <span style="background-color: #efecec;height: 0.3em;line-height: 0.3em" class="city-letter" th:text="${city.ping}"></span>
             <p data-id="210300" th:text="${city.cityname}"></p>
-            <div style="margin-left: 20px" th:each="village : ${city.villages}">
-                <p data-id="210300" th:text="${village.villagename}"></p>
-
+            <div style="margin-left: 20px;" th:each="v : ${city.villages}">
+                <p data-id="210300" th:text="${v.villagename}"></p>
             </div>
 
         </div>

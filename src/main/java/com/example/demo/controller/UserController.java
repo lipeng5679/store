@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.City;
 import com.example.demo.domain.User;
+import com.example.demo.domain.Village;
 import com.example.demo.service.CityService;
 import com.example.demo.service.UserService;
+import com.example.demo.service.VillageService;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -39,6 +38,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private CityService cityService;
+    @Autowired
+    private VillageService villageService;
     @Autowired
     DefaultKaptcha defaultKaptcha;
 
@@ -103,7 +104,7 @@ public class UserController {
         response.setHeader("Cache-Control", "no-store");
         response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);
-        response.setContentType("image/jpeg");
+        response.setContentType("img/jpeg");
         ServletOutputStream responseOutputStream =
                 response.getOutputStream();
         responseOutputStream.write(captchaChallengeAsJpeg);
@@ -176,8 +177,15 @@ public class UserController {
     public ModelAndView toCity(){
         ModelAndView andView = new ModelAndView();
         andView.setViewName("user/city");
-        List<City> cityList = cityService.findById(1l);
+        List<City> cityList = cityService.findAll();
         andView.addObject("cityList",cityList);
+        for (City c:cityList
+             ) {
+            System.out.println(c);
+        }
+
+
+
 
         return andView;
     }

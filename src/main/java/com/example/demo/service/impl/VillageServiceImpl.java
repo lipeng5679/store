@@ -1,11 +1,11 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.domain.City;
-import com.example.demo.domain.User;
+import com.example.demo.domain.Village;
 import com.example.demo.mapper.CityMapper;
-import com.example.demo.mapper.UserMapper;
+import com.example.demo.mapper.VillageMapper;
 import com.example.demo.service.CityService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.VillageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,20 +16,14 @@ import java.util.List;
  * Created by Administrator on 2017/6/16.
  */
 @Service
-public class CityServiceImpl implements CityService {
+public class VillageServiceImpl implements VillageService {
 
     @Autowired
-    private CityMapper cityMapper;
+    private VillageMapper villageMapper;
 
     @Override
-    public City findById(Serializable cid) {
-        return cityMapper.findById(cid);
+    public Village findById(Serializable cid) {
+        return villageMapper.findById(cid);
     }
-
-    @Override
-    public List<City> findAll() {
-        return cityMapper.findAll();
-    }
-
 
 }

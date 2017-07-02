@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.City;
-import com.example.demo.domain.User;
+import com.example.demo.domain.Village;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,9 +9,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/6/16.
  */
-public interface CityService {
+public interface VillageService {
 
-    City findById(Serializable cid);
+    Village findById(Serializable cid);
 
-    List<City> findAll();
 }

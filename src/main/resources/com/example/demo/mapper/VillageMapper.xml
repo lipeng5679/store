@@ -6,7 +6,7 @@
 <mapper namespace="com.example.demo.mapper.VillageMapper">
 
     <resultMap id="villageList" type="com.example.demo.domain.Village">
-        <id column="v_id" property="v_id"></id>
+        <id column="vid" property="vid"></id>
         <result column="villagename" property="villagename"></result>
         <association property="city" javaType="com.example.demo.domain.City">
             <id column="c_id" property="c_id"/>
@@ -16,6 +16,10 @@
 
     </resultMap>
 
+    <!--根据id查询Village,关联将city查询出来-->
+    <select id="findById" resultMap="villageList">
+        SELECT c.*,v.* from city c,village v WHERE c.c_id=v.cid and v.vid=#{id}
+    </select>
 
 
 

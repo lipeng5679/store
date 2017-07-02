@@ -19,7 +19,7 @@
 </div>
 
 
-<form method="post" action="http://localhost:8080/user" id="register_form" autocomplete="off">
+<form method="post" action="/user" id="register_form" autocomplete="off">
 
     <section class="phone-register">
         <div class="register-item">
@@ -37,7 +37,7 @@
                 </div>
                 <div style="display: flex;display: -webkit-flex;flex-flow: row nowrap;">
                     <img style="display:none;height: 2.8em" id="mykaptcha"/>
-                    <input style="border: none;float: right;" type="button" id="btn" value="获取验证码" onclick="settime(this)" name="vrifyCode"/>
+                    <input style="border: 1px solid white;border-radius: 15px;float: right;" type="button" id="btn" value="获取验证码" onclick="settime(this)" name="vrifyCode"/>
                 </div>
             </div>
         </div>
@@ -90,7 +90,7 @@
     <!-- 注册按键 -->
     <div style="margin: 0 auto;width: 95%;text-align: center">
         <section class="register-btn">
-            <button type="submit" id="submit">提交注册</button>
+            <button style="border: 1px solid white;border-radius: 15px;" type="submit" id="submit">提交注册</button>
             <h1 style="color: #333333"  th:text="${info}" />
         </section>
     </div>
@@ -188,9 +188,7 @@
 
         $("#xiaoqu").click(function () {
 
-            var url = "http://localhost:8080/user/city";
-            var data = {};
-            window.open("http://localhost:8080/user/city")
+            window.open("/user/city")
 
         })
 

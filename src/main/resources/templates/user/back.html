@@ -16,7 +16,7 @@
     </nav>
 </div>
 
-<form action="http://localhost:8080/user/setPassword" id="register_form" autocomplete="off" method="post">
+<form action="/user/setPassword" id="register_form" autocomplete="off" method="post">
     <!-- 手机注册开始 -->
     <div id="error_display" style="text-align:center;color:red;display:none;">
         <!--错误信息显示区域-->
@@ -40,7 +40,7 @@
                 </div>
                 <div style="display: flex;display: -webkit-flex;flex-flow: row nowrap;">
                     <img style="display:none;" id="mykaptcha"/>
-                    <input style="border: none;float: right;" type="button" id="btn" value="获取验证码" onclick="settime(this)" name="vrifyCode"/>
+                    <input style="border: 1px solid white;border-radius: 15px;float: right;" type="button" id="btn" value="获取验证码" onclick="settime(this)" name="vrifyCode"/>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
     <!-- 注册按键 -->
     <div style="margin: 0 auto;width: 95%;text-align: center">
         <section class="register-btn">
-            <button type="submit" id="send" style="width: 90%;height: 3rem;background-color: #f44765;font-size: 1.2rem;color: #ffffff;">找回密码</button><br/>
+            <button type="submit" id="send" style="border: 1px solid white;border-radius: 15px;width: 90%;height: 3rem;background-color: #f44765;font-size: 1.2rem;color: #ffffff;">找回密码</button><br/>
             <h1 style="color: #333333"  th:text="${info}" />
         </section>
     </div>

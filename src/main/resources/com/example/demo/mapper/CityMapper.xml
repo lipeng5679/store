@@ -9,16 +9,22 @@
         <id column="c_id" property="c_id"></id>
         <result column="cityname" property="cityname"></result>
         <result column="ping" property="ping"></result>
-        <collection property="villages" ofType="com.example.demo.domain.Village" column="v_id">
-            <id column="v_id" property="v_id"/>
+        <collection property="villages" ofType="com.example.demo.domain.Village">
+            <id column="vid" property="vid"/>
             <result column="villagename" property="villagename"/>
         </collection>
     </resultMap>
 
 
-    <!--根据id查询-->
+    <!--根据id查询City,关联将villages查询出来-->
     <select id="findById" resultMap="cityList">
-        SELECT c.cityname,v.villagename,c.ping from city c,village v WHERE c.v_id=v.v_id and c.c_id=#{cid}
+        select c.*,v.* FROM city c,village v WHERE c.c_id=v.cid and c.c_id=#{id};
+    </select>
+
+    <!--查询所有-->
+    <select id="findAll" resultMap="cityList">
+        SELECT * from
+        city,village order by ping
     </select>
 
 

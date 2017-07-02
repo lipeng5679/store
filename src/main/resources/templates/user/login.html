@@ -17,13 +17,13 @@
         登陆
 
         <div style="text-align: right;float: right;padding-right: 0.6em">
-            <a href="http://localhost:8080/user/register"><font color="white">注册</font></a>
+            <a href="/user/register"><font color="white">注册</font></a>
         </div>
     </nav>
 </div>
 
 
-<form action="http://localhost:8080/user/login" id="register_form" autocomplete="off" method="post">
+<form action="/user/login" id="register_form" autocomplete="off" method="post">
 
     <section class="phone-register">
         <div class="register-item" style="width: 50%;margin: 0 auto">
@@ -48,7 +48,7 @@
     <!-- 注册按键 -->
     <div style="margin: 0 auto;width: 95%;text-align: center">
         <section class="register-btn">
-            <button type="submit" id="submit">登陆</button><br/>
+            <button style="border: 1px solid white;border-radius: 15px;" type="submit" id="submit">登陆</button><br/>
             <a href="http://localhost:8080/user/back"><font color="white">忘记密码?</font></a>
             <h1 style="color: #333333"  th:text="${info}" />
         </section>
