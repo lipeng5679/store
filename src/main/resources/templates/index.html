@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" href="css/amazeui.min.css"/>
-    <link rel="stylesheet" href="css/wap.css?2"/>
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/amazeui.min.js"></script>
+    <link rel="stylesheet" href="http://ors703hgy.bkt.clouddn.com/store/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="http://ors703hgy.bkt.clouddn.com/store/css/wap.css"/>
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://ors703hgy.bkt.clouddn.com/store/js/amazeui.min.js"></script>
 
     <style>
         .menu{position:relative;float:left;width:25%;height:50px;line-height:50px;background:#fff;border-right:1px solid #ebebeb;box-sizing:border-box;text-align: center;-webkit-box-sizing:border-box;  }
@@ -25,20 +25,20 @@
 <nav>
     <span style="float: left;padding-left: 1.5em">成华小区</span>
     迷家
-    <img src="img/309.png" style="max-width:100%;height:75%;float: right;padding-top: 0.2em;"/>
+    <img src="http://ors703hgy.bkt.clouddn.com/store/image/309.png" style="max-width:100%;height:75%;float: right;padding-top: 0.2em;"/>
 </nav>
 
 <div class="pet_mian" id="top">
     <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
         <ul class="am-slides">
             <li>
-                <img src="img/fl01.png"/>
+                <img src="http://ors703hgy.bkt.clouddn.com/store/image/fl01.png"/>
             </li>
             <li>
-                <img src="img/fl02.png"/>
+                <img src="http://ors703hgy.bkt.clouddn.com/store/image/fl02.png"/>
             </li>
             <li>
-                <img src="img/fl03.png"/>
+                <img src="http://ors703hgy.bkt.clouddn.com/store/image/fl03.png"/>
             </li>
         </ul>
     </div>
@@ -46,14 +46,14 @@
 
     <div class="pet_circle_nav">
         <ul class="pet_circle_nav_list">
-            <li><a href="" class="iconfont pet_nav_xinxianshi " style="background: url(img/301.jpg); background-size:100%;"></a><span>社区超市</span></li>
-            <li><a href="" class="iconfont pet_nav_zhangzhishi " style="background: url(img/302.jpg); background-size:100%;"></a><span>快递寄送</span></li>
-            <li><a href="" class="iconfont pet_nav_kantuya " style="background: url(img/303.jpg); background-size:100%;"></a><span>家政服务</span></li>
-            <li><a href="" class="iconfont pet_nav_mengzhuanti " style="background: url(img/304.jpg); background-size:100%;"></a><span>辨明洗涤</span></li>
-            <li><a href="" class="iconfont pet_nav_meirong " style="background: url(img/305.jpg); background-size:100%;"></a><span>洗车预约</span></li>
-            <li><a href="" class="iconfont pet_nav_yiyuan " style="background: url(img/306.jpg); background-size:100%;"></a><span>社区二手</span></li>
-            <li><a href="" class="iconfont pet_nav_dianpu " style="background: url(img/307.jpg); background-size:100%;"></a><span>物业服务</span></li>
-            <li><a href="" class="iconfont pet_nav_dianpu " style="background: url(img/308.jpg); background-size:100%;"></a><span>装修服务</span></li>
+            <li><a href="" class="iconfont pet_nav_xinxianshi " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/301.jpg); background-size:100%;"></a><span>社区超市</span></li>
+            <li><a href="" class="iconfont pet_nav_zhangzhishi " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/302.jpg); background-size:100%;"></a><span>快递寄送</span></li>
+            <li><a href="" class="iconfont pet_nav_kantuya " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/303.jpg); background-size:100%;"></a><span>家政服务</span></li>
+            <li><a href="" class="iconfont pet_nav_mengzhuanti " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/304.jpg); background-size:100%;"></a><span>辨明洗涤</span></li>
+            <li><a href="" class="iconfont pet_nav_meirong " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/305.jpg); background-size:100%;"></a><span>洗车预约</span></li>
+            <li><a href="" class="iconfont pet_nav_yiyuan " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/306.jpg); background-size:100%;"></a><span>社区二手</span></li>
+            <li><a href="" class="iconfont pet_nav_dianpu " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/307.jpg); background-size:100%;"></a><span>物业服务</span></li>
+            <li><a href="" class="iconfont pet_nav_dianpu " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/308.jpg); background-size:100%;"></a><span>装修服务</span></li>
         </ul>
     </div>
 </div>
@@ -90,7 +90,17 @@
     </div><!--menu-->
 
     <div class="menu">
-        <div class="bt-name"><a href="javascript:()">我的</a></div>
+        <a class="bt-name" href="javascript:()">我的</a>
+        <div class="sanjiao"></div>
+        <div  class="new-sub">
+            <ul>
+                <li><a href="/user/login">登陆</a></li>
+                <li><a href="/user/register" >注册</a></li>
+
+            </ul>
+            <div class="tiggle"></div>
+            <div class="innertiggle"></div>
+        </div>
     </div><!--menu-->
 
 

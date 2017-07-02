@@ -61,7 +61,9 @@
         <div class="register-item">
             <div class="inputs " id="div_xiaoqu">
                 <font color="white">所在小区：</font>
-                <a id="xiaoqu"><input id="xiao" type="text" class="required" name="xiaoqu" value="点击进行选择"/></a>
+                <a id="xiaoqu">
+                    <input id="xiao" type="text" class="required" name="xiaoqu" value="点击进行选择"/>
+                </a>
             </div>
         </div>
 
@@ -128,6 +130,14 @@
                 if (this.value == "" ||this.value!="" && !/^([\u4e00-\u9fa5]{1,20}|[a-zA-Z\.\s]{1,20})$/.test(this.value) ) {
                     var errorMsg = "请输入正确的姓名";
                     $parent.append('<span class="formtips onError">' + errorMsg + "</span>");
+                }
+            }
+
+            //验证小区
+            if($(this).is('#xiao')){
+                if(this.value == '点击进行选择'){
+                    var errorMsg = "请选择小区";
+                    $parent.append('<span class="formtips onError">' + errorMsg + '</span>');
                 }
             }
 

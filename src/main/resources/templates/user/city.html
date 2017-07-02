@@ -8,7 +8,6 @@
 </head>
 <body>
 
-
 <nav>
     <a href="#" class='goback'>
         <b></b>
@@ -56,8 +55,9 @@
        //选择城市 start
        $('body').on('click', '.city-list p', function () {
            var type = $('.container').data('type');
-           $('#zone_ids').html($(this).html()).attr('data-id', $(this).attr('data-id'));
-           $('#gr_zone_ids').html($(this).html()).attr('data-id', $(this).attr('data-id'));
+
+           var cityname = $(this).parent().parent().children().eq(1).html();
+           $('#gr_zone_ids').html(cityname+$(this).html()).attr('data-id', $(this).attr('data-id'));
            $('.container').hide();
        });
        $('body').on('click', '.letter a', function () {
