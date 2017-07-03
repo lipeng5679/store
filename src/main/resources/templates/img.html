@@ -13,13 +13,22 @@
 <div style="display: flex;flex-flow: row wrap">
     <div  th:each="img : ${imgList}">
     <img th:src="${img.src}" style="height: 100px;width: 100px;float: left;"/>
-    <input type="checkbox" name="chkItem" style="float: left" th:value="${img.id}"/>
+    <input type="checkbox" name="chkItem" style="float: left" th:value="${img.id}" th:id="${img.id}"/>
     </div>
 </div>
 
-<script>
+<script th:inline="javascript">
 
     $(function () {
+
+        var id =/*[[${longs}]]*/;
+
+        //设置滚动图片的勾选状态
+        for(var i in id){
+            var check = document.getElementById(id[i]);
+            check.checked = true;
+        }
+
 
 
         $("#submit").click(function () {

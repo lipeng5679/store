@@ -52,6 +52,16 @@ public class HomeController {
         modelAndView.addObject("imgList",imgList);
         modelAndView.setViewName("img");
 
+        //获取以设置的滚动图片id
+        List<Scroll> scrollList = scrollService.findAll();
+        Long[] longs = new Long[scrollList.size()];
+        for(int i=0;i<scrollList.size();i++){
+            longs[i] = scrollList.get(i).getId();
+        }
+
+        modelAndView.addObject("longs",longs);
+
+
         return modelAndView;
     }
 
