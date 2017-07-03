@@ -46,7 +46,6 @@ public class UserController {
     @Autowired
     DefaultKaptcha defaultKaptcha;
 
-    private final String LIST_ACTION = "redirect:/user";
 
     //跳转注册页面
     @GetMapping("/register")

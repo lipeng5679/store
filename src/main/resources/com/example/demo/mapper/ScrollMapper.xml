@@ -19,9 +19,10 @@
 
     <!--新增-->
     <insert id="insert" parameterType="com.example.demo.domain.Scroll">
-        INSERT INTO scroll (src,name)
+        INSERT INTO scroll (id,src,name)
         VALUES
         (
+        #{id},
         #{src},
         #{name}
         )

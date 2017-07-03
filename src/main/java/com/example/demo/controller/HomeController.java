@@ -77,6 +77,7 @@ public class HomeController {
             Img img = imgService.get(s);
             Scroll scroll = new Scroll();
             scroll.setSrc(img.getSrc());
+            scroll.setId(img.getId());
             scrollService.insert(scroll);
 
         }
