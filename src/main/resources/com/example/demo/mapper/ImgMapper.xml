@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ImgMapper">
+
+    <resultMap id="imgList" type="com.example.demo.domain.Img">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="src" property="src"></result>
+    </resultMap>
+
+
+    <!--查询所有-->
+    <select id="findAll" resultMap="imgList">
+        SELECT * from img
+    </select>
+
+    <!--新增-->
+    <insert id="insert" parameterType="com.example.demo.domain.User">
+        INSERT INTO img (src,name)
+        VALUES
+        (
+        #{src},
+        #{name}
+        )
+    </insert>
+
+    <!--查询一条-->
+    <select id="get" resultMap="imgList">
+        SELECT * FROM img
+        WHERE id=#{id}
+    </select>
+
+
+
+</mapper>
+

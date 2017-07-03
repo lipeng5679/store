@@ -52,7 +52,7 @@
             <if test="xiaoqu!=null">name=#{xiaoqu},</if>
             <if test="address!=null">address=#{address},</if>
             <if test="password!=null">password=#{password},</if>
-            <if test="date!=null">date=#{dates}</if>
+            <if test="date!=null">date=#{date}</if>
         </set>
         WHERE id=#{id}
     </update>

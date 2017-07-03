@@ -32,7 +32,8 @@
         </div>
 
         <h3>你的上传文件最后的七牛URL地址是</h3>
-        <a style="font-size: 26px;" id="result" href="#"></a>
+        <a style="font-size: 26px;" id="result" href="#"></a><br/>
+        <span id="img"></span>
     </div>
 
 
@@ -98,11 +99,24 @@
                         function(reply) {
                             // 上传成功
 //                            console.dir(reply);
+
                             console.debug(reply.hash);
                             console.debug(reply.key);
                             var se = new Date().getMilliseconds();
+                            var src = uploadSpace + '/' + fileName + '?v=' + se;
                             $('#result').html(uploadSpace + '/' + fileName + '?v=' + se);
                             $('#result').prop('href', uploadSpace + '/' + fileName + '?v=' + se);
+
+
+                            $.ajax({
+                                url: '/saveImg?src='+src,
+                                type: 'get',
+                                success: function (data) {
+
+                                    console.debug(data);
+                                    $('#img').html("保存数据库成功");
+                                }
+                            });
                         },
                         function(err) {
                             // 上传失败

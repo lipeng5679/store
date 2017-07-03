@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>后台图片选择</title>
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+
+<div style="text-align: center">
+    <input type="submit" value="设置" id="submit"/>
+</div>
+<div style="display: flex;flex-flow: row wrap">
+    <div  th:each="img : ${imgList}">
+    <img th:src="${img.src}" style="height: 100px;width: 100px;float: left;"/>
+    <input type="checkbox" name="chkItem" style="float: left" th:value="${img.id}"/>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+
+
+        $("#submit").click(function () {
+            obj = document.getElementsByName("chkItem");
+            var ids = [];
+            for(k in obj){
+                if(obj[k].checked)
+                    ids.push(obj[k].value);
+            }
+
+            $.ajax({
+                url: '/set',
+                data: { "ids": ids },
+                dataType: "json",
+                type: "post",
+                traditional: true,
+                success: function (data) {
+                    // your logic
+
+                },
+                error: function (data, status, er) {
+                    window.location.href = "/index";
+
+                }
+
+            });
+
+
+
+
+        })
+
+    })
+
+</script>
+</body>
+</html>

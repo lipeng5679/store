@@ -7,16 +7,14 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * Created by Administrator on 2017/6/29.
+ * Created by Administrator on 2017/7/3.
  */
-//小区
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Village implements Serializable{
+public class Img implements Serializable {
 
     private Long id;
-    private String villagename;
-
-    private City city;
+    private String name;
+    private String src;
 }

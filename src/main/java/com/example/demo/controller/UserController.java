@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.City;
+import com.example.demo.domain.Scroll;
 import com.example.demo.domain.User;
 import com.example.demo.domain.Village;
 import com.example.demo.service.CityService;
+import com.example.demo.service.ScrollService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.VillageService;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
@@ -39,7 +41,8 @@ public class UserController {
     @Autowired
     private CityService cityService;
     @Autowired
-    private VillageService villageService;
+    private ScrollService scrollService;
+
     @Autowired
     DefaultKaptcha defaultKaptcha;
 
@@ -104,7 +107,7 @@ public class UserController {
         response.setHeader("Cache-Control", "no-store");
         response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);
-        response.setContentType("img/jpeg");
+        response.setContentType("Img/jpeg");
         ServletOutputStream responseOutputStream =
                 response.getOutputStream();
         responseOutputStream.write(captchaChallengeAsJpeg);
@@ -127,6 +130,7 @@ public class UserController {
         if (user != null) {
             modelAndView.setViewName("index");
             modelAndView.addObject("user",user);
+            modelAndView.addObject("imgList",scrollService.findAll());
             return modelAndView;
         }else {
             modelAndView.addObject("info", "用户名或密码错误");
@@ -163,6 +167,8 @@ public class UserController {
                 andView.setViewName("user/back");
             } else {
                 user.setPassword(password);
+                user.setDate(new Date());
+                userService.update(user);
                 andView.setViewName("backsuccess");
             }
 
@@ -179,10 +185,17 @@ public class UserController {
         andView.setViewName("user/city");
         List<City> cityList = cityService.findAll();
         andView.addObject("cityList",cityList);
+        List<City> list = new ArrayList<>();
+
         for (City c:cityList
              ) {
-            System.out.println(c);
+            City city = cityService.findById(c.getC_id());
+            if(city != null){
+                list.add(city);
+            }
         }
+
+        andView.addObject("list",list);
 
 
 

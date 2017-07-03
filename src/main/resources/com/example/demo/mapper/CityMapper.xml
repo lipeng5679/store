@@ -9,8 +9,9 @@
         <id column="c_id" property="c_id"></id>
         <result column="cityname" property="cityname"></result>
         <result column="ping" property="ping"></result>
-        <collection property="villages" ofType="com.example.demo.domain.Village">
-            <id column="vid" property="vid"/>
+
+        <collection property="villages" ofType="com.example.demo.domain.Village" column="cid">
+            <id column="vid" property="id"/>
             <result column="villagename" property="villagename"/>
         </collection>
     </resultMap>

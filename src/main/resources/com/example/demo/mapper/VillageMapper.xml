@@ -6,8 +6,9 @@
 <mapper namespace="com.example.demo.mapper.VillageMapper">
 
     <resultMap id="villageList" type="com.example.demo.domain.Village">
-        <id column="vid" property="vid"></id>
+        <id column="vid" property="id"></id>
         <result column="villagename" property="villagename"></result>
+
         <association property="city" javaType="com.example.demo.domain.City">
             <id column="c_id" property="c_id"/>
             <result column="cityname" property="cityname"/>

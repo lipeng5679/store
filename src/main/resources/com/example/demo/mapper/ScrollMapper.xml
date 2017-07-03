@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ScrollMapper">
+
+    <resultMap id="scrollList" type="com.example.demo.domain.Scroll">
+        <id column="id" property="id"></id>
+        <result column="src" property="src"></result>
+        <result column="name" property="name"></result>
+    </resultMap>
+
+
+    <!--查询所有-->
+    <select id="findAll" resultMap="scrollList">
+        SELECT * from scroll
+    </select>
+
+    <!--新增-->
+    <insert id="insert" parameterType="com.example.demo.domain.Scroll">
+        INSERT INTO scroll (src,name)
+        VALUES
+        (
+        #{src},
+        #{name}
+        )
+    </insert>
+
+    <!--删除所有数据-->
+    <select id="deleteAll" resultMap="scrollList">
+        truncate table scroll;
+    </select>
+
+
+
+
+
+</mapper>
+

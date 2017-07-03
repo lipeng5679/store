@@ -3,8 +3,25 @@
 <head>
     <meta charset="UTF-8"/>
     <title>成功</title>
+    <script src="js/jquery-3.1.1.min.js"></script>
 </head>
 <body>
 注册成功
 </body>
+<script type="text/javascript">
+
+    //<![CDATA[
+    $(function () {
+        setTimeout(changeTime,1000);
+    });
+
+    var time = 3;
+    function changeTime() {
+        time--;
+        if(time <= 2){
+            window.location.href = "/user/login";
+        }
+    }
+    //]]>
+</script>
 </html>

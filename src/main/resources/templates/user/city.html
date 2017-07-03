@@ -32,7 +32,7 @@
 
 <div class="container" style="z-index: 9999;">
     <div class="city">
-        <div class="city-list" th:each="city : ${cityList}">
+        <div class="city-list" th:each="city : ${list}">
             <span style="background-color: #efecec;height: 0.3em;line-height: 0.3em" class="city-letter" th:text="${city.ping}"></span>
             <p data-id="210300" th:text="${city.cityname}"></p>
             <div style="margin-left: 20px;" th:each="v : ${city.villages}">
@@ -56,7 +56,7 @@
        $('body').on('click', '.city-list p', function () {
            var type = $('.container').data('type');
 
-           var cityname = $(this).parent().parent().children().eq(1).html();
+           var cityname = $(this).parent().parent().children().eq(1).html() + "-";
            $('#gr_zone_ids').html(cityname+$(this).html()).attr('data-id', $(this).attr('data-id'));
            $('.container').hide();
        });

@@ -7,16 +7,16 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * Created by Administrator on 2017/6/29.
+ * Created by Administrator on 2017/7/3.
  */
-//小区
+
+//滚动图片
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Village implements Serializable{
+public class Scroll implements Serializable{
 
     private Long id;
-    private String villagename;
-
-    private City city;
+    private String src;
+    private String name;
 }

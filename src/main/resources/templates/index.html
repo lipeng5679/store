@@ -20,10 +20,12 @@
     <title>首页</title>
 
 </head>
-<body style="width: 80%;margin: auto">
+<body style="width: 100%;margin: auto;">
 
 <nav>
-    <span style="float: left;padding-left: 1.5em">成华小区</span>
+    <font th:each="u : ${user}">
+    <span style="float: left;padding-left: 1.5em" th:text="${user.xiaoqu}">成华小区</span>
+    </font>
     迷家
     <img src="http://ors703hgy.bkt.clouddn.com/store/image/309.png" style="max-width:100%;height:75%;float: right;padding-top: 0.2em;"/>
 </nav>
@@ -31,20 +33,14 @@
 <div class="pet_mian" id="top">
     <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
         <ul class="am-slides">
-            <li>
-                <img src="http://ors703hgy.bkt.clouddn.com/store/image/fl01.png"/>
-            </li>
-            <li>
-                <img src="http://ors703hgy.bkt.clouddn.com/store/image/fl02.png"/>
-            </li>
-            <li>
-                <img src="http://ors703hgy.bkt.clouddn.com/store/image/fl03.png"/>
+            <li  th:each="img : ${imgList}">
+                <img th:src="${img.src}" src="http://ors703hgy.bkt.clouddn.com/store/image/fl01.png"/>
             </li>
         </ul>
     </div>
 
 
-    <div class="pet_circle_nav">
+    <div class="pet_circle_nav" style="background-color: white">
         <ul class="pet_circle_nav_list">
             <li><a href="" class="iconfont pet_nav_xinxianshi " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/301.jpg); background-size:100%;"></a><span>社区超市</span></li>
             <li><a href="" class="iconfont pet_nav_zhangzhishi " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/302.jpg); background-size:100%;"></a><span>快递寄送</span></li>
@@ -81,21 +77,26 @@
 
 <div class="pet_mian" style="background-color: yellow">
 
-    <div class="menu">
-        <div class="bt-name"><a href="javascript:()">主页</a></div>
+    <div class="menu" >
+        <div class="bt-name"><a>主页</a></div>
     </div><!--menu-->
 
     <div class="menu">
-        <div class="bt-name"><a href="javascript:()">订单</a></div>
+        <div class="bt-name"><a>订单</a></div>
     </div><!--menu-->
 
     <div class="menu">
-        <a class="bt-name" href="javascript:()">我的</a>
+
+        <a class="bt-name">我的</a>
         <div class="sanjiao"></div>
         <div  class="new-sub">
             <ul>
                 <li><a href="/user/login">登陆</a></li>
                 <li><a href="/user/register" >注册</a></li>
+                <li><a href="/user/back" >找回密码</a></li>
+                <li th:each="u : ${user}">
+                    <span th:text="${user.name}"></span>
+                </li>
 
             </ul>
             <div class="tiggle"></div>
@@ -105,13 +106,12 @@
 
 
     <div class="menu" >
-        <a class="bt-name" href="javascript:()">更多</a>
+        <a class="bt-name">更多</a>
         <div class="sanjiao"></div>
         <div  class="new-sub">
             <ul>
-                <li><a href="javascript:;">第一个</a></li>
-                <li><a href="javascript:;" >第二个</a></li>
-                <li><a href="javascript:;" >第三个</a></li>
+                <li><a href="/img">设置滚动图片</a></li>
+                <li><a href="/upload">上传图片</a></li>
             </ul>
             <div class="tiggle"></div>
             <div class="innertiggle"></div>

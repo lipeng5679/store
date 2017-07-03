@@ -159,8 +159,8 @@
 
             //验证地址不能有特殊字符
             if( $(this).is('#address') ){
-                if(  /^[\u4e00-\u9fa5a-z]+$/gi.test(this.value) ){
-                    var errorMsg = '不含有特殊字符';
+                if(  !/^[\u4e00-\u9fa5a-z]+$/gi.test(this.value) ){
+                    var errorMsg = '含有特殊字符';
                     $parent.append('<span class="formtips onError">'+errorMsg+'</span>');
                 }
             }
@@ -195,7 +195,7 @@
         });
 
 
-
+        //打开新窗口
         $("#xiaoqu").click(function () {
 
             window.open("/user/city")
