@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by Administrator on 2017/7/3.
  */
 
-//滚动图片
+//设置滚动图片
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

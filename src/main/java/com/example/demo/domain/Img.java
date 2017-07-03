@@ -9,6 +9,7 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2017/7/3.
  */
+//所有滚动图片资源
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
