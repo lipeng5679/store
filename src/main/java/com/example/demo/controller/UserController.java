@@ -8,6 +8,7 @@ import com.example.demo.service.CityService;
 import com.example.demo.service.ScrollService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.VillageService;
+import com.example.demo.util.MapUtil;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.extern.slf4j.Slf4j;
@@ -185,20 +186,29 @@ public class UserController {
         List<City> cityList = cityService.findAll();
         andView.addObject("cityList",cityList);
         List<City> list = new ArrayList<>();
+        List<Map> mapList = new ArrayList<>();
 
         for (City c:cityList
              ) {
             City city = cityService.findById(c.getC_id());
+            Map map = new HashMap();
             if(city != null){
                 list.add(city);
+                map.put(city.getPing(),city);
+                mapList.add(map);
             }
         }
+        Map map1 = MapUtil.mapCombine(mapList);
+        System.out.println(map1);
+        System.out.println(list);
 
-        andView.addObject("list",list);
+        andView.addObject("map1",map1);
 
 
 
 
         return andView;
     }
+
+
 }
