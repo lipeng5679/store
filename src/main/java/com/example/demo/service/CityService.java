@@ -14,4 +14,6 @@ public interface CityService {
     City findById(Serializable cid);
 
     List<City> findAll();
+
+    void insert(City city);
 }

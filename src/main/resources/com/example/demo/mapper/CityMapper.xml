@@ -29,6 +29,15 @@
     </select>
 
 
+    <!--新增-->
+    <insert id="insert" parameterType="com.example.demo.domain.City">
+        INSERT INTO city (cityname,ping)
+        VALUES
+        (
+        #{cityname},
+        #{ping}
+        )
+    </insert>
 
 
 </mapper>

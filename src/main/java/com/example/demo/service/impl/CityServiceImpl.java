@@ -31,5 +31,10 @@ public class CityServiceImpl implements CityService {
         return cityMapper.findAll();
     }
 
+    @Override
+    public void insert(City city) {
+        cityMapper.insert(city);
+    }
+
 
 }

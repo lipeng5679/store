@@ -20,4 +20,6 @@ public interface CityMapper {
 
     List<City> findAll();
 
+    void insert(City city);
+
 }

@@ -26,4 +26,9 @@ public class VillageServiceImpl implements VillageService {
         return villageMapper.findById(cid);
     }
 
+    @Override
+    public void insert(Village village) {
+        villageMapper.insert(village);
+    }
+
 }

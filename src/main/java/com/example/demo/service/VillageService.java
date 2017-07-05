@@ -13,4 +13,6 @@ public interface VillageService {
 
     Village findById(Serializable cid);
 
+    void insert(Village village);
+
 }

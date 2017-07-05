@@ -22,6 +22,15 @@
         SELECT c.*,v.* from city c,village v WHERE c.c_id=v.cid and v.vid=#{id}
     </select>
 
+    <!--新增-->
+    <insert id="insert" parameterType="com.example.demo.domain.Village">
+        INSERT INTO village (villagename,cid)
+        VALUES
+        (
+        #{villagename},
+        #{cid}
+        )
+    </insert>
 
 
 

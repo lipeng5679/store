@@ -17,5 +17,5 @@ public interface VillageMapper {
 
     Village findById(Serializable cid);
 
-
+    void insert(Village village);
 }
