@@ -22,4 +22,8 @@ public interface CityMapper {
 
     void insert(City city);
 
+    City getByCityname(String cityname);
+
+    List<City> getByCityping(String ping);
+
 }

@@ -36,5 +36,15 @@ public class CityServiceImpl implements CityService {
         cityMapper.insert(city);
     }
 
+    @Override
+    public City getByCityname(String cityname) {
+        return cityMapper.getByCityname(cityname);
+    }
+
+    @Override
+    public List<City> getByCityping(String ping) {
+        return cityMapper.getByCityping(ping);
+    }
+
 
 }

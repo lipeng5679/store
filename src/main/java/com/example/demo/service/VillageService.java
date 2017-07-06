@@ -15,4 +15,6 @@ public interface VillageService {
 
     void insert(Village village);
 
+    List<Village> getBycid(Serializable cid);
+
 }

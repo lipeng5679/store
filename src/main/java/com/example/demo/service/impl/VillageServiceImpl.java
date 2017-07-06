@@ -31,4 +31,10 @@ public class VillageServiceImpl implements VillageService {
         villageMapper.insert(village);
     }
 
+    @Override
+    public List<Village> getBycid(Serializable cid) {
+        return villageMapper.getBycid(cid);
+    }
+
+
 }

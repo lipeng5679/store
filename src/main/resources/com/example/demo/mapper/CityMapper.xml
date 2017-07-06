@@ -30,7 +30,7 @@
 
 
     <!--新增-->
-    <insert id="insert" parameterType="com.example.demo.domain.City">
+    <insert id="insert" parameterType="com.example.demo.domain.City" useGeneratedKeys="true" keyProperty="c_id">
         INSERT INTO city (cityname,ping)
         VALUES
         (
@@ -38,6 +38,18 @@
         #{ping}
         )
     </insert>
+
+    <!-- name查city-->
+    <select id="getByCityname" resultMap="cityList">
+        SELECT * FROM city WHERE cityname=#{cityname}
+    </select>
+
+
+    <!-- name查city-->
+    <select id="getByCityping" resultMap="cityList">
+        SELECT * FROM city WHERE ping=#{ping}
+    </select>
+
 
 
 </mapper>

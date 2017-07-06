@@ -182,10 +182,7 @@ public class UserController {
     @GetMapping("/city")
     public ModelAndView toCity(){
         ModelAndView andView = new ModelAndView();
-        andView.setViewName("user/city");
         List<City> cityList = cityService.findAll();
-        andView.addObject("cityList",cityList);
-        List<City> list = new ArrayList<>();
         List<Map> mapList = new ArrayList<>();
 
         for (City c:cityList
@@ -193,16 +190,14 @@ public class UserController {
             City city = cityService.findById(c.getC_id());
             Map map = new HashMap();
             if(city != null){
-                list.add(city);
                 map.put(city.getPing(),city);
                 mapList.add(map);
             }
         }
         Map map1 = MapUtil.mapCombine(mapList);
-        System.out.println(map1);
-        System.out.println(list);
 
         andView.addObject("map1",map1);
+        andView.setViewName("user/city");
 
 
 

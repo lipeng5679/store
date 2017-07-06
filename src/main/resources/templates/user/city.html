@@ -35,9 +35,9 @@
         <div class="city-list" th:each="m : ${map1}">
             <span style="background-color: #efecec;height: 0.3em;line-height: 0.3em" class="city-letter" th:text="${m.key}"></span>
             <font th:each="map : ${m.value}">
-                <p data-id="210300" th:text="${map.cityname}"></p>
+                <p th:text="${map.cityname}" ></p>
             <div style="margin-left: 20px;" th:each="v : ${map.villages}">
-                <p data-id="210300" th:text="${v.villagename}"></p>
+                <p data-id="210300" th:text="${v.villagename}" ></p>
             </div>
             </font>
         </div>
@@ -47,20 +47,26 @@
 <script type="text/javascript" src="http://ors703hgy.bkt.clouddn.com/store/js/zepto.js"></script>
 <script type="text/javascript">
    $(function () {
+
+
        //加载城市事件
        $('body').on('click', '#zone_ids,#gr_zone_ids', function () {
            var zid = $(this).attr('id');
            $('.container').show();
 
        });
+
        //选择城市 start
-       $('body').on('click', '.city-list p', function () {
+       $(".city-list div p").click(function () {
            var type = $('.container').data('type');
 
            var cityname = $(this).parent().parent().children().eq(0).html() + "-";
            $('#gr_zone_ids').html(cityname+$(this).html()).attr('data-id', $(this).attr('data-id'));
            $('.container').hide();
-       });
+
+       })
+
+
        $('body').on('click', '.letter a', function () {
            var s = $(this).html();
            $(window).scrollTop($('#' + s + '1').offset().top);

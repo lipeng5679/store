@@ -17,6 +17,7 @@ public class Village implements Serializable{
 
     private Long id;
     private String villagename;
+    private Long cid;
 
     private City city;
 }

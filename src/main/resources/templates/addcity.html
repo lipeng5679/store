@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>添加小区</title>
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+
+</head>
+<body>
+<form method="post" action="/addcity">
+<table>
+    <tr>
+
+        <td>
+            城市首字母选择：<select id="s" onchange="chang()">
+            <option>请选择</option>
+            <span th:each="p : ${pings}">
+            <option th:value="${p}" th:text="${p}"/>
+            </span>
+        </select>
+        </td>
+        <td>
+            城市：<select onchange="change()" id="s1" >
+            <option>请先选择前一个下拉</option>
+
+        </select>
+        </td>
+        <td>
+            小区:<select id="s2">
+            <option>请先选择前一个下拉</option>
+
+            </select>
+        </td>
+        <td></td>
+        <td rowspan="2">
+            <input type="submit" value="添加"/>
+        </td>
+    </tr>
+    <tr>
+        <td>首字母:
+            <input type="text" name="ping" id="t3"/>
+        </td>
+        <td>城市:
+            <input type="text" name="cityname" id="t1"/>
+        </td>
+        <td>小区:
+            <input type="text" name="villagename" id="t2"/>
+        </td>
+
+    </tr>
+</table>
+</form>
+<script>
+
+
+    //<![CDATA[
+    function chang() {
+        var ping = $("#s").val();
+        document.getElementById("t3").value = $("#s").find("option:selected").text()
+
+
+        var url = "/getcity";
+
+        $.ajax({
+            url: url,
+            data: { "ping": ping },
+            dataType: "json",
+            type: "post",
+            traditional: true,
+            success: function (data) {
+                // your logic
+                $("#s1 option:not(:first)").remove();
+                for(var i=0;i<data.length;i++){
+                    var name = data[i].cityname;
+                    var cid = data[i].c_id;
+
+                    $("#s1").append("<option value="+cid+">"+name+"</option>");
+                }
+                1
+            },
+            error: function (data, status, er) {
+            }
+        });
+
+
+    }
+    //]]>
+
+    //<![CDATA[
+    function change() {
+        var id = $("#s1").val();
+        document.getElementById("t1").value = $("#s1").find("option:selected").text()
+
+
+        var url = "/getvillage";
+
+        $.ajax({
+            url: url,
+            data: { "id": id },
+            dataType: "json",
+            type: "post",
+            traditional: true,
+            success: function (data) {
+                // your logic
+                $("#s2 option:not(:first)").remove();
+                for(var i=0;i<data.length;i++){
+                    var name = data[i].villagename;
+
+                    $("#s2").append("<option>"+name+"</option>");
+                }
+1
+            },
+            error: function (data, status, er) {
+            }
+        });
+
+
+    }
+    //]]>
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

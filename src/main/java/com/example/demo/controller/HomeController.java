@@ -1,10 +1,16 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.City;
 import com.example.demo.domain.Img;
 import com.example.demo.domain.Scroll;
+import com.example.demo.domain.Village;
+import com.example.demo.service.CityService;
 import com.example.demo.service.ImgService;
 import com.example.demo.service.ScrollService;
+import com.example.demo.service.VillageService;
+
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.sound.midi.Soundbank;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +33,10 @@ public class HomeController {
     private ImgService imgService;
     @Autowired
     private ScrollService scrollService;
+    @Autowired
+    private CityService cityService;
+    @Autowired
+    private VillageService villageService;
 
     //首页
     @GetMapping("/index")
@@ -94,6 +106,70 @@ public class HomeController {
         imgService.insert(img);
 
         return "success";
+    }
+
+
+    //跳转到增加小区页面并准备数据
+    @GetMapping("/admin/addcity")
+    public ModelAndView toAddCity(){
+        ModelAndView modelAndView = new ModelAndView();
+
+        List<City> all = cityService.findAll();
+
+        modelAndView.setViewName("addcity");
+        modelAndView.addObject("all",all);
+
+        List<String> pings = new ArrayList<>();
+        for (City c:all
+             ) {
+            pings.add(c.getPing());
+        }
+        modelAndView.addObject("pings",pings);
+        System.out.println(pings);
+
+        return modelAndView;
+    }
+
+    //根据id查询小区
+    @PostMapping("/getvillage")
+    @ResponseBody
+    public String getVillage(String id){
+        List<Village> villages = villageService.getBycid(id);
+        String json= JSONArray.fromObject(villages).toString();
+
+        return json;
+    }
+
+    //根据首字母查城市
+    @PostMapping("/getcity")
+    @ResponseBody
+    public String getCity(String ping){
+        List<City> cities = cityService.getByCityping(ping);
+        String json= JSONArray.fromObject(cities).toString();
+        System.out.println(json);
+
+        return json;
+    }
+
+
+    //保存新增小区信息
+    @PostMapping("/addcity")
+    @ResponseBody
+    public ModelAndView addCity(City city,String villagename){
+
+        City city1 = cityService.getByCityname(city.getCityname());
+        if(city1 == null){
+            cityService.insert(city);
+        }
+
+        if(villagename != null){
+            Village village = new Village();
+            village.setVillagename(villagename);
+            village.setCid(city1.getC_id());
+            villageService.insert(village);
+        }
+
+        return new ModelAndView("添加成功");
     }
 
 

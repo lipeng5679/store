@@ -16,4 +16,8 @@ public interface CityService {
     List<City> findAll();
 
     void insert(City city);
+
+    City getByCityname(String cityname);
+
+    List<City> getByCityping(String ping);
 }

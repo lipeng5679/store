@@ -18,4 +18,6 @@ public interface VillageMapper {
     Village findById(Serializable cid);
 
     void insert(Village village);
+
+    List<Village> getBycid(Serializable cid);
 }
