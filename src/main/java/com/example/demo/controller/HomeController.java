@@ -62,7 +62,7 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView();
         List<Img> imgList = imgService.findAll();
         modelAndView.addObject("imgList",imgList);
-        modelAndView.setViewName("img");
+        modelAndView.setViewName("admin/img");
 
         //获取以设置的滚动图片id
         List<Scroll> scrollList = scrollService.findAll();
@@ -113,11 +113,7 @@ public class HomeController {
     @GetMapping("/admin/addcity")
     public ModelAndView toAddCity(){
         ModelAndView modelAndView = new ModelAndView();
-
         List<City> all = cityService.findAll();
-
-        modelAndView.setViewName("addcity");
-        modelAndView.addObject("all",all);
 
         List<String> pings = new ArrayList<>();
         for (City c:all
@@ -125,7 +121,7 @@ public class HomeController {
             pings.add(c.getPing());
         }
         modelAndView.addObject("pings",pings);
-        System.out.println(pings);
+        modelAndView.setViewName("admin/addcity");
 
         return modelAndView;
     }
@@ -170,6 +166,12 @@ public class HomeController {
         }
 
         return new ModelAndView("添加成功");
+    }
+
+    //跳转到后台管理主页
+    @GetMapping("/admin")
+    public String toadmin(){
+        return "admin/index";
     }
 
 

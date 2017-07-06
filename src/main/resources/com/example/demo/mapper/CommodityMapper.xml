@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.CommodityMapper">
+
+    <resultMap id="commodityList" type="com.example.demo.domain.Commodity">
+        <id column="commodityId" property="commodityId"></id>
+        <result column="commodityName" property="commodityName"></result>
+        <result column="commodityDescribe" property="commodityDescribe"></result>
+        <result column="commodityPrice" property="commodityPrice"></result>
+        <result column="commodityStock" property="commodityStock"></result>
+        <result column="commoditySrc" property="commoditySrc"></result>
+        <result column="state" property="state"></result>
+
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="findAll" resultMap="commodityList">
+        SELECT * from
+        commodity
+    </select>
+
+
+    <!--新增-->
+    <insert id="insert" parameterType="com.example.demo.domain.Commodity">
+        INSERT INTO commodity (commodityName,commodityDescribe,commodityPrice,commodityStock,commoditySrc,state)
+        VALUES
+        (
+        #{commodityName},
+        #{commodityDescribe},
+        #{commodityPrice},
+        #{commodityStock},
+        #{commoditySrc},
+        #{state}
+        )
+    </insert>
+
+
+
+
+</mapper>
+

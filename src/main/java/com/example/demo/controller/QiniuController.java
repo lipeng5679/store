@@ -20,7 +20,7 @@ public class QiniuController {
 
     @GetMapping("/upload")
     public String toUpload(){
-        return "upload";
+        return "admin/upload";
     }
 
     @GetMapping("/token")
