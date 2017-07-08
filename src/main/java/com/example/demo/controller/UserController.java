@@ -124,13 +124,14 @@ public class UserController {
 
     //登陆
     @PostMapping("/login")
-    public ModelAndView login(String phonenumber, String password) {
+    public ModelAndView login(String phonenumber, String password,HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         User user = userService.getnumberAndpassword(phonenumber, password);
         if (user != null) {
             modelAndView.setViewName("index");
             modelAndView.addObject("user",user);
             modelAndView.addObject("imgList",scrollService.findAll());
+            request.getSession().setAttribute("user",user);
             return modelAndView;
         }else {
             modelAndView.addObject("info", "用户名或密码错误");

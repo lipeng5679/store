@@ -14,7 +14,23 @@
         <result column="commoditySrc" property="commoditySrc"></result>
         <result column="state" property="state"></result>
 
+        <association property="commodityClass" javaType="com.example.demo.domain.CommodityClass">
+            <id column="commodityClassId" property="commodityClassId"></id>
+            <result column="commodityClassName" property="commodityClassName"></result>
+        </association>
+
     </resultMap>
+
+    <!--根据商品类别id  查询拥有以上架的商品信息-->
+    <select id="getByclassId" resultMap="commodityList">
+        SELECT * FROM commodity c WHERE c.c_id=#{id} AND c.state=2;
+    </select>
+
+
+    <!--根据商品信息id查询商品信息,关联将商品类别查询出来-->
+    <select id="getById" resultMap="commodityList">
+        SELECT * FROM commodity c,commodityclass cc WHERE c.c_id=cc.commodityclassId AND c.commodityId=#{id}
+    </select>
 
     <!--查询所有-->
     <select id="findAll" resultMap="commodityList">

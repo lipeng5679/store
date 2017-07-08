@@ -5,6 +5,7 @@ import com.example.demo.domain.CommodityClass;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -17,6 +18,10 @@ public interface CommodityMapper {
     List<Commodity> findAll();
 
     void insert(Commodity commodity);
+
+    Commodity getById(Serializable commodityId);
+
+    List<Commodity> getByclassId(Serializable commodityClassId);
 
 
 }

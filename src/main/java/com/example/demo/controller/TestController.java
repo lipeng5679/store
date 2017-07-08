@@ -30,10 +30,10 @@ public class TestController {
         System.out.println(all);*/
 
 
-        Commodity commodity = new Commodity("泡面","吃的",4,100,"baidu",1);
+        /*Commodity commodity = new Commodity("泡面","吃的",4,100,"baidu",1);
         commodityService.insert(commodity);
         List<Commodity> all = commodityService.findAll();
-        System.out.println(all);
+        System.out.println(all);*/
 
 
         return "test";

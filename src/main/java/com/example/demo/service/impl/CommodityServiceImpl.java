@@ -9,6 +9,7 @@ import com.example.demo.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -28,5 +29,15 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public void insert(Commodity commodity) {
         commodityMapper.insert(commodity);
+    }
+
+    @Override
+    public Commodity getById(Serializable commodityId) {
+        return commodityMapper.getById(commodityId);
+    }
+
+    @Override
+    public List<Commodity> getByclassId(Serializable commodityClassId) {
+        return commodityMapper.getByclassId(commodityClassId);
     }
 }

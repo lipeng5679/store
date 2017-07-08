@@ -3,6 +3,7 @@ package com.example.demo.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.core.annotation.Order;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,5 +24,7 @@ public class User implements Serializable {
     private String address;     //地址
     private String password;    //密码
     private Date date;          //注册时间
+
+
 
 }

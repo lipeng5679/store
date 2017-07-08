@@ -9,6 +9,16 @@
         <id column="commodityClassId" property="commodityClassId"></id>
         <result column="commodityClassName" property="commodityClassName"></result>
 
+        <collection property="commodities" ofType="com.example.demo.domain.Commodity">
+            <id column="commodityId" property="commodityId"></id>
+            <result column="commodityName" property="commodityName"></result>
+            <result column="commodityDescribe" property="commodityDescribe"></result>
+            <result column="commodityPrice" property="commodityPrice"></result>
+            <result column="commodityStock" property="commodityStock"></result>
+            <result column="commoditySrc" property="commoditySrc"></result>
+            <result column="state" property="state"></result>
+        </collection>
+
     </resultMap>
 
     <!--查询所有-->
