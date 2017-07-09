@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.domain.Order;
 import com.example.demo.domain.User;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.UserService;
@@ -58,5 +59,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getPhonenumber(Serializable phonenumber) {
         return userMapper.getPhonenumber(phonenumber);
+    }
+
+    @Override
+    public List<Order> findOrdersById(Serializable uid) {
+        return userMapper.findOrdersById(uid);
     }
 }

@@ -14,7 +14,25 @@
         <result column="address" property="address"></result>
         <result column="password" property="password"></result>
         <result column="date" property="date"></result>
+
+        <collection property="orders" ofType="com.example.demo.domain.Order">
+
+            <id column="orderId" property="orderId"></id>
+            <result column="orderNo" property="orderNo"></result>
+            <result column="submitTime" property="submitTime"></result>
+            <result column="conTime" property="conTime"></result>
+            <result column="totalPrice" property="totalPrice"></result>
+            <result column="isPayoff" property="isPayoff"></result>
+            <result column="iscon" property="iscon"></result>
+
+        </collection>
+
     </resultMap>
+
+    <!--查询用户id所有订单信息-->
+    <select id="findOrdersById" resultMap="userList">
+        select * from user u,orders o where u.id=o.user_id and u.id=#{uid};
+    </select>
 
     <!--查询所有-->
     <select id="findAll" resultMap="userList">
@@ -28,7 +46,7 @@
     </select>
 
     <!--新增-->
-    <insert id="insert" parameterType="com.example.demo.domain.User">
+    <insert id="insert" parameterType="com.example.demo.domain.User" useGeneratedKeys="true" keyProperty="id">
       INSERT INTO user (phonenumber,nickname,name,xiaoqu,address,password,date)
       VALUES
       (

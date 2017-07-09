@@ -3,10 +3,10 @@ package com.example.demo.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.core.annotation.Order;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Lipeng on 2017/6/26.
@@ -25,6 +25,7 @@ public class User implements Serializable {
     private String password;    //密码
     private Date date;          //注册时间
 
+    private List<Order> orders;    //订单
 
 
 }

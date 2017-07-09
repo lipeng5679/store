@@ -1,14 +1,16 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.Commodity;
-import com.example.demo.domain.CommodityClass;
+import com.example.demo.domain.Order;
 import com.example.demo.service.CommodityClassService;
 import com.example.demo.service.CommodityService;
+import com.example.demo.service.OrderService;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2017/7/6.
@@ -20,6 +22,10 @@ public class TestController {
     private CommodityClassService commodityClassService;
     @Autowired
     private CommodityService commodityService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/test")
     private String toTest(){
@@ -35,6 +41,30 @@ public class TestController {
         List<Commodity> all = commodityService.findAll();
         System.out.println(all);*/
 
+        /*List<Order> orders = userService.findOrdersById(1);
+        System.out.println(orders);*/
+
+        /*Map map = new HashMap();
+        map.put("id",1);
+        map.put("state",1);
+        List<Commodity> commodities = commodityService.getByclassId(map);
+        System.out.println(commodities);*/
+
+        /*Order order = orderService.findCommondityById(2);
+        List<Commodity> commodities = order.getCommodities();
+        for (Commodity c:commodities
+             ) {
+            System.out.println(c);
+        }*/
+        /*Order order1 = orderService.findCommondityById(1);
+        for (Commodity c:order1.getCommodities()
+             ) {
+            System.out.println(c);
+        }*/
+        Order order = new Order();
+        order.setOrderNo("004");
+        System.out.println(order);
+        orderService.insertOrder(order);
 
         return "test";
     }

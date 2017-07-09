@@ -19,11 +19,21 @@
             <result column="commodityClassName" property="commodityClassName"></result>
         </association>
 
+        <collection property="orders" ofType="com.example.demo.domain.Order">
+            <id column="orderId" property="orderId"></id>
+            <result column="orderNo" property="orderNo"></result>
+            <result column="submitTime" property="submitTime"></result>
+            <result column="conTime" property="conTime"></result>
+            <result column="totalPrice" property="totalPrice"></result>
+            <result column="isPayoff" property="isPayoff"></result>
+            <result column="iscon" property="iscon"></result>
+        </collection>
+
     </resultMap>
 
-    <!--根据商品类别id  查询拥有以上架的商品信息-->
-    <select id="getByclassId" resultMap="commodityList">
-        SELECT * FROM commodity c WHERE c.c_id=#{id} AND c.state=2;
+    <!--根据商品类别id  查询商品信息-->
+    <select id="getByclassId" resultMap="commodityList" parameterType="map">
+        SELECT * FROM commodity c WHERE c.c_id=#{id} AND c.state=#{state};
     </select>
 
 
@@ -40,7 +50,7 @@
 
 
     <!--新增-->
-    <insert id="insert" parameterType="com.example.demo.domain.Commodity">
+    <insert id="insert" parameterType="com.example.demo.domain.Commodity" useGeneratedKeys="true" keyProperty="commodityId">
         INSERT INTO commodity (commodityName,commodityDescribe,commodityPrice,commodityStock,commoditySrc,state)
         VALUES
         (
@@ -53,6 +63,14 @@
         )
     </insert>
 
+    <!--删除order_commodity对应关系orderId,commodityId-->
+    <delete id="deleteOrderCommodity" parameterType="map">
+        DELETE FROM order_commodity
+        <where>
+            <if test="orderId != null">orderId=#{orderId}</if>
+            <if test="commodityId != null">AND commodityId=#{commodityId}</if>
+        </where>
+    </delete>
 
 
 

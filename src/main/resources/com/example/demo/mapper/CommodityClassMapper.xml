@@ -29,7 +29,7 @@
 
 
     <!--新增-->
-    <insert id="insert" parameterType="com.example.demo.domain.CommodityClass">
+    <insert id="insert" parameterType="com.example.demo.domain.CommodityClass" keyProperty="commodityClassId" useGeneratedKeys="true">
         INSERT INTO commodityclass (commodityClassName)
         VALUES
         (

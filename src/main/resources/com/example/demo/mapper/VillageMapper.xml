@@ -24,7 +24,7 @@
     </select>
 
     <!--新增-->
-    <insert id="insert" parameterType="com.example.demo.domain.Village">
+    <insert id="insert" parameterType="com.example.demo.domain.Village" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO village (villagename,cid)
         VALUES
         (

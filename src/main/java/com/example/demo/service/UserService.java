@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.Order;
 import com.example.demo.domain.User;
 
 import java.io.Serializable;
@@ -26,4 +27,6 @@ public interface UserService {
     User getnumberAndpassword(String phonenumber,String password);
 
     User getPhonenumber(Serializable phonenumber);
+
+    List<Order> findOrdersById(Serializable uid);
 }

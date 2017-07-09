@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/6/16.
@@ -37,7 +38,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<Commodity> getByclassId(Serializable commodityClassId) {
-        return commodityMapper.getByclassId(commodityClassId);
+    public List<Commodity> getByclassId(Map map) {
+        return commodityMapper.getByclassId(map);
     }
 }

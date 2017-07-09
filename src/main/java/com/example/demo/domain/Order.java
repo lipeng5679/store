@@ -16,9 +16,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Orders implements Serializable{
+public class Order implements Serializable{
 
-    private int orderId;
+    private Long orderId;
     private String orderNo;     //订单号
     private Date submitTime;    //订单提交时间
     private Date conTime;       //发货时间

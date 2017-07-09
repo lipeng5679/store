@@ -26,7 +26,7 @@ public class Commodity implements Serializable {
     private int state = 1;              //状态 0:伪删除 1:下架 2：上架
 
     private CommodityClass commodityClass;      //商品类
-    private List<Orders> orders;                //订单
+    private List<Order> orders;                //订单
 
 
 }

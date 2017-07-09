@@ -18,7 +18,7 @@
     </select>
 
     <!--新增-->
-    <insert id="insert" parameterType="com.example.demo.domain.Scroll">
+    <insert id="insert" parameterType="com.example.demo.domain.Scroll" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO scroll (id,src,name)
         VALUES
         (

@@ -1,5 +1,6 @@
 package com.example.demo.mapper;
 
+import com.example.demo.domain.Order;
 import com.example.demo.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -63,4 +64,11 @@ public interface UserMapper {
      * @return
      */
     User getPhonenumber(Serializable phonenumber);
+
+    /**
+     * 查询用户的订单信息
+     * @param uid
+     * @return
+     */
+    List<Order> findOrdersById(Serializable uid);
 }

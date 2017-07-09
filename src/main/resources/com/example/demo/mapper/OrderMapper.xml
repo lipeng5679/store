@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.OrderMapper">
+
+    <resultMap id="ordersList" type="com.example.demo.domain.Order">
+        <id column="orderId" property="orderId"></id>
+        <result column="orderNo" property="orderNo"></result>
+        <result column="submitTime" property="submitTime"></result>
+        <result column="conTime" property="conTime"></result>
+        <result column="totalPrice" property="totalPrice"></result>
+        <result column="isPayoff" property="isPayoff"></result>
+        <result column="iscon" property="iscon"></result>
+
+        <association property="user" javaType="com.example.demo.domain.User">
+            <id column="id" property="id"></id>
+            <result column="phonenumber" property="phonenumber"></result>
+            <result column="nickname" property="nickname"></result>
+            <result column="xiaoqu" property="xiaoqu"></result>
+            <result column="name" property="name"></result>
+            <result column="address" property="address"></result>
+            <result column="password" property="password"></result>
+            <result column="date" property="date"></result>
+        </association>
+
+        <collection property="commodities" ofType="com.example.demo.domain.Commodity">
+
+            <id column="commodityId" property="commodityId"></id>
+            <result column="commodityName" property="commodityName"></result>
+            <result column="commodityDescribe" property="commodityDescribe"></result>
+            <result column="commodityPrice" property="commodityPrice"></result>
+            <result column="commodityStock" property="commodityStock"></result>
+            <result column="commoditySrc" property="commoditySrc"></result>
+            <result column="state" property="state"></result>
+
+        </collection>
+
+    </resultMap>
+
+    <!--根据订单id查询商品信息-->
+    <select id="findCommondityById" resultMap="ordersList">
+      select o.*,c.* from orders o
+      left join order_commodity oc
+      on o.orderId=oc.orderId
+      left join commodity c
+      on oc.commodityId=c.commodityId
+      where o.orderId=#{oid};
+    </select>
+
+    <!--保护订单和商品之间的关系-->
+    <insert id="saveRelation" parameterType="map">
+        INSERT INTO order_commodity(orderId,commodityId)
+        VALUES
+        (
+        #{orderId},
+        #{commodityId}
+        )
+
+    </insert>
+
+    <!--新增订单信息-->
+    <insert id="insertOrder" parameterType="com.example.demo.domain.Order" keyProperty="orderId" useGeneratedKeys="true">
+        INSERT INTO orders (orderNo,submitTime,conTime,totalPrice,isPayoff,iscon)
+        VALUES
+        (
+        #{orderNo},
+        #{submitTime},
+        #{conTime},
+        #{totalPrice},
+        #{isPayoff},
+        #{iscon}
+        )
+    </insert>
+
+</mapper>
+
