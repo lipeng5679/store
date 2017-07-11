@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.domain.Order;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,4 +16,6 @@ public interface OrderService {
     void saveRelation(Map map);
 
     void insertOrder(Order order);
+
+    List<Order> findOrderByuid(Serializable uid);
 }

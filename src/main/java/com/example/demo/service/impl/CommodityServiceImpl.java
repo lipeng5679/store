@@ -41,4 +41,14 @@ public class CommodityServiceImpl implements CommodityService {
     public List<Commodity> getByclassId(Map map) {
         return commodityMapper.getByclassId(map);
     }
+
+    @Override
+    public void update(Commodity commodity) {
+        commodityMapper.update(commodity);
+    }
+
+    @Override
+    public List<Commodity> findcommodityAndclass() {
+        return commodityMapper.findcommodityAndclass();
+    }
 }

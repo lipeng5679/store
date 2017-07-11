@@ -21,10 +21,21 @@
 
     </resultMap>
 
+    <!--根据商品类id查询商品类-->
+    <select id="getCommodityClassById" resultMap="commodityclassList">
+        SELECT * FROM commodityclass WHERE commodityClassId=#{commodityClassId}
+    </select>
+
+    <!--根据商品类名字查询商品类-->
+    <select id="getCommodityClassByName" resultMap="commodityclassList">
+        SELECT * FROM commodityclass WHERE commodityClassName=#{commodityClassName}
+    </select>
+
+
     <!--查询所有-->
     <select id="findAll" resultMap="commodityclassList">
         SELECT * from
-        commodityclass
+        commodityclass ORDER BY commodityClassId DESC
     </select>
 
 

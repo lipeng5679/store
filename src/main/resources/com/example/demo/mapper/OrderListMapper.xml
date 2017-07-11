@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.OrderListMapper">
+    <resultMap id="orderListRM" type="com.example.demo.domain.OrderList">
+        <id column="orderListId" property="orderListId"></id>
+        <result column="order_Id" property="order_Id"></result>
+        <result column="commodity_Id" property="commodity_Id"></result>
+        <result column="commoditynum" property="commoditynum"></result>
+
+    </resultMap>
+
+    <!--根据订单id查询商品和数量-->
+    <select id="getCommodityNum" resultMap="orderListRM">
+        SELECT * FROM orderlist ol WHERE ol.order_Id=#{oid};
+    </select>
+
+
+    <!--新增-->
+    <insert id="insert" parameterType="com.example.demo.domain.OrderList" useGeneratedKeys="true" keyProperty="orderListId">
+        INSERT INTO orderlist (order_Id,commodity_Id,commoditynum)
+        VALUES
+        (
+        #{order_Id},
+        #{commodity_Id},
+        #{commoditynum}
+        )
+    </insert>
+
+
+
+
+</mapper>
+

@@ -13,6 +13,7 @@
         <result column="commodityStock" property="commodityStock"></result>
         <result column="commoditySrc" property="commoditySrc"></result>
         <result column="state" property="state"></result>
+        <result column="c_id" property="c_id"></result>
 
         <association property="commodityClass" javaType="com.example.demo.domain.CommodityClass">
             <id column="commodityClassId" property="commodityClassId"></id>
@@ -31,27 +32,32 @@
 
     </resultMap>
 
+    <!--查询所有商品与商品类之间的信息-->
+    <select id="findcommodityAndclass" resultMap="commodityList">
+        select * from commodity c,commodityclass cc where c.c_id=cc.commodityClassId ORDER BY c.commodityId DESC;
+    </select>
+
     <!--根据商品类别id  查询商品信息-->
     <select id="getByclassId" resultMap="commodityList" parameterType="map">
         SELECT * FROM commodity c WHERE c.c_id=#{id} AND c.state=#{state};
     </select>
 
 
-    <!--根据商品信息id查询商品信息,关联将商品类别查询出来-->
+    <!--根据商品id查询商品信息-->
     <select id="getById" resultMap="commodityList">
-        SELECT * FROM commodity c,commodityclass cc WHERE c.c_id=cc.commodityclassId AND c.commodityId=#{id}
+        SELECT * FROM commodity c WHERE c.commodityId=#{id}
     </select>
 
     <!--查询所有-->
     <select id="findAll" resultMap="commodityList">
         SELECT * from
-        commodity
+        commodity ORDER BY commodityId DESC
     </select>
 
 
     <!--新增-->
     <insert id="insert" parameterType="com.example.demo.domain.Commodity" useGeneratedKeys="true" keyProperty="commodityId">
-        INSERT INTO commodity (commodityName,commodityDescribe,commodityPrice,commodityStock,commoditySrc,state)
+        INSERT INTO commodity (commodityName,commodityDescribe,commodityPrice,commodityStock,commoditySrc,state,c_id)
         VALUES
         (
         #{commodityName},
@@ -59,7 +65,8 @@
         #{commodityPrice},
         #{commodityStock},
         #{commoditySrc},
-        #{state}
+        #{state},
+        #{c_id}
         )
     </insert>
 
@@ -71,6 +78,21 @@
             <if test="commodityId != null">AND commodityId=#{commodityId}</if>
         </where>
     </delete>
+
+    <!--修改-->
+    <update id="update" parameterType="com.example.demo.domain.Commodity">
+        UPDATE commodity
+        <set>
+            <if test="commodityName!=null">commodityName=#{commodityName},</if>
+            <if test="commodityDescribe!=null">commodityDescribe=#{commodityDescribe},</if>
+            <if test="commodityPrice!=null">commodityPrice=#{commodityPrice},</if>
+            <if test="commodityStock!=null">commodityStock=#{commodityStock},</if>
+            <if test="commoditySrc!=null">commoditySrc=#{commoditySrc},</if>
+            <if test="c_id!=null">c_id=#{c_id},</if>
+            <if test="state!=null">state=#{state}</if>
+        </set>
+        WHERE commodityId=#{commodityId}
+    </update>
 
 
 

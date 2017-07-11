@@ -30,4 +30,14 @@ public class CommodityClassServiceImpl implements CommodityClassService{
     public void insert(CommodityClass commodityClass) {
         commodityClassMapper.insert(commodityClass);
     }
+
+    @Override
+    public CommodityClass getCommodityClassByName(String commodityClassName) {
+        return commodityClassMapper.getCommodityClassByName(commodityClassName);
+    }
+
+    @Override
+    public CommodityClass getCommodityClassById(Serializable commodityClassId) {
+        return commodityClassMapper.getCommodityClassById(commodityClassId);
+    }
 }

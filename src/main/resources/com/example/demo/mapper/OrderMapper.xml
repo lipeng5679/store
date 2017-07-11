@@ -34,10 +34,16 @@
             <result column="commodityStock" property="commodityStock"></result>
             <result column="commoditySrc" property="commoditySrc"></result>
             <result column="state" property="state"></result>
+            <result column="c_id" property="c_id"></result>
 
         </collection>
 
     </resultMap>
+
+    <!--根据用户id查询订单信息-->
+    <select id="findOrderByuid" resultMap="ordersList">
+        SELECT * FROM orders o WHERE o.user_id=#{id}
+    </select>
 
     <!--根据订单id查询商品信息-->
     <select id="findCommondityById" resultMap="ordersList">

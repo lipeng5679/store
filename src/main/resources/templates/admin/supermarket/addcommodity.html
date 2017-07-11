@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>添加商品</title>
+    <script src="http://ors703hgy.bkt.clouddn.com/store/js/jquery-3.1.1.min.js"></script>
+    <script src="http://ors703hgy.bkt.clouddn.com/store/js/qiniu.js"></script>
+</head>
+<body>
+<form method="post" action="/admin/addcommodity">
+    <table>
+        <tr>
+            <td>
+                商品分类：<select onchange="change()" id="s1" >
+                <option>请选择</option>
+                <span th:each="a : ${all}">
+                <option th:value="${a}" th:text="${a.commodityClassName}"/>
+                </span>
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td>商品分类:
+                <input type="text" name="commodityClassName" id="t1"/>
+            </td>
+        </tr>
+        <tr>
+            <td>商品名称:
+                <input type="text" name="commodityName"/>
+            </td>
+        </tr>
+        <tr>
+            <td>商品简介:
+                <input type="text" name="commodityDescribe"/>
+            </td>
+        </tr>
+        <tr>
+            <td>商品价格:
+                <input type="text" name="commodityPrice"/>
+            </td>
+        </tr>
+        <tr>
+            <td>商品库存:
+                <input type="text" name="commodityStock"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="hidden" name="commoditySrc" id="hidden"/>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit"/></td>
+        </tr>
+    </table>
+</form>
+<div class="uploadButton" id="uploadButton">
+    <div style="margin: auto;font-weight: bold; font-size: 24px; cursor: pointer;">
+        商品图片
+    </div>
+    <div>
+        <img id="img" />
+    </div>
+</div>
+<script>
+
+    //<![CDATA[
+    function change() {
+        document.getElementById("t1").value = $("#s1").find("option:selected").text()
+    }
+    //]]>
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        var _token = null;
+
+        $.ajax({
+            url: '/token',
+            type: 'get',
+            success: function (data) {
+                _token = data;
+                console.debug('A: ' + _token);
+            }
+        });
+
+
+        // 上传空间URL
+        var uploadSpace = 'http://ors703hgy.bkt.clouddn.com';
+
+
+        qiniu.config({
+            url: uploadSpace,
+            uploadUrl: 'up-z2.qiniu.com' // 七牛统一的一个上传域名，固定
+        });
+
+
+        qiniu.bind($('#uploadButton'), {
+            filter: 'image'
+        }).on('file', function(file) {
+
+            console.debug('---');
+
+            var imagesBucket = qiniu.bucket('learning', {
+                putToken: _token
+            });
+
+            console.debug('B: ' + _token);
+
+            // 上传文件名
+//                var fileName = 'abc_' + new Date().getMilliseconds() + '.jpg';
+
+//                var fileName
+
+            console.debug(file);
+
+            var fileName = file.name;
+
+            fileName = 'store/image/' + fileName;
+
+//                    return;
+
+            console.debug('文件名：'  + fileName);
+
+
+            // Upload
+            imagesBucket.putFile(fileName, file)
+                .then(
+                    function(reply) {
+                        // 上传成功
+//                            console.dir(reply);
+
+                        console.debug(reply.hash);
+                        console.debug(reply.key);
+                        var se = new Date().getMilliseconds();
+                        var src = uploadSpace + '/' + fileName + '?v=' + se;
+                        $("#hidden").val(src);
+                        $("#img").attr('src',src);
+                        $("#img").attr('style',"width: 100px;height: 100px");
+                        console.debug("上传成功")
+
+
+
+
+                    },
+                    function(err) {
+                        // 上传失败
+                        console.error(err);
+                    }
+                );
+        });
+
+    });
+
+    $.extend({
+        upload2Qiniu:function () {
+
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,5 +20,7 @@ public interface OrderMapper {
     void saveRelation(Map map);
 
     void insertOrder(Order order);
+
+    List<Order> findOrderByuid(Serializable uid);
 
 }

@@ -19,4 +19,8 @@ public interface CommodityService {
     Commodity getById(Serializable commodityId);
 
     List<Commodity> getByclassId(Map map);
+
+    void update(Commodity commodity);
+
+    List<Commodity> findcommodityAndclass();
 }

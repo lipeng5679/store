@@ -14,4 +14,8 @@ public interface CommodityClassService {
     List<CommodityClass> findAll();
 
     void insert(CommodityClass commodityClass);
+
+    CommodityClass getCommodityClassByName(String commodityClassName);
+
+    CommodityClass getCommodityClassById(Serializable commodityClassId);
 }

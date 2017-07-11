@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,5 +32,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void insertOrder(Order order) {
         orderMapper.insertOrder(order);
+    }
+
+    @Override
+    public List<Order> findOrderByuid(Serializable uid) {
+        return orderMapper.findOrderByuid(uid);
     }
 }

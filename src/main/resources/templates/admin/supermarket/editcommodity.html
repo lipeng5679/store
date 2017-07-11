@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>商品列表</title>
+    <script src="http://ors703hgy.bkt.clouddn.com/store/js/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="/css/table.css"/>
+    <style>
+        a{color: blue}
+        .c1{color: gray}
+    </style>
+
+</head>
+<body>
+<table id="tab" width="50%" class="table">
+    <tbody >
+    <tr align="center">
+        <td>商品类别</td>
+        <td>商品名称</td>
+        <td>商品简介</td>
+        <td>商品单价</td>
+        <td>商品库存</td>
+        <td>商品缩略图</td>
+        <td>商品状态</td>
+
+    </tr>
+    <tr align="center" th:each="c : ${commodityList}" >
+        <td th:text="${c.commodityClass.commodityClassName}"></td>
+        <td><a th:text="${c.commodityName}" th:href="${'/admin/'+c.commodityId}"></a></td>
+        <td th:text="${c.commodityDescribe}"></td>
+        <td th:text="${c.commodityPrice}"></td>
+        <td th:text="${c.commodityStock}"></td>
+        <td><img th:src="${c.commoditySrc}" style="width: 70px;height: 40px"/></td>
+        <td id="td">
+            <a href="javascript:void(0);" th:value="${c.commodityId}" md="2" th:class="${c.state==2} ? 'c1' : 'c2'">上架</a>
+            <a href="javascript:void(0);" th:value="${c.commodityId}" md="1" th:class="${c.state==1} ? 'c1' : 'c2'">下架</a>
+            <a href="javascript:void(0);" th:value="${c.commodityId}" md="0" th:class="${c.state==0} ? 'c1' : 'c2'">删除</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<script>
+
+    $(function () {
+
+        $("#td a").click(function () {
+            var id = $(this).attr("value");
+            var state = $(this).attr("md");
+
+            $.ajax({
+                url: "/edit/"+id,
+                data: { "state": state },
+                dataType: "json",
+                type: "post",
+                traditional: true,
+                success: function (data) {
+
+
+
+                },
+                error: function (data, status, er) {
+                    location.href = "http://localhost:8080/admin/editcommodity";
+                }
+            });
+        })
+    })
+
+</script>
+
+</body>
+</html>

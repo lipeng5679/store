@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Administrator on 2017/7/6.
  */
 
-//订单信息
+//订单
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/7/6.
@@ -61,12 +61,27 @@ public class TestController {
              ) {
             System.out.println(c);
         }*/
-        Order order = new Order();
+        /*Order order = new Order();
         order.setOrderNo("004");
-        System.out.println(order);
         orderService.insertOrder(order);
+        List list = new ArrayList();
+        for(int i=0;i<=3;i++){
+            Commodity commodity = new Commodity();
+            commodity.setState(i);
+            commodityService.insert(commodity);
+            Map map = new HashMap();
+            map.put("orderId",order.getOrderId());
+            map.put("commodityId",commodity.getCommodityId());
+            orderService.saveRelation(map);
+            list.add(commodity);
+        }*/
 
         return "test";
+    }
+
+    @GetMapping("/elm")
+    public String toelm(){
+        return "elem";
     }
 
 }

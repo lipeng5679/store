@@ -24,5 +24,9 @@ public interface CommodityMapper {
 
     List<Commodity> getByclassId(Map map);
 
+    void update(Commodity commodity);
+
+    List<Commodity> findcommodityAndclass();
+
 
 }

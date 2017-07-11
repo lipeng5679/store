@@ -19,5 +19,9 @@ public interface CommodityClassMapper {
 
     void insert(CommodityClass commodityClass);
 
+    CommodityClass getCommodityClassByName(String commodityClassName);
+
+    CommodityClass getCommodityClassById(Serializable commodityClassId);
+
 
 }
