@@ -40,4 +40,9 @@ public class CommodityClassServiceImpl implements CommodityClassService{
     public CommodityClass getCommodityClassById(Serializable commodityClassId) {
         return commodityClassMapper.getCommodityClassById(commodityClassId);
     }
+
+    @Override
+    public List<CommodityClass> findAllcommodityAndclass() {
+        return commodityClassMapper.findAllcommodityAndclass();
+    }
 }

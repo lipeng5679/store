@@ -1,24 +1,19 @@
 package com.example.demo.controller.supermarket;
 
 import com.example.demo.domain.*;
-import com.example.demo.service.CommodityClassService;
-import com.example.demo.service.CommodityService;
-import com.example.demo.service.OrderListService;
-import com.example.demo.service.OrderService;
+import com.example.demo.service.*;
+import lombok.experimental.var;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Administrator on 2017/7/6.
@@ -36,16 +31,17 @@ public class SuperController {
     private OrderService orderService;
     @Autowired
     private OrderListService orderListService;
+    @Autowired
+    private CommentsService commentsService;
 
     //跳转超市首页
     @GetMapping("/index")
     private ModelAndView toIndex(){
         ModelAndView modelAndView = new ModelAndView();
-        List<CommodityClass> commodityClassList = commodityClassService.findAll();
-        List<Commodity> commodityList = commodityService.findAll();
+        List<CommodityClass> commodityClassList = commodityClassService.findAllcommodityAndclass();
+        System.out.println(commodityClassList);
 
         modelAndView.addObject("commodityClassList",commodityClassList);
-        modelAndView.addObject("commodityList",commodityList);
         modelAndView.setViewName("supermarket/index");
         return modelAndView;
     }
@@ -95,6 +91,69 @@ public class SuperController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("supermarket/eval");
         return modelAndView;
+    }
+
+    //添加评价
+    @PostMapping("/eval")
+    public ModelAndView eval(@RequestBody Comments comments,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        User user = (User)request.getSession().getAttribute("user");
+        comments.setDateTime(new Date());
+        if(user != null){
+            System.out.println(user);
+            comments.setUser(user);
+        }
+        commentsService.insert(comments);
+
+        return modelAndView;
+    }
+
+    //处理购物车
+    @PostMapping("/car/{id}")
+    @ResponseBody
+    public String Car(@PathVariable Long id,String state,HttpServletRequest request){
+        Commodity commodity = commodityService.getById(id);
+        HttpSession session = request.getSession();
+        Map<Commodity,Integer> car = (Map<Commodity, Integer>) session.getAttribute("car");
+        if(car == null){
+            car = new ConcurrentHashMap<Commodity,Integer>();
+        }
+        //便利map中的商品对象
+        Iterator<Commodity> it = car.keySet().iterator();
+        boolean f = true;
+
+        //如果是添加商品
+        if("add".equals(state)){
+            //如果购物车存在相同id商品则在数量上加1
+            while (it.hasNext()) {
+                Commodity c = (Commodity)it.next();
+                if (c.getCommodityId().equals(commodity.getCommodityId())) {
+                    car.put(c, car.get(c)+1);
+                    f = false;
+                }
+            }
+            if(f){
+                car.put(commodity,1);
+            }
+
+        }
+        //如果是减少商品
+        else if("minus".equals(state)){
+            while (it.hasNext()){
+                Commodity c = (Commodity)it.next();
+                if(c.getCommodityId().equals(commodity.getCommodityId())){
+                    Integer num = car.get(c);
+                    if(num > 1){
+                        car.put(c,car.get(c)-1);
+                    }else{
+                        car.remove(c);
+                    }
+                }
+            }
+        }
+        session.setAttribute("car", car);
+
+        return "success";
     }
 
 }

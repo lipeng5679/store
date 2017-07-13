@@ -11,7 +11,7 @@
     </style>
 
 </head>
-<body>
+<body class="right">
 <table id="tab" width="50%" class="table">
     <tbody >
     <tr align="center">
@@ -22,19 +22,27 @@
         <td>商品库存</td>
         <td>商品缩略图</td>
         <td>商品状态</td>
+        <td>操作</td>
 
     </tr>
     <tr align="center" th:each="c : ${commodityList}" >
         <td th:text="${c.commodityClass.commodityClassName}"></td>
-        <td><a th:text="${c.commodityName}" th:href="${'/admin/'+c.commodityId}"></a></td>
+        <td  th:text="${c.commodityName}"></td>
         <td th:text="${c.commodityDescribe}"></td>
         <td th:text="${c.commodityPrice}"></td>
         <td th:text="${c.commodityStock}"></td>
         <td><img th:src="${c.commoditySrc}" style="width: 70px;height: 40px"/></td>
+        <td>
+            <span th:if="${c.state}==2">上架</span>
+            <span th:if="${c.state}==1">下架</span>
+            <span th:if="${c.state}==0">删除</span>
+        </td>
         <td id="td">
-            <a href="javascript:void(0);" th:value="${c.commodityId}" md="2" th:class="${c.state==2} ? 'c1' : 'c2'">上架</a>
-            <a href="javascript:void(0);" th:value="${c.commodityId}" md="1" th:class="${c.state==1} ? 'c1' : 'c2'">下架</a>
-            <a href="javascript:void(0);" th:value="${c.commodityId}" md="0" th:class="${c.state==0} ? 'c1' : 'c2'">删除</a>
+            <a href="javascript:void(0);" th:value="${c.commodityId}" md="2" th:if="${c.state}==1" >上架</a>
+            <a href="javascript:void(0);" th:value="${c.commodityId}" md="1" th:if="${c.state}==2" >下架</a>
+            <a href="javascript:void(0);" th:value="${c.commodityId}" md="1" th:if="${c.state}==0" >恢复下架</a>
+            <a href="javascript:void(0);" th:value="${c.commodityId}" md="0" th:if="${c.state}==1" >删除</a>
+            <a th:href="${'/admin/'+c.commodityId}" th:if="${c.state}==1">修改</a>
         </td>
     </tr>
     </tbody>
@@ -59,7 +67,7 @@
 
                 },
                 error: function (data, status, er) {
-                    location.href = "http://localhost:8080/admin/editcommodity";
+                    $(".right").load("/admin/editcommodity");
                 }
             });
         })

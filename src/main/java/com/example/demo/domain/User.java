@@ -26,6 +26,7 @@ public class User implements Serializable {
     private Date date;          //注册时间
 
     private List<Order> orders;    //订单
+    private List<Comments> comments;    //评论
 
 
 }

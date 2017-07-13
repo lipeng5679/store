@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ModuleMapper">
+
+    <resultMap id="moduleList" type="com.example.demo.domain.Module">
+        <id column="moduleId" property="moduleId"></id>
+        <result column="src" property="src"></result>
+        <result column="name" property="name"></result>
+
+        <collection property="comments" ofType="com.example.demo.domain.Comments">
+            <id column="commentsId" property="commentsId"></id>
+            <result column="dateTime" property="dateTime"></result>
+            <result column="content" property="content"></result>
+            <result column="src" property="src"></result>
+        </collection>
+
+    </resultMap>
+
+    <!--根据模块id查询所有该模块的评价-->
+    <select id="findAllCommentsByModuleId" resultMap="moduleList">
+        SELECT * FROM comments c,module m WHERE c.m_id=m.moduleId AND m.moduleId=#{moduleId}
+    </select>
+
+    <!--查询所有-->
+    <select id="findAll" resultMap="moduleList">
+        SELECT * from
+        module
+    </select>
+
+    <!--根据模块id查询模块信息-->
+    <select id="getModuleById" resultMap="moduleList">
+        SELECT * FROM module WHERE moduleId=#{moduleId};
+    </select>
+
+</mapper>
+

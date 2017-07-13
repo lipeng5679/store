@@ -1,11 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.Comments;
 import com.example.demo.domain.Commodity;
+import com.example.demo.domain.Module;
 import com.example.demo.domain.Order;
-import com.example.demo.service.CommodityClassService;
-import com.example.demo.service.CommodityService;
-import com.example.demo.service.OrderService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +25,10 @@ public class TestController {
     private UserService userService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private CommentsService commentsService;
+    @Autowired
+    private ModuleService moduleService;
 
     @GetMapping("/test")
     private String toTest(){
@@ -76,7 +79,17 @@ public class TestController {
             list.add(commodity);
         }*/
 
-        return "test";
+        /*List<Comments> all = commentsService.findAll();
+        System.out.println(all);*/
+
+
+        /*List<Module> all = moduleService.findAll();
+        for (Module m:all
+                ) {
+            System.out.println(m);
+        }*/
+
+        return "evallist";
     }
 
     @GetMapping("/elm")

@@ -32,7 +32,12 @@
 
     </resultMap>
 
-    <!--查询所有商品与商品类之间的信息-->
+    <!--查询已上架商品与商品类之间的信息-->
+    <select id="findAllandstate" resultMap="commodityList">
+        select * from commodity c,commodityclass cc where c.c_id=cc.commodityClassId AND c.state=2 ORDER BY c.commodityId DESC;
+    </select>
+
+    <!--根据状态查询所有商品与商品类之间的信息-->
     <select id="findcommodityAndclass" resultMap="commodityList">
         select * from commodity c,commodityclass cc where c.c_id=cc.commodityClassId ORDER BY c.commodityId DESC;
     </select>

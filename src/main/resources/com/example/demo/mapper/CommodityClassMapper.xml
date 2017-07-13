@@ -21,6 +21,11 @@
 
     </resultMap>
 
+    <!--查询所有已上架的商品类和商品-->
+    <select id="findAllcommodityAndclass" resultMap="commodityclassList">
+        SELECT * FROM commodity c,commodityclass cc WHERE c.c_id=cc.commodityClassId AND c.state=2
+    </select>
+
     <!--根据商品类id查询商品类-->
     <select id="getCommodityClassById" resultMap="commodityclassList">
         SELECT * FROM commodityclass WHERE commodityClassId=#{commodityClassId}
@@ -35,7 +40,7 @@
     <!--查询所有-->
     <select id="findAll" resultMap="commodityclassList">
         SELECT * from
-        commodityclass ORDER BY commodityClassId DESC
+        commodityclass
     </select>
 
 

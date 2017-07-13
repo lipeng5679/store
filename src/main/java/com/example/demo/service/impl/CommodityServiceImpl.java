@@ -48,6 +48,11 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    public List<Commodity> findAllandstate() {
+        return commodityMapper.findAllandstate();
+    }
+
+    @Override
     public List<Commodity> findcommodityAndclass() {
         return commodityMapper.findcommodityAndclass();
     }

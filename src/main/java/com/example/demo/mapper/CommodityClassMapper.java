@@ -23,5 +23,7 @@ public interface CommodityClassMapper {
 
     CommodityClass getCommodityClassById(Serializable commodityClassId);
 
+    List<CommodityClass> findAllcommodityAndclass();
+
 
 }

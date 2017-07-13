@@ -4,7 +4,76 @@
     <meta charset="UTF-8"/>
     <title>结算订单</title>
 </head>
+
+<style>
+    body{padding:0;margin:0;font-size:2em}
+    nav {position: relative;width: 100%;height: 3em;line-height: 3em;background-color: #f44765;color: #ffffff;text-align: center;font-size: 1.1rem;}
+    .goback {position: absolute;left: 0px;width: 40px;height: 100%;  }
+    .goback > b {display: block;overflow: hidden;margin: 15px 0 0 15px;width: 10px;height: 10px;line-height: 10px;font-size: 0;border-top: 1px solid #fff;border-right: 1px solid #fff;-moz-transform: rotate(-135deg);-webkit-transform: rotate(-135deg);transform: rotate(-135deg);}
+    span{color: red}
+</style>
+
 <body>
+
+<nav>
+    <a href="#" class='goback'>
+        <b></b>
+    </a>
+    结算订单
+</nav>
+
+<div>
+    <span style="display: block;margin-left: 1em;">姓名</span>
+    <input readonly="readonly" value="姓名" style="display: block;margin-left: 1em;border: none;outline:none;font-size: 1em;" type="text">
+    <hr style="width: 94%;margin-top: -0.06em;">
+</div>
+
+<div>
+    <span style="display: block;margin-left: 1em;">地址</span>
+    <input readonly="readonly" value="姓名" style="display: block;margin-left: 1em;border: none;outline:none;font-size: 1em;" type="text">
+    <hr style="width: 94%;margin-top: -0.06em;">
+</div>
+
+<div>
+    <span style="display: block;margin-left: 1em;">商品列表</span>
+    <div style="display: flex;flex-flow: row nowrap;justify-content: space-between;margin-left: 1em;">
+        <div>
+            <span style="color: #333333">可口可乐</span>
+        </div>
+
+        <div>
+            ￥<span style="color: #333333">3.00</span>
+        </div>
+
+        <div style="margin-right: 4em;">
+            <span style="color: #333333">3</span>
+        </div>
+
+    </div>
+    <hr style="width: 94%;margin-top: -0.06em;">
+</div>
+<hr style="height: 1em;background-color: #f4f4f4;border: none">
+
+<div>
+    <span style="display: block;margin-left: 1em;">优惠券</span>
+    <input readonly="readonly" value="暂无可用优惠券" style="float: left;display: block;width: 92%;margin-left: 1em;border: none;outline:none;font-size: 1em;text-align: center" type="text">
+    <label style="display:block;float: left">></label>
+    <hr style="width: 94%;margin-top: -0.06em;">
+</div>
+
+<div>
+    <span style="display: block;margin-left: 1em;">配送时间</span>
+    <label style="display: block;float: left;width: 51%;text-align: right;">预约时间:</label>
+    <input readonly="readonly" value="14:23" style="margin-top: 0.13em;float: left;display: block;width: 44%;border: none;outline:none;font-size: 1em;text-align: left" type="text">
+    <label style="display:block;float: left">></label>
+    <hr style="width: 94%;margin-top: -0.06em;">
+</div>
+
+<div>
+    <span style="display: block;margin-left: 1em;">支付方式</span>
+    <input readonly="readonly" value="微信支付" style="float: left;display: block;width: 92%;margin-left: 1em;border: none;outline:none;font-size: 1em;text-align: center" type="text">
+    <hr style="width: 94%;margin-top: -0.06em;">
+</div>
 
 </body>
 </html>

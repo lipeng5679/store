@@ -3,8 +3,158 @@
 <head>
     <meta charset="UTF-8"/>
     <title>评价</title>
+    <script src="http://ors703hgy.bkt.clouddn.com/store/js/jquery-3.1.1.min.js"></script>
+    <script src="http://ors703hgy.bkt.clouddn.com/store/js/qiniu.js"></script>
+
 </head>
+<style>
+    body{padding:0;margin:0;font-size:24px}
+    nav {position: relative;width: 100%;height: 3em;line-height: 3em;background-color: #f44765;color: #ffffff;text-align: center;font-size: 1.1rem;}
+    .goback {position: absolute;left: 0px;width: 40px;height: 100%;  }
+    .goback > b {display: block;overflow: hidden;margin: 15px 0 0 15px;width: 10px;height: 10px;line-height: 10px;font-size: 0;border-top: 1px solid #fff;border-right: 1px solid #fff;-moz-transform: rotate(-135deg);-webkit-transform: rotate(-135deg);transform: rotate(-135deg);}
+    .div1{height:3em;line-height:3em;}
+    .test_box {width: 95%;min-height: 120px; max-height: 300px;_height: 120px; margin-left: auto; margin-right: auto; padding: 3px; outline: 0; border: 1px solid #a0b3d6; font-size: 12px; word-wrap: break-word;overflow-x: hidden;overflow-y: auto;_overflow-y: visible;margin-top:1em;}
+
+</style>
+
 <body>
+
+<nav>
+    <a href="#" class='goback'>
+        <b></b>
+    </a>
+    评价
+</nav>
+
+<div class="div1">
+    <img src="/img/user/301.jpg" style="height:2m;width:2em;;padding-left:0.5em;display:inline;vertical-align:middle;"/>
+    <span>社区超市</span>
+</div>
+
+<div class="test_box" contenteditable="true" name="content"><br /></div>
+
+<div class="div2">
+    <span style="display:block;padding-left:1em;">评价图片</span>
+    <img class="uploadButton" id="uploadButton" style="padding-left:1em;" src="/img/+tu.jpg" width="57" height="55">
+
+</div>
+
+<div style="text-align:center;margin-top:2em;">
+    <button id="submit" style="border: 1px solid white;width: 95%;height: 3rem;background-color: #f44765;font-size: 1.2rem;color: #ffffff;">提交</button><br/>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        var _token = null;
+
+        var _data={};
+        _data.src = "";
+
+        $.ajax({
+            url: '/token',
+            type: 'get',
+            success: function (data) {
+                _token = data;
+                console.debug('A: ' + _token);
+            }
+        });
+
+
+        // 上传空间URL
+        var uploadSpace = 'http://ors703hgy.bkt.clouddn.com';
+
+
+        qiniu.config({
+            url: uploadSpace,
+            uploadUrl: 'up-z2.qiniu.com' // 七牛统一的一个上传域名，固定
+        });
+
+
+        qiniu.bind($('#uploadButton'), {
+            filter: 'image'
+        }).on('file', function(file) {
+
+            console.debug('---');
+
+            var imagesBucket = qiniu.bucket('learning', {
+                putToken: _token
+            });
+
+            console.debug('B: ' + _token);
+
+            // 上传文件名
+//                var fileName = 'abc_' + new Date().getMilliseconds() + '.jpg';
+
+//                var fileName
+
+            console.debug(file);
+
+            var fileName = file.name;
+
+            fileName = 'store/image/' + fileName;
+
+//                    return;
+
+            console.debug('文件名：'  + fileName);
+            var num = $(".div2 > img").length;
+            if(num == 4){
+                alert("只能上传3张")
+                return false;
+            }
+
+
+
+            // Upload
+            imagesBucket.putFile(fileName, file)
+                .then(
+                    function(reply) {
+                        // 上传成功
+//                            console.dir(reply);
+
+                        console.debug(reply.hash);
+                        console.debug(reply.key);
+                        var se = new Date().getMilliseconds();
+                        var src = uploadSpace + '/' + fileName + '?v=' + se;
+                        $(".div2").append("<img src='"+src+"' style='height: 50px;width: 50px'/>")
+                        _data.src = _data.src+","+src;
+
+
+
+                        
+                    },
+                    function(err) {
+                        // 上传失败
+                        console.error(err);
+                    }
+                );
+        });
+        
+        $("#submit").click(function () {
+            _data.content = $(".test_box").text();
+            var url = "/supermarket/eval";
+
+            $.ajax({
+                type:"POST",
+                url:url,
+                dataType:"json",
+                contentType:"application/json",
+                data:JSON.stringify(_data),
+                success:function(data){
+
+                }
+            });
+        })
+
+    });
+
+    $.extend({
+        upload2Qiniu:function () {
+
+        }
+    });
+</script>
 
 </body>
 </html>

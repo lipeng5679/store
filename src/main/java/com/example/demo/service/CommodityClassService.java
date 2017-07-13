@@ -18,4 +18,6 @@ public interface CommodityClassService {
     CommodityClass getCommodityClassByName(String commodityClassName);
 
     CommodityClass getCommodityClassById(Serializable commodityClassId);
+
+    List<CommodityClass> findAllcommodityAndclass();
 }

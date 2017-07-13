@@ -22,5 +22,7 @@ public interface CommodityService {
 
     void update(Commodity commodity);
 
+    List<Commodity> findAllandstate();
+
     List<Commodity> findcommodityAndclass();
 }

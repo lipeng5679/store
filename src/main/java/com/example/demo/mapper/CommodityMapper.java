@@ -26,6 +26,8 @@ public interface CommodityMapper {
 
     void update(Commodity commodity);
 
+    List<Commodity> findAllandstate();
+
     List<Commodity> findcommodityAndclass();
 
 
