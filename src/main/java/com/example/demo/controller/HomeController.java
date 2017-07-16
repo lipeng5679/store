@@ -1,13 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.City;
-import com.example.demo.domain.Img;
-import com.example.demo.domain.Scroll;
-import com.example.demo.domain.Village;
-import com.example.demo.service.CityService;
-import com.example.demo.service.ImgService;
-import com.example.demo.service.ScrollService;
-import com.example.demo.service.VillageService;
+import com.example.demo.domain.*;
+import com.example.demo.service.*;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
@@ -37,15 +31,21 @@ public class HomeController {
     private CityService cityService;
     @Autowired
     private VillageService villageService;
+    @Autowired
+    private ModuleService moduleService;
 
     //首页
     @GetMapping("/index")
     public ModelAndView toIndex(){
         ModelAndView modelAndView = new ModelAndView();
         List<Scroll> imgList = scrollService.findAll();
+        List<Module> moduleList = moduleService.findAll();
+
 
 
         modelAndView.addObject("imgList",imgList);
+        modelAndView.addObject("moduleList",moduleList);
+        System.out.println(moduleList);
         modelAndView.setViewName("index");
 
         return modelAndView;

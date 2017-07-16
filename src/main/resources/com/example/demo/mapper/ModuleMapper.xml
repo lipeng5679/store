@@ -9,6 +9,7 @@
         <id column="moduleId" property="moduleId"></id>
         <result column="src" property="src"></result>
         <result column="name" property="name"></result>
+        <result column="url" property="url"></result>
 
         <collection property="comments" ofType="com.example.demo.domain.Comments">
             <id column="commentsId" property="commentsId"></id>

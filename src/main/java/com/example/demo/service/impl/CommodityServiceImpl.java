@@ -56,4 +56,5 @@ public class CommodityServiceImpl implements CommodityService {
     public List<Commodity> findcommodityAndclass() {
         return commodityMapper.findcommodityAndclass();
     }
+
 }

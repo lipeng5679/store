@@ -38,11 +38,35 @@
 
         </collection>
 
+        <collection property="orderLists" ofType="com.example.demo.domain.OrderList">
+
+            <id column="orderListId" property="orderListId"></id>
+            <result column="order_Id" property="order_Id"></result>
+            <result column="commodity_Id" property="commodity_Id"></result>
+            <result column="commoditynum" property="commoditynum"></result>
+
+        </collection>
+
     </resultMap>
+
+    <!--根据订单id查询商品与商品数量关系-->
+    <select id="findCommoditynum" resultMap="ordersList">
+        select * from orders o
+        left join orderlist ol
+        on o.orderId=ol.order_Id
+        left join commodity c
+        on ol.commodity_Id=c.commodityId
+        where o.orderId=#{orderId}
+    </select>
 
     <!--根据用户id查询订单信息-->
     <select id="findOrderByuid" resultMap="ordersList">
-        SELECT * FROM orders o WHERE o.user_id=#{id}
+        select * from orders o
+        left join orderlist ol
+        on o.orderId=ol.order_Id
+        left join commodity c
+        on ol.commodity_Id=c.commodityId
+        where o.user_id=#{id}
     </select>
 
     <!--根据订单id查询商品信息-->
@@ -55,20 +79,21 @@
       where o.orderId=#{oid};
     </select>
 
-    <!--保护订单和商品之间的关系-->
+    <!--保护订单和商品之间的关系,并设置商品数量-->
     <insert id="saveRelation" parameterType="map">
-        INSERT INTO order_commodity(orderId,commodityId)
+        INSERT INTO orderlist(order_Id,commodity_Id,commoditynum)
         VALUES
         (
-        #{orderId},
-        #{commodityId}
+        #{order_Id},
+        #{commodity_Id},
+        #{commoditynum}
         )
 
     </insert>
 
     <!--新增订单信息-->
     <insert id="insertOrder" parameterType="com.example.demo.domain.Order" keyProperty="orderId" useGeneratedKeys="true">
-        INSERT INTO orders (orderNo,submitTime,conTime,totalPrice,isPayoff,iscon)
+        INSERT INTO orders (orderNo,submitTime,conTime,totalPrice,isPayoff,iscon,user_id)
         VALUES
         (
         #{orderNo},
@@ -76,7 +101,8 @@
         #{conTime},
         #{totalPrice},
         #{isPayoff},
-        #{iscon}
+        #{iscon},
+        #{user.id}
         )
     </insert>
 

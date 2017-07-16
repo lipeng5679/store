@@ -18,4 +18,6 @@ public interface OrderService {
     void insertOrder(Order order);
 
     List<Order> findOrderByuid(Serializable uid);
+
+    List<Order> findCommoditynum(Serializable oid);
 }

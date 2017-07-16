@@ -3,6 +3,7 @@ package com.example.demo.domain;
 import ch.qos.logback.core.joran.spi.NoAutoStart;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,7 +13,7 @@ import java.io.Serializable;
 //订单列表
 @Data
 @AllArgsConstructor
-@NoAutoStart
+@NoArgsConstructor
 public class OrderList implements Serializable{
     private Long orderListId;
     private Long order_Id;          //订单id

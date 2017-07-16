@@ -30,5 +30,4 @@ public interface CommodityMapper {
 
     List<Commodity> findcommodityAndclass();
 
-
 }

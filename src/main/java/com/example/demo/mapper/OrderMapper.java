@@ -23,4 +23,6 @@ public interface OrderMapper {
 
     List<Order> findOrderByuid(Serializable uid);
 
+    List<Order> findCommoditynum(Serializable oid);
+
 }

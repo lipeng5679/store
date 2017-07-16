@@ -18,6 +18,7 @@ public class Module implements Serializable{
     private long moduleId;
     private String src;
     private String name;
+    private String url;
 
 
     private List<Comments> comments;     //评价

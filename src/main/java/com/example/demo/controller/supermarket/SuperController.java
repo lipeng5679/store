@@ -30,16 +30,17 @@ public class SuperController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private OrderListService orderListService;
-    @Autowired
     private CommentsService commentsService;
+    @Autowired
+    private ModuleService moduleService;
 
     //跳转超市首页
     @GetMapping("/index")
-    private ModelAndView toIndex(){
+    private ModelAndView toIndex(Long moduleId,HttpServletRequest request){
+        request.getSession().setAttribute("module",moduleService.getModuleById(moduleId));
+
         ModelAndView modelAndView = new ModelAndView();
         List<CommodityClass> commodityClassList = commodityClassService.findAllcommodityAndclass();
-        System.out.println(commodityClassList);
 
         modelAndView.addObject("commodityClassList",commodityClassList);
         modelAndView.setViewName("supermarket/index");
@@ -63,22 +64,56 @@ public class SuperController {
     @GetMapping("/orderlist")
     public ModelAndView toOrder(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        User user = (User) request.getSession().getAttribute("user");
-        List<Order> orderList = orderService.findOrderByuid(user.getId());
-        for (Order o:orderList
-             ) {
-            List<Commodity> commodityList = o.getCommodities();
-        }
+        //User user = (User) request.getSession().getAttribute("user");
+        //获得给用户下的所有订单
+        List<Order> orderList = orderService.findOrderByuid(1l);
+        System.out.println(orderList);
 
 
+
+        modelAndView.addObject("orderList",orderList);
         modelAndView.setViewName("supermarket/orderlist");
         return modelAndView;
     }
 
     //跳转结算订单页面
     @GetMapping("/order")
-    public ModelAndView Order(){
+    public ModelAndView Order(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
+        HttpSession session = request.getSession();
+
+        Map<Commodity,Integer> map = (Map<Commodity, Integer>) session.getAttribute("car");
+        modelAndView.addObject("map",map);
+        modelAndView.addObject("sum",session.getAttribute("sum"));
+
+
+        //插入数据库
+        Order order = new Order();
+        order.setTotalPrice((Double) session.getAttribute("sum"));
+        order.setUser((User) session.getAttribute("user"));
+        orderService.insertOrder(order);
+
+        //删除购物车数据
+        session.removeAttribute("car");
+        session.removeAttribute("num");
+        session.removeAttribute("sum");
+
+        Long order_Id = order.getOrderId();
+
+        for (Map.Entry<Commodity,Integer> entry:map.entrySet()
+             ) {
+            Commodity commodity = (Commodity) entry.getKey();
+
+            //插入ordelist表
+            Integer commoditynum = entry.getValue();
+            Long commodity_Id = commodity.getCommodityId();
+            Map m = new HashMap<>();
+            m.put("commoditynum",commoditynum);
+            m.put("commodity_Id",commodity_Id);
+            m.put("order_Id",order_Id);
+            orderService.saveRelation(m);
+
+        }
 
 
         modelAndView.setViewName("supermarket/order");
@@ -98,10 +133,13 @@ public class SuperController {
     public ModelAndView eval(@RequestBody Comments comments,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
         User user = (User)request.getSession().getAttribute("user");
+        Module module = (Module)request.getSession().getAttribute("module");
+
         comments.setDateTime(new Date());
         if(user != null){
             System.out.println(user);
             comments.setUser(user);
+            comments.setModule(module);
         }
         commentsService.insert(comments);
 
@@ -152,6 +190,21 @@ public class SuperController {
             }
         }
         session.setAttribute("car", car);
+
+        //获取购物车中商品数量，和总价
+        Integer num = 0;
+        Double sum = 0.0;
+        for (Map.Entry<Commodity,Integer> entry:car.entrySet()
+             ) {
+            Commodity commodity1 = (Commodity) entry.getKey();
+            Integer n = entry.getValue();
+            Double price = commodity1.getCommodityPrice();
+            Double s = n*price;
+            num = num+n;
+            sum = sum+s;
+        }
+        session.setAttribute("num",num);
+        session.setAttribute("sum",sum);
 
         return "success";
     }

@@ -45,11 +45,24 @@
             <a th:href="${'/admin/'+c.commodityId}" th:if="${c.state}==1">修改</a>
         </td>
     </tr>
+    <tr align="center">
+        <td colspan="2"><a id="f" href="#" th:href="@{/admin/editcommodity(pageNum=${pageUser.firstPage})}">首页</a></td>
+        <td>
+            <a href="#" th:href="@{/admin/editcommodity(pageNum=${pageUser.prePage}==0?${pageUser.firstPage}:${pageUser.prePage})}">上一页</a>
+        </td>
+        <td align="center">
+            <a href="#" th:href="@{/admin/editcommodity(pageNum=${pageUser.nextPage}==0?${pageUser.lastPage}:${pageUser.nextPage})}">下一页</a>
+        </td>
+        <td>第<font color="red"><span th:text="${pageUser.pageNum}"></span></font>页</td>
+        <td>总页<font color="red"><span th:text="${pageUser.pages}"></span></font></td>
+        <td colspan="2"><a th:href="@{/admin/editcommodity(pageNum=${pageUser.lastPage})}">尾页</a></td>
+    </tr>
     </tbody>
 </table>
 <script>
 
     $(function () {
+
 
         $("#td a").click(function () {
             var id = $(this).attr("value");
@@ -67,7 +80,7 @@
 
                 },
                 error: function (data, status, er) {
-                    $(".right").load("/admin/editcommodity");
+                    location.href = "/admin/editcommodity";
                 }
             });
         })

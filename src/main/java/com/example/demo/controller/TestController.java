@@ -1,14 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.Comments;
-import com.example.demo.domain.Commodity;
-import com.example.demo.domain.Module;
-import com.example.demo.domain.Order;
+import com.example.demo.domain.*;
 import com.example.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.sound.midi.Soundbank;
 import java.util.*;
 
 /**
@@ -89,7 +87,26 @@ public class TestController {
             System.out.println(m);
         }*/
 
-        return "evallist";
+        /*List<Order> orderList = orderService.findCommoditynum(1l);
+        for (Order o:orderList
+             ) {
+            List<OrderList> orderLists = o.getOrderLists();
+            for (OrderList ol: orderLists
+                 ) {
+                Commodity commodity = commodityService.getById(ol.getCommodity_Id());
+                String name = commodity.getCommodityName();
+                Double price = commodity.getCommodityPrice();
+                int num = ol.getCommoditynum();
+                System.out.println(name);
+                System.out.println(price);
+                System.out.println(num);
+                System.out.println("________________________");
+
+            }
+
+        }*/
+
+        return "test";
     }
 
     @GetMapping("/elm")

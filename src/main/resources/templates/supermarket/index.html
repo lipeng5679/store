@@ -80,7 +80,7 @@
             商品
         </div>
 
-        <div style="width: 50%;text-align: center">
+        <div style="width: 50%;text-align: center" class="pinglun">
             评论
         </div>
 
@@ -101,7 +101,7 @@
             <div class="right-con con-active" style="width: 100%;" th:each="c : ${cc.commodities}">
                 <ul>
                     <li>
-                        <div class="menu-img" style="height: 80px;width: 100px;"><img src="http://ors703hgy.bkt.clouddn.com/store/image/01 (4).jpg?v=397"/></div>
+                        <div class="menu-img" style="height: 80px;width: 100px;"><img th:src="${c.commoditySrc}"/></div>
                         <div class="menu-txt" style="margin-left: 120px;">
                             <h4 style="margin-bottom: -1px;" th:text="${c.commodityName}">宫保鸡丁</h4>
                             <p class="list1" th:text="${c.commodityDescribe}" style="color: grey">家常菜</p>
@@ -112,7 +112,12 @@
                                 <button class="minus" th:id="${c.commodityId}">
                                     <strong></strong>
                                 </button>
-                                <i style="display: inline-block">0</i>
+                                <i style="display: inline-block" th:class="${c.commodityId}">
+                                    <d th:each="s : ${session.car}">
+                                    <span th:if="${s.key.commodityId == c.commodityId}" th:text="${s.value}">0</span>
+                                    </d>
+                                    <span style="display: none">0</span>
+                                </i>
                                 <button class="add" th:id="${c.commodityId}">
                                     <strong></strong>
                                 </button>
@@ -129,16 +134,31 @@
         <div class="footer">
             <div class="left">已选：
                 <span id="cartN">
-			<span id="totalcountshow">0</span>份　总计：￥<span id="totalpriceshow">0</span></span>元
+			        <span th:if="${session.car==null}" id="totalcountshow">0</span>
+                    <span th:if="${session.car!=null}" id="totalcountshow" th:text="${session.num}">0</span>
+                    份　总计：￥<span th:if="${session.car==null}" id="totalpriceshow">0</span>
+                    <span th:if="${session.car!=null}" id="totalpriceshow" th:text="${session.sum}">0</span>
+                </span>元
             </div>
             <div class="right">
-                <a id="btnselect" class="xhlbtn  disable" href="javascript:void(0)">去结算</a>
+                <a id="btnselect" class="xhlbtn  disable" href="/supermarket/order">前往购物车</a>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
     $(function () {
+
+
+        $(".right").find("a").removeClass("disable");
+
+        //只显示i标签下面span的第一个元素
+        $("i").each(function () {
+            var ns = $(this).attr("class")
+           $("."+ns).find("span").eq(0).show()
+
+        })
+
 
         //加的效果
         $(".add").click(function () {
@@ -167,7 +187,7 @@
             $(this).prev().text(num);
             var danjia = $(this).parent().prev().children().children().eq(0).text();//获取单价
             var a = $("#totalpriceshow").html();//获取当前所选总价
-            $("#totalpriceshow").html((a * 1 + danjia * 1).toFixed(2));//计算当前所选总价
+            $("#totalpriceshow").html((a * 1 + danjia * 1).toFixed(1));//计算当前所选总价
 
             var nm = $("#totalcountshow").html();//获取数量
             $("#totalcountshow").html(nm*1+1);
@@ -195,23 +215,18 @@
 
             var n = $(this).next().text();
             var num = parseInt(n) - 1;
+            if (num <= -1) {
+                return
+            }
 
             $(this).next().text(num);//减1
 
             var danjia = $(this).parent().prev().children().children().eq(0).text();//获取单价
             var a = $("#totalpriceshow").html();//获取当前所选总价
-            $("#totalpriceshow").html((a * 1 - danjia * 1).toFixed(2));//计算当前所选总价
+            $("#totalpriceshow").html((a * 1 - danjia * 1).toFixed(1));//计算当前所选总价
 
             var nm = $("#totalcountshow").html();//获取数量
             $("#totalcountshow").html(nm * 1 - 1);
-
-            //如果数量小于或等于0则隐藏减号和数量
-            if (num <= 0) {
-                $(this).next().css("display", "none");
-                $(this).css("display", "none");
-                jss();//改变按钮样式
-                return
-            }
 
         });
         function jss() {

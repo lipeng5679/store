@@ -26,6 +26,7 @@
             <id column="moduleId" property="moduleId"></id>
             <result column="src" property="src"></result>
             <result column="name" property="name"></result>
+            <result column="url" property="url"></result>
         </association>
 
 
@@ -46,7 +47,7 @@
         #{content},
         #{src},
         #{user.id},
-        #{module.moduleId},
+        #{module.moduleId}
         )
     </insert>
 

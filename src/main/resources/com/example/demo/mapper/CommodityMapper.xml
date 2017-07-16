@@ -34,17 +34,17 @@
 
     <!--查询已上架商品与商品类之间的信息-->
     <select id="findAllandstate" resultMap="commodityList">
-        select * from commodity c,commodityclass cc where c.c_id=cc.commodityClassId AND c.state=2 ORDER BY c.commodityId DESC;
+        select * from commodity c,commodityclass cc where c.c_id=cc.commodityClassId AND c.state=2
     </select>
 
     <!--根据状态查询所有商品与商品类之间的信息-->
     <select id="findcommodityAndclass" resultMap="commodityList">
-        select * from commodity c,commodityclass cc where c.c_id=cc.commodityClassId ORDER BY c.commodityId DESC;
+        select * from commodity c,commodityclass cc where c.c_id=cc.commodityClassId
     </select>
 
     <!--根据商品类别id  查询商品信息-->
     <select id="getByclassId" resultMap="commodityList" parameterType="map">
-        SELECT * FROM commodity c WHERE c.c_id=#{id} AND c.state=#{state};
+        SELECT * FROM commodity c WHERE c.c_id=#{id} AND c.state=#{state}
     </select>
 
 

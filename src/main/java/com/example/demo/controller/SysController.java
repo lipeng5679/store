@@ -4,6 +4,8 @@ import com.example.demo.domain.Commodity;
 import com.example.demo.domain.CommodityClass;
 import com.example.demo.service.CommodityClassService;
 import com.example.demo.service.CommodityService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,11 +65,16 @@ public class SysController {
 
     //跳转后台管理修改全部商品
     @GetMapping("/admin/editcommodity")
-    public String toeditCommodity(ModelMap modelMap){
-
+    public String toeditCommodity(
+            @RequestParam(required = true, defaultValue = "1") Integer pageNum,
+            @RequestParam(required = true, defaultValue = "5") Integer pageSize,
+            ModelMap modelMap){
+        PageHelper.startPage(pageNum, pageSize);// 默认从第一页开始，每页五条
         List<Commodity> commodityList = commodityService.findcommodityAndclass();
         modelMap.put("commodityList",commodityList);
-        //modelMap.put("map",map);
+        PageHelper.startPage(pageNum, pageSize);// 默认从第一页开始，每页五条
+        PageInfo<Commodity> pageUser = new PageInfo<Commodity>(commodityList);// 将users对象绑定到pageInfo
+        modelMap.put("pageUser",pageUser);
 
         return "admin/supermarket/editcommodity";
     }

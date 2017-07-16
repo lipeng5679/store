@@ -29,4 +29,5 @@ public class Order implements Serializable{
 
     private User user;          //订单用户信息
     private List<Commodity> commodities;    //多个商品信息
+    private List<OrderList> orderLists;    //订单列表信息
 }

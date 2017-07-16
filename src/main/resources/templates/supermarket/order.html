@@ -3,14 +3,30 @@
 <head>
     <meta charset="UTF-8"/>
     <title>结算订单</title>
+    <script src="/js/jquery-3.1.1.min.js"></script>
 </head>
 
 <style>
-    body{padding:0;margin:0;font-size:2em}
+    body{padding:0;margin:0;font-size:2em;padding-bottom: 70px;}
     nav {position: relative;width: 100%;height: 3em;line-height: 3em;background-color: #f44765;color: #ffffff;text-align: center;font-size: 1.1rem;}
     .goback {position: absolute;left: 0px;width: 40px;height: 100%;  }
     .goback > b {display: block;overflow: hidden;margin: 15px 0 0 15px;width: 10px;height: 10px;line-height: 10px;font-size: 0;border-top: 1px solid #fff;border-right: 1px solid #fff;-moz-transform: rotate(-135deg);-webkit-transform: rotate(-135deg);transform: rotate(-135deg);}
     span{color: red}
+
+    .btn button.minus{margin-right:-10px;}
+    .btn button{width:40px;height:40px;border:0;background:transparent;padding:0;}
+    .btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;padding:5px 11px;height:12px;}
+    .btn button.minus strong{background:url(/img/down.png) no-repeat;background-size:22px 22px;}
+    .btn i{display:none;width:22px;text-align:center;font-style:normal;vertical-align:top;margin-top:11px;line-height:18px;}
+    .btn button.add{margin-left:-10px;}
+    .btn button.add strong{background:url(/img/up.png) no-repeat;background-size:22px 22px;}
+
+    .footer{display:block;position:fixed;width:100%;bottom:0px;color:#f03c03;background:#fff;line-height:70px;font-size:15px;border-top:1px solid #e2e2e2;}
+    .footer .left{float:right;margin-right: 4em;}
+    .footer .right{float:right;}
+    .footer .right .disable{background:#dbdbdb;}
+    .footer .xhlbtn{display:block;text-align:center;line-height:70px;background-color:#F03C03;padding:0 15px;color:#fff;font-weight:bold;}
+
 </style>
 
 <body>
@@ -36,19 +52,26 @@
 
 <div>
     <span style="display: block;margin-left: 1em;">商品列表</span>
-    <div style="display: flex;flex-flow: row nowrap;justify-content: space-between;margin-left: 1em;">
-        <div>
-            <span style="color: #333333">可口可乐</span>
+    <div style="display: flex;flex-flow: row nowrap;justify-content: space-between;margin-left: 1em;" th:each="s : ${map}">
+        <div style="width: 33%">
+            <span style="color: #333333" th:text="${s.key.commodityName}">可口可乐</span>
         </div>
 
-        <div>
-            ￥<span style="color: #333333">3.00</span>
+        <div style="width: 33%">
+            ￥<span style="color: #333333" th:text="${s.key.commodityPrice}">3.00</span>
         </div>
 
-        <div style="margin-right: 4em;">
-            <span style="color: #333333">3</span>
+        <div class="btn" style="margin-right: 4em;"style="width: 13%">
+            <button class="minus">
+                <strong></strong>
+            </button>
+            <i style="display: inline-block">
+                <span th:text="${s.value}">0</span>
+            </i>
+            <button class="add">
+                <strong></strong>
+            </button>
         </div>
-
     </div>
     <hr style="width: 94%;margin-top: -0.06em;">
 </div>
@@ -74,6 +97,108 @@
     <input readonly="readonly" value="微信支付" style="float: left;display: block;width: 92%;margin-left: 1em;border: none;outline:none;font-size: 1em;text-align: center" type="text">
     <hr style="width: 94%;margin-top: -0.06em;">
 </div>
+
+<div class="footer"  style="height: 70px;">
+    <div class="right" >
+        <a style="height: 70px;width: 100px;" id="btnselect" class="xhlbtn  disable" href="#">支付订单</a>
+    </div>
+    <div class="left" style="">
+        <span id="cartN" style="font-size: 2em;">
+            实付款：￥<span th:if="${sum==null}" id="totalpriceshow">0</span>
+            <span th:if="${sum!=null}" id="totalpriceshow" th:text="${sum}">0</span>
+        </span>元
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".right").find("a").removeClass("disable");
+
+        //加的效果
+        $(".add").click(function () {
+
+            var id = $(this).attr("id");
+            var state = $(this).attr("class");
+            $.ajax({
+                url: "/supermarket/car/"+id,
+                data: { "state": state },
+                dataType: "json",
+                type: "post",
+                traditional: true,
+                success: function (data) {
+
+                },
+                error: function (data, status, er) {
+
+                }
+            });
+
+
+            $(this).prevAll().css("display", "inline-block");
+            var n = $(this).prev().text();
+            var num = parseInt(n) + 1;
+            if (num == 0) { return; }
+            $(this).prev().text(num);
+            var danjia = $(this).parent().prev().children().eq(0).text();//获取单价
+            var a = $("#totalpriceshow").html();//获取当前所选总价
+            $("#totalpriceshow").html((a * 1 + danjia * 1).toFixed(1));//计算当前所选总价
+
+            var nm = $("#totalcountshow").html();//获取数量
+            $("#totalcountshow").html(nm*1+1);
+            jss();//<span style='font-family: Arial, Helvetica, sans-serif;'></span>   改变按钮样式
+
+        });
+        //减的效果
+        $(".minus").click(function () {
+
+            var id = $(this).attr("id");
+            var state = $(this).attr("class");
+            $.ajax({
+                url: "/supermarket/car/"+id,
+                data: { "state": state },
+                dataType: "json",
+                type: "post",
+                traditional: true,
+                success: function (data) {
+
+                },
+                error: function (data, status, er) {
+
+                }
+            });
+
+            var n = $(this).next().text();
+            var num = parseInt(n) - 1;
+            if (num <= -1) {
+                return
+            }
+
+            $(this).next().text(num);//减1
+
+            var danjia = $(this).parent().prev().children().eq(0).text();//获取单价
+            var a = $("#totalpriceshow").html();//获取当前所选总价
+            $("#totalpriceshow").html((a * 1 - danjia * 1).toFixed(1));//计算当前所选总价
+
+            var nm = $("#totalcountshow").html();//获取数量
+            $("#totalcountshow").html(nm * 1 - 1);
+
+        });
+        function jss() {
+            var m = $("#totalcountshow").html();
+            if (m > 0) {
+                $(".right").find("a").removeClass("disable");
+            } else {
+
+            }
+        };
+
+
+        $(".left-menu li").click(function(){
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+    });
+</script>
 
 </body>
 </html>

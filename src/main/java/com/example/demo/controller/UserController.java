@@ -4,10 +4,7 @@ import com.example.demo.domain.City;
 import com.example.demo.domain.Scroll;
 import com.example.demo.domain.User;
 import com.example.demo.domain.Village;
-import com.example.demo.service.CityService;
-import com.example.demo.service.ScrollService;
-import com.example.demo.service.UserService;
-import com.example.demo.service.VillageService;
+import com.example.demo.service.*;
 import com.example.demo.util.MapUtil;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -43,6 +40,8 @@ public class UserController {
     private CityService cityService;
     @Autowired
     private ScrollService scrollService;
+    @Autowired
+    private ModuleService moduleService;
 
     @Autowired
     DefaultKaptcha defaultKaptcha;
@@ -131,6 +130,8 @@ public class UserController {
             modelAndView.setViewName("index");
             modelAndView.addObject("user",user);
             modelAndView.addObject("imgList",scrollService.findAll());
+            modelAndView.addObject("moduleList",moduleService.findAll());
+
             request.getSession().setAttribute("user",user);
             return modelAndView;
         }else {

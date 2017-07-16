@@ -21,7 +21,7 @@
 
 </head>
 <body style="display: flex;flex-flow: column wrap;padding-bottom: 50px">
-
+<s class="s">
 <div>
 <nav>
     <font th:each="u : ${user}">
@@ -45,14 +45,10 @@
 
     <div class="pet_circle_nav" style="background-color: white;height: 21em;">
         <ul class="pet_circle_nav_list" style="padding-top: 2.3em">
-            <li><a href="/supermarket/index" class="iconfont pet_nav_xinxianshi " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/301.jpg); background-size:100%;"></a><span>社区超市</span></li>
-            <li><a href="" class="iconfont pet_nav_zhangzhishi " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/302.jpg); background-size:100%;"></a><span>快递寄送</span></li>
-            <li><a href="" class="iconfont pet_nav_kantuya " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/303.jpg); background-size:100%;"></a><span>家政服务</span></li>
-            <li><a href="" class="iconfont pet_nav_mengzhuanti " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/304.jpg); background-size:100%;"></a><span>便民洗涤</span></li>
-            <li><a href="" class="iconfont pet_nav_meirong " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/305.jpg); background-size:100%;"></a><span>洗车预约</span></li>
-            <li><a href="" class="iconfont pet_nav_yiyuan " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/306.jpg); background-size:100%;"></a><span>社区二手</span></li>
-            <li><a href="" class="iconfont pet_nav_dianpu " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/307.jpg); background-size:100%;"></a><span>物业服务</span></li>
-            <li><a href="" class="iconfont pet_nav_dianpu " style="background: url(http://ors703hgy.bkt.clouddn.com/store/image/308.jpg); background-size:100%;"></a><span>装修服务</span></li>
+            <li th:each="m : ${moduleList}">
+                <a th:href="${m.url}+${m.moduleId}" class="iconfont pet_nav_xinxianshi " th:style="'background: url('+${m.src}+')'+'; background-size:100%;'"></a>
+                <span th:text="${m.name}">社区超市</span>
+            </li>
         </ul>
     </div>
 </div>
@@ -90,7 +86,7 @@
     </div><!--menu-->
 
     <div class="menu">
-        <div class="bt-name"><a>订单</a></div>
+        <div class="bt-name"><a class="dd">订单</a></div>
     </div><!--menu-->
 
     <div class="menu">
@@ -130,8 +126,15 @@
 
 </div>
 </div>
-
+</s>
 <script type="text/javascript">
+    
+    $(function () {
+        $(".dd").click(function () {
+            $(".s").load("/supermarket/orderlist");
+        })
+    })
+    
     //弹出垂直菜单
     $(".menu").click(function() {
         if ($(this).hasClass("cura")) {
