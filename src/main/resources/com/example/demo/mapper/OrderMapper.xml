@@ -14,6 +14,15 @@
         <result column="isPayoff" property="isPayoff"></result>
         <result column="iscon" property="iscon"></result>
 
+
+        <association property="module" javaType="com.example.demo.domain.Module">
+            <id column="moduleId" property="moduleId"></id>
+            <result column="src" property="src"></result>
+            <result column="name" property="name"></result>
+            <result column="url" property="url"></result>
+        </association>
+
+
         <association property="user" javaType="com.example.demo.domain.User">
             <id column="id" property="id"></id>
             <result column="phonenumber" property="phonenumber"></result>
@@ -66,6 +75,8 @@
         on o.orderId=ol.order_Id
         left join commodity c
         on ol.commodity_Id=c.commodityId
+        left join module m
+        on o.module_id=m.moduleId
         where o.user_id=#{id}
     </select>
 
