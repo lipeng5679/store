@@ -35,7 +35,7 @@
 
 <div class="div2">
     <span style="display:block;padding-left:1em;">评价图片</span>
-    <img class="uploadButton" id="uploadButton" style="padding-left:1em;" src="/img/+tu.jpg" width="57" height="55">
+    <img class="uploadButton" id="uploadButton" style="padding-left:1em;margin-left: 1em;" src="/img/+tu.jpg" width="57" height="55">
 
 </div>
 
@@ -123,7 +123,7 @@
                         var se = new Date().getMilliseconds();
                         var src = uploadSpace + '/' + fileName + '?v=' + se;
                         $(".div2").append("<img src='"+src+"' style='height: 50px;width: 50px'/>")
-                        _data.src = _data.src+src+",";
+                        _data.src = _data.src+src+"'";
 
 
 

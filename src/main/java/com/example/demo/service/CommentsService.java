@@ -14,4 +14,6 @@ public interface CommentsService {
     List<Comments> findAll();
 
     void insert(Comments comments);
+
+    List<Comments> findAllBymoduleId(Serializable moduleId);
 }

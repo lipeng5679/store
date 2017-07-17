@@ -32,4 +32,9 @@ public class CommentsServiceImpl implements CommentsService {
     public void insert(Comments comments) {
         commentsMapper.insert(comments);
     }
+
+    @Override
+    public List<Comments> findAllBymoduleId(Serializable moduleId) {
+        return commentsMapper.findAllBymoduleId(moduleId);
+    }
 }

@@ -16,4 +16,5 @@ public interface ModuleService {
     Module getModuleById(Serializable moduleId);
 
     List<Module> findAllCommentsByModuleId(Serializable moduleId);
+
 }

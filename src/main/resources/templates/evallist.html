@@ -11,34 +11,36 @@
 </style>
 
 <body>
-
+<div  th:each="c : ${commentsList}">
 <div class="content">
 
     <div style="margin-top: 0.4em;margin-left: 0.4em;">
         <img src="/img/user/301.jpg">
     </div>
 
-    <div style="width: 100%;margin-left: 0.4em;">
+    <div style="width: 100%;margin-left: 0.4em;" >
         <div style="display: flex;display: -webkit-flex;flex-flow: row nowrap;justify-content: space-between">
             <div style="margin-top: 0.5em;">
-                <span>demo</span>
+                <span th:text="${c.user.name}">demo</span>
             </div>
 
             <div style="margin-top: 0.5em;margin-right: 0.2em">
-                <span>2017-7-1</span>
+                <span th:text="${#calendars.format(c.dateTime,'yyyy-MM-dd')}">2017-7-1</span>
             </div>
         </div>
 
         <div style="margin-top: 0.3em;">
-           <span style="display: block"> 卖的不错，良心</span>
-            <img src="/img/user/1.jpg" style="height: 3em;width: 3em;margin-top: 1em;"/>
-            <img src="/img/user/1.jpg" style="height: 3em;width: 3em;margin-top: 1em;"/>
-            <img src="/img/user/1.jpg" style="height: 3em;width: 3em;margin-top: 1em;"/>
-
+           <span style="display: block" th:text="${c.content}"> 卖的不错，良心</span>
+            <font th:each="m : ${map1}">
+                <font th:each="mm : ${m.value}">
+            <img th:if="${c.commentsId == m.key}" th:src="${mm}" src="/img/user/1.jpg" style="height: 3em;width: 3em;margin-top: 1em;"/>
+                </font>
+            </font>
         </div>
     </div>
 </div>
-<hr style="display: block;width: 96%"/>
+<hr style="display: block;width: 96%;background-color: grey"/>
+</div>
 
 </body>
 </html>

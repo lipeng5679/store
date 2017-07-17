@@ -19,4 +19,6 @@ public interface CommentsMapper {
 
     void insert(Comments comments);
 
+    List<Comments> findAllBymoduleId(Serializable moduleId);
+
 }

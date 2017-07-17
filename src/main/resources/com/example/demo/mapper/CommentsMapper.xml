@@ -32,6 +32,16 @@
 
     </resultMap>
 
+    <!--查询某模块下的所有用户下的所有评论-->
+    <select id="findAllBymoduleId" resultMap="commentsList">
+        select * from user u
+        left join comments cs
+        on u.id=cs.u_id
+        left join module m
+        on cs.m_id=m.moduleId
+        where m.moduleId=#{moduleId};
+    </select>
+
     <!--查询所有-->
     <select id="findAll" resultMap="commentsList">
         SELECT * from

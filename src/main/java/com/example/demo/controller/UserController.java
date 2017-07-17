@@ -201,9 +201,6 @@ public class UserController {
         andView.addObject("map1",map1);
         andView.setViewName("user/city");
 
-
-
-
         return andView;
     }
 

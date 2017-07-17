@@ -3,18 +3,25 @@ package com.example.demo.controller;
 import com.example.demo.domain.*;
 import com.example.demo.service.*;
 
+import com.example.demo.util.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.sound.midi.Soundbank;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Lipeng on 2017/6/26.
@@ -33,6 +40,8 @@ public class HomeController {
     private VillageService villageService;
     @Autowired
     private ModuleService moduleService;
+    @Autowired
+    private CommentsService commentsService;
 
     //首页
     @GetMapping("/index")
@@ -174,8 +183,31 @@ public class HomeController {
         return "admin/index";
     }
 
+    //跳转到全部评价列表页面
+    @GetMapping("/evallist")
+    public String toevalList(ModelMap modelMap, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Module module = (Module) session.getAttribute("module");
+        System.out.println(module);
+        List<Comments> commentsList = commentsService.findAllBymoduleId(module.getModuleId());
+        List<Map> mapList = new ArrayList<>();
+
+        for (Comments c:commentsList
+             ) {
+            String src = c.getSrc();
+            String[] split = src.split("'");
+            for(int i=0;i<split.length;i++){
+                Map map = new HashMap();
+                map.put(c.getCommentsId(),split[i]);
+                mapList.add(map);
+            }
+        }
+        Map map1 = MapUtil.mapCombine(mapList);
+        System.out.println(map1);
 
 
-
-
+        modelMap.put("commentsList",commentsList);
+        modelMap.put("map1",map1);
+        return "evallist";
+    }
 }
