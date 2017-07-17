@@ -13,6 +13,7 @@
         <result column="totalPrice" property="totalPrice"></result>
         <result column="isPayoff" property="isPayoff"></result>
         <result column="iscon" property="iscon"></result>
+        <result column="sum" property="sum"></result>
 
 
         <association property="module" javaType="com.example.demo.domain.Module">
@@ -80,14 +81,9 @@
         where o.user_id=#{id}
     </select>
 
-    <!--根据订单id查询商品信息-->
+    <!--根据订单id查询订单信息与模块信息-->
     <select id="findCommondityById" resultMap="ordersList">
-      select o.*,c.* from orders o
-      left join order_commodity oc
-      on o.orderId=oc.orderId
-      left join commodity c
-      on oc.commodityId=c.commodityId
-      where o.orderId=#{oid};
+      SELECT * FROM orders o,module m WHERE o.module_id=m.moduleId AND orderId=#{orderId}
     </select>
 
     <!--保护订单和商品之间的关系,并设置商品数量-->
@@ -104,7 +100,7 @@
 
     <!--新增订单信息-->
     <insert id="insertOrder" parameterType="com.example.demo.domain.Order" keyProperty="orderId" useGeneratedKeys="true">
-        INSERT INTO orders (orderNo,submitTime,conTime,totalPrice,isPayoff,iscon,user_id)
+        INSERT INTO orders (orderNo,submitTime,conTime,totalPrice,isPayoff,iscon,user_id,sum,module_id)
         VALUES
         (
         #{orderNo},
@@ -113,9 +109,26 @@
         #{totalPrice},
         #{isPayoff},
         #{iscon},
-        #{user.id}
+        #{user.id},
+        #{sum},
+        #{module.moduleId}
         )
     </insert>
+
+    <!--修改-->
+    <update id="update" parameterType="com.example.demo.domain.Order">
+        UPDATE orders
+        <set>
+            <if test="orderNo!=null">orderNo=#{orderNo},</if>
+            <if test="submitTime!=null">submitTime=#{submitTime},</if>
+            <if test="conTime!=null">conTime=#{conTime},</if>
+            <if test="totalPrice!=null">totalPrice=#{totalPrice},</if>
+            <if test="isPayoff!=null">isPayoff=#{isPayoff},</if>
+            <if test="iscon!=null">iscon=#{iscon},</if>
+            <if test="sum!=null">sum=#{sum}</if>
+        </set>
+        WHERE orderId=#{orderId}
+    </update>
 
 </mapper>
 

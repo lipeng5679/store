@@ -28,6 +28,7 @@
             <result column="totalPrice" property="totalPrice"></result>
             <result column="isPayoff" property="isPayoff"></result>
             <result column="iscon" property="iscon"></result>
+            <result column="sum" property="sum"></result>
         </collection>
 
     </resultMap>

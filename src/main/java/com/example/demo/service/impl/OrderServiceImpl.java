@@ -43,4 +43,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findCommoditynum(Serializable oid) {
         return orderMapper.findCommoditynum(oid);
     }
+
+    @Override
+    public void update(Order order) {
+        orderMapper.update(order);
+    }
 }

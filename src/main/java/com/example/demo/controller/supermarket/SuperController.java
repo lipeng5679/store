@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -67,13 +68,34 @@ public class SuperController {
         //User user = (User) request.getSession().getAttribute("user");
         //获得给用户下的所有订单
         List<Order> orderList = orderService.findOrderByuid(1l);
-        System.out.println(orderList);
-
-
 
         modelAndView.addObject("orderList",orderList);
         modelAndView.setViewName("supermarket/orderlist");
         return modelAndView;
+    }
+    //跳转到处理订单页面
+    @GetMapping("/toupdate/{orderId}")
+    public String toUpdate(@PathVariable Long orderId, ModelMap map){
+        map.put("orderId",orderId);
+
+        return "supermarket/updateorder";
+    }
+
+    //处理订单状态
+    @PostMapping("/updateorder")
+    public String updateOrder(Long orderId){
+        Order order = orderService.findCommondityById(orderId);
+        int iscon = order.getIscon();       //0未评价  1已评价 2已退款
+        int isPayoff = order.getIsPayoff(); //0未支付  1已支付  2配送中  3已送达
+        //更改订单状态
+        if(isPayoff == 0){
+            order.setIsPayoff(1);
+        }else if(isPayoff == 1){
+            order.setIscon(2);
+        }
+        orderService.update(order);
+
+        return "redirect:/supermarket/orderlist";
     }
 
     //跳转结算订单页面
@@ -86,11 +108,13 @@ public class SuperController {
         modelAndView.addObject("map",map);
         modelAndView.addObject("sum",session.getAttribute("sum"));
 
-
         //插入数据库
         Order order = new Order();
         order.setTotalPrice((Double) session.getAttribute("sum"));
         order.setUser((User) session.getAttribute("user"));
+        order.setSum((Integer) session.getAttribute("num"));
+        order.setModule((Module) session.getAttribute("module"));
+        order.setSubmitTime(new Date());
         orderService.insertOrder(order);
 
         //删除购物车数据
@@ -99,7 +123,6 @@ public class SuperController {
         session.removeAttribute("sum");
 
         Long order_Id = order.getOrderId();
-
         for (Map.Entry<Commodity,Integer> entry:map.entrySet()
              ) {
             Commodity commodity = (Commodity) entry.getKey();
@@ -115,35 +138,42 @@ public class SuperController {
 
         }
 
-
         modelAndView.setViewName("supermarket/order");
+        modelAndView.addObject("orderId",order.getOrderId());
         return modelAndView;
     }
 
     //跳转评价页面
-    @GetMapping("/eval")
-    public ModelAndView toEval(){
+    @GetMapping("/eval/{orderId}")
+    public ModelAndView toEval(@PathVariable Long orderId,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
+        request.getSession().setAttribute("orderId",orderId);
         modelAndView.setViewName("supermarket/eval");
         return modelAndView;
     }
 
     //添加评价
     @PostMapping("/eval")
-    public ModelAndView eval(@RequestBody Comments comments,HttpServletRequest request){
-        ModelAndView modelAndView = new ModelAndView();
-        User user = (User)request.getSession().getAttribute("user");
-        Module module = (Module)request.getSession().getAttribute("module");
+    @ResponseBody
+    public String eval(@RequestBody Comments comments,HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        Long orderId = (Long) session.getAttribute("orderId");
+        Module module = orderService.findCommondityById(orderId).getModule();
+
+        Order order = orderService.findCommondityById(orderId);
+        order.setIscon(1);
+        orderService.update(order);
 
         comments.setDateTime(new Date());
-        if(user != null){
-            System.out.println(user);
-            comments.setUser(user);
-            comments.setModule(module);
-        }
+        comments.setUser(user);
+        comments.setModule(module);
+
         commentsService.insert(comments);
 
-        return modelAndView;
+        session.removeAttribute("orderId");
+        return "success";
     }
 
     //处理购物车

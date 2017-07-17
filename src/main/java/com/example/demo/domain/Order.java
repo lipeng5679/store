@@ -25,7 +25,7 @@ public class Order implements Serializable{
     private Double totalPrice;  //总金额
     private int isPayoff;       //是否付款  0未支付  1已支付  2配送中  3已送达
     private int iscon;          //是否评价  0未评价  1已评价 2已退款
-
+    private int sum;            //商品总数
 
     private User user;          //订单用户信息
     private List<Commodity> commodities;    //多个商品信息

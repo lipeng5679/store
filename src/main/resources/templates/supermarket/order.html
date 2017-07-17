@@ -40,13 +40,13 @@
 
 <div>
     <span style="display: block;margin-left: 1em;">姓名</span>
-    <input readonly="readonly" value="姓名" style="display: block;margin-left: 1em;border: none;outline:none;font-size: 1em;" type="text">
+    <input readonly="readonly" th:value="${session.user.name}" style="display: block;margin-left: 1em;border: none;outline:none;font-size: 1em;" type="text">
     <hr style="width: 94%;margin-top: -0.06em;">
 </div>
 
 <div>
     <span style="display: block;margin-left: 1em;">地址</span>
-    <input readonly="readonly" value="姓名" style="display: block;margin-left: 1em;border: none;outline:none;font-size: 1em;" type="text">
+    <input readonly="readonly" th:value="${session.user.address}" style="display: block;margin-left: 1em;border: none;outline:none;font-size: 1em;" type="text">
     <hr style="width: 94%;margin-top: -0.06em;">
 </div>
 
@@ -100,7 +100,7 @@
 
 <div class="footer"  style="height: 70px;">
     <div class="right" >
-        <a style="height: 70px;width: 100px;" id="btnselect" class="xhlbtn  disable" href="#">支付订单</a>
+        <a th:href="'/supermarket/toupdate/'+${orderId}" style="height: 70px;width: 100px;" id="btnselect" class="xhlbtn  disable" href="#">支付订单</a>
     </div>
     <div class="left" style="">
         <span id="cartN" style="font-size: 2em;">

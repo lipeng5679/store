@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+<form action="/supermarket/updateorder" method="post">
+    <input type="hidden" name="orderId" th:value="${orderId}"/>
+    <input type="submit" value="确认"/>
+</form>
+</body>
+</html>

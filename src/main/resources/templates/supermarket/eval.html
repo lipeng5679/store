@@ -40,12 +40,17 @@
 </div>
 
 <div style="text-align:center;margin-top:2em;">
-    <button id="submit" style="border: 1px solid white;width: 95%;height: 3rem;background-color: #f44765;font-size: 1.2rem;color: #ffffff;">提交</button><br/>
+    <button id="sub" style="border: 1px solid white;width: 95%;height: 3rem;background-color: #f44765;font-size: 1.2rem;color: #ffffff;">提交</button><br/>
 </div>
 
 
-<script>
+<script th:inline="javascript">
     $(document).ready(function () {
+
+        /*<![CDATA[*/
+        var orderId = [[${orderId}]];
+
+        /*]]>*/
 
         var _token = null;
 
@@ -131,8 +136,9 @@
                 );
         });
         
-        $("#submit").click(function () {
+        $("#sub").click(function () {
             _data.content = $(".test_box").text();
+
             var url = "/supermarket/eval";
 
             $.ajax({
@@ -142,7 +148,9 @@
                 contentType:"application/json",
                 data:JSON.stringify(_data),
                 success:function(data){
-
+                },
+                error:function (data) {
+                    location.href = "/supermarket/orderlist";
                 }
             });
         })

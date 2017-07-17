@@ -15,6 +15,11 @@ import java.util.Map;
 @Mapper
 public interface OrderMapper {
 
+    /**
+     * 查询订单信息
+     * @param oid
+     * @return
+     */
     Order findCommondityById(Serializable oid);
 
     void saveRelation(Map map);
@@ -24,5 +29,7 @@ public interface OrderMapper {
     List<Order> findOrderByuid(Serializable uid);
 
     List<Order> findCommoditynum(Serializable oid);
+
+    void update(Order order);
 
 }
