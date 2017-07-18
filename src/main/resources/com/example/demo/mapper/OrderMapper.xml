@@ -21,6 +21,7 @@
             <result column="src" property="src"></result>
             <result column="name" property="name"></result>
             <result column="url" property="url"></result>
+            <result column="content" property="content"></result>
         </association>
 
 
@@ -58,6 +59,28 @@
         </collection>
 
     </resultMap>
+
+    <!--根据订单编号查询订单信息-->
+    <select id="findOrderByorderNo" resultMap="ordersList">
+        select * from orders o
+        left join orderlist ol
+        on o.orderId=ol.order_Id
+        left join commodity c
+        on ol.commodity_Id=c.commodityId
+        left join module m
+        on o.module_id=m.moduleId
+        where o.orderNo=#{orderNo}
+    </select>
+
+    <!--根据用户id和模块id查询订单信息-->
+    <select id="findAllorderByModuleIdAndUserId" resultMap="ordersList" parameterType="map">
+        select m.name,u.address,o.orderNo,o.submitTime,o.conTime,o.sum,o.totalPrice from user u left join orders o on u.id=o.user_id left join module m on o.module_id=m.moduleId where m.moduleId=#{moduleId} AND u.id=#{userId}
+    </select>
+
+    <!--根据模块id查询所有该模块的订单-->
+    <select id="findAllorderByModuleId" resultMap="ordersList">
+       select m.name,u.address,o.orderNo,o.submitTime,o.conTime,o.sum,o.totalPrice,o.isPayoff,o.iscon,o.orderId  from user u left join orders o on u.id=o.user_id left join module m on o.module_id=m.moduleId where m.moduleId=#{moduleId}
+    </select>
 
     <!--根据订单id查询商品与商品数量关系-->
     <select id="findCommoditynum" resultMap="ordersList">

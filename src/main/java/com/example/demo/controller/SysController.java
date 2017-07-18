@@ -2,8 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.Commodity;
 import com.example.demo.domain.CommodityClass;
+import com.example.demo.domain.Order;
+import com.example.demo.domain.User;
 import com.example.demo.service.CommodityClassService;
 import com.example.demo.service.CommodityService;
+import com.example.demo.service.ModuleService;
+import com.example.demo.service.OrderService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +35,8 @@ public class SysController {
     private CommodityClassService commodityClassService;
     @Autowired
     private CommodityService commodityService;
+    @Autowired
+    private OrderService orderService;
 
     //跳转后台管理添加商品页面
     @GetMapping("/admin/addcommodity")
@@ -121,6 +127,42 @@ public class SysController {
         commodityService.update(commodity);
 
         return "admin/index";
+    }
+
+    //跳转到后台超市订单修改页面
+    @GetMapping("/admin/editorder")
+    public String toeditorder(ModelMap modelMap){
+        List<Order> orderList = orderService.findAllorderByModuleId(1);
+        modelMap.put("orderList",orderList);
+        System.out.println(orderList);
+
+        return "admin/supermarket/editorder";
+    }
+
+    //修改订单状态
+    @GetMapping("/admin/updateorder/{orderId}")
+    public String updateorder(@PathVariable Long orderId){
+        Order order = orderService.findCommondityById(orderId);
+        int iscon = order.getIscon();       //0未评价  1已评价 2已退款
+        int isPayoff = order.getIsPayoff(); //0未支付  1已支付  2配送中  3已送达
+        if(isPayoff == 1){
+            order.setIsPayoff(2);
+        }else if(isPayoff == 2){
+            order.setIsPayoff(3);
+        }
+        orderService.update(order);
+
+        return "redirect:/admin/editorder";
+    }
+
+    //查看订单
+    @GetMapping("/admin/show/{orderNo}")
+    public String showorder(@PathVariable String orderNo,ModelMap modelMap){
+        Order order = orderService.findOrderByorderNo(orderNo);
+        modelMap.put("order",order);
+        System.out.println(order);
+
+        return "admin/supermarket/showorder";
     }
 
 }

@@ -50,11 +50,9 @@ public class HomeController {
         List<Scroll> imgList = scrollService.findAll();
         List<Module> moduleList = moduleService.findAll();
 
-
-
         modelAndView.addObject("imgList",imgList);
         modelAndView.addObject("moduleList",moduleList);
-        System.out.println(moduleList);
+
         modelAndView.setViewName("index");
 
         return modelAndView;
@@ -151,7 +149,7 @@ public class HomeController {
     public String getCity(String ping){
         List<City> cities = cityService.getByCityping(ping);
         String json= JSONArray.fromObject(cities).toString();
-        System.out.println(json);
+
 
         return json;
     }
@@ -188,7 +186,7 @@ public class HomeController {
     public String toevalList(ModelMap modelMap, HttpServletRequest request){
         HttpSession session = request.getSession();
         Module module = (Module) session.getAttribute("module");
-        System.out.println(module);
+
         List<Comments> commentsList = commentsService.findAllBymoduleId(module.getModuleId());
         List<Map> mapList = new ArrayList<>();
 
@@ -203,8 +201,6 @@ public class HomeController {
             }
         }
         Map map1 = MapUtil.mapCombine(mapList);
-        System.out.println(map1);
-
 
         modelMap.put("commentsList",commentsList);
         modelMap.put("map1",map1);

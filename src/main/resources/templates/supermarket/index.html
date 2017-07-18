@@ -70,7 +70,7 @@
 
         <hr style="width: 94%"/>
         <div style="text-align: center">
-            <font color="white">宜选宜买宜便宜，购物。。。。</font>
+            <font color="white" th:text="${session.module.content}">购物。。。。</font>
         </div>
     </div>
 
@@ -97,7 +97,7 @@
 
         <div class="con" style="width: 100%;background-color: #FFFFFF;" >
             <font th:each="cc : ${commodityClassList}">
-                <div style="margin-top: 1em;"><font color="red">|</font><a th:name="${cc.commodityClassId}" th:text="${cc.commodityClassName}"></a></div>
+                <div style="margin-top: 1em;"><font color="red">|</font><a th:id="${cc.commodityClassId}" th:text="${cc.commodityClassName}"></a></div>
             <div class="right-con con-active" style="width: 100%;" th:each="c : ${cc.commodities}">
                 <ul>
                     <li>

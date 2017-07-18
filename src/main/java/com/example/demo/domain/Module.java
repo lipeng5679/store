@@ -19,8 +19,10 @@ public class Module implements Serializable{
     private String src;
     private String name;
     private String url;
+    private String content;
 
 
     private List<Comments> comments;     //评价
+    private List<Order> orders;          //订单
 
 }

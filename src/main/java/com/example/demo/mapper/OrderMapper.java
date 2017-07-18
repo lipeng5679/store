@@ -32,4 +32,10 @@ public interface OrderMapper {
 
     void update(Order order);
 
+    List<Order> findAllorderByModuleId(Serializable moduleId);
+
+    List<Order> findAllorderByModuleIdAndUserId(Map map);
+
+    Order findOrderByorderNo(Serializable orderNo);
+
 }

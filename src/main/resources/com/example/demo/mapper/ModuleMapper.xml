@@ -10,6 +10,7 @@
         <result column="src" property="src"></result>
         <result column="name" property="name"></result>
         <result column="url" property="url"></result>
+        <result column="content" property="content"></result>
 
         <collection property="comments" ofType="com.example.demo.domain.Comments">
             <id column="commentsId" property="commentsId"></id>

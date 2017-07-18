@@ -65,9 +65,9 @@ public class SuperController {
     @GetMapping("/orderlist")
     public ModelAndView toOrder(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        //User user = (User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user");
         //获得给用户下的所有订单
-        List<Order> orderList = orderService.findOrderByuid(1l);
+        List<Order> orderList = orderService.findOrderByuid(user.getId());
 
         modelAndView.addObject("orderList",orderList);
         modelAndView.setViewName("supermarket/orderlist");

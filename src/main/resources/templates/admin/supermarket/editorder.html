@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>超市订单管理</title>
+    <script src="http://ors703hgy.bkt.clouddn.com/store/js/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="/css/table.css"/>
+</head>
+<body>
+
+<table id="tab" width="50%" class="table">
+    <tbody >
+    <tr align="center">
+        <td>订单类别</td>
+        <td>订单号</td>
+        <td>提交时间</td>
+        <td>预定时间</td>
+        <td>商品总数</td>
+        <td>总金额</td>
+        <td>地址</td>
+        <td>状态</td>
+        <td>操作</td>
+    </tr>
+    <tr align="center" th:each="o : ${orderList}">
+        <td th:text="${o.module.name}"></td>
+        <td><a th:href="'/admin/show/'+${o.orderNo}" th:text="${o.orderNo}"></a></td>
+        <td th:text="${#calendars.format(o.submitTime,'yyyy-MM-dd hh:mm:ss')}"></td>
+        <td th:text="${#calendars.format(o.conTime,'yyyy-MM-dd hh:mm:ss')}"></td>
+        <td th:text="${o.sum}"></td>
+        <td th:text="${o.totalPrice}"></td>
+        <td th:text="${o.user.address}"></td>
+        <td th:if="${o.isPayoff==0}" style="color: red">未支付</td>
+        <td th:if="${o.isPayoff==1}" style="color: red">已支付</td>
+        <td th:if="${o.isPayoff==2}" style="color: red">配送中</td>
+        <td th:if="${o.isPayoff==3}" style="color: red">已送达</td>
+        <td th:if="${o.isPayoff==1}"><a th:href="'/admin/updateorder/'+${o.orderId}">配送</a></td>
+        <td th:if="${o.isPayoff==2}"><a th:href="'/admin/updateorder/'+${o.orderId}">已送达</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+
+    $(function () {
+        $("button").click(function () {
+
+            var moduleId = $(this).attr("id");
+            var url = "/admin/editorder/" + moduleId;
+            $.ajax({
+                url: url,
+                dataType: "json",
+                type: "post",
+                traditional: true,
+                success: function (data) {
+                    $("#s1").empty();
+                    $("#s1").append("<option>请选择用户</option>");
+                    for(var i=0;i<data.length;i++){
+                        var name = data[i].name;
+                        var uid = data[i].id;
+
+                        $("#s1").append("<option id="+moduleId+" value="+uid+">"+name+"</option>");
+                    }
+
+                },
+                error: function (data, status, er) {
+                }
+            });
+
+        })
+
+    })
+
+</script>
+
+</body>
+</html>

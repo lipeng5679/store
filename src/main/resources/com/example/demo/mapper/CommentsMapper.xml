@@ -27,6 +27,7 @@
             <result column="src" property="src"></result>
             <result column="name" property="name"></result>
             <result column="url" property="url"></result>
+            <result column="content" property="content"></result>
         </association>
 
 

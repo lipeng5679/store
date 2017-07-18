@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>订单</title>
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+
+</head>
+<style>
+    body{padding: 0;margin: 0;font-size: 1em;}
+    .content{display: flex;display: -webkit-flex;flex-flow: row nowrap;margin-top: 0.8em;margin-left: 0.8em;}
+    .order{position: relative;width: 100%;margin-left: 0.7em;display: flex;display: -webkit-flex;flex-flow: column wrap;color: gray}
+    input{float:left;border: none;outline:none;font-size: 1em;margin-top: 0.7em;}
+    .b1{color: #FFFFFF;border: none;float: right;height: 3em;background-color: red;border-top-left-radius: 20px;border-top-right-radius: 0px;border-bottom-left-radius: 20px;border-bottom-right-radius: 0px;}
+    .b2{color: #FFFFFF;border: none;float: right;height: 3em;background-color: green;border-top-left-radius: 20px;border-top-right-radius: 0px;border-bottom-left-radius: 20px;border-bottom-right-radius: 0px;}
+    .commodity{display: flex;display: -webkit-flex;flex-flow: row nowrap;justify-content: space-between}
+</style>
+
+<body>
+
+<div>
+    <div class="content">
+
+        <div>
+            <img src="/img/user/301.jp" th:src="${order.module.src}" style="display: block">
+            <label style="margin-left: 1em;margin-top: 0.5em;" th:text="${order.module.name}">社区</label>订单
+        </div>
+
+        <div class="order">
+            <div style="height: 2.5em;line-height: 2.5em;">
+                <label style="float: left;">订单编号:</label>
+                <input type="text" readonly="readonly" th:value="${order.orderNo}">
+                <label style="float: left;">预定送达时间:</label>
+                <input type="text" readonly="readonly" th:value="${#calendars.format(order.conTime,'yyyy-MM-dd hh:mm:ss')}">
+            </div>
+
+            <div><hr style="margin-top: -0.1em;"/></div>
+
+            <div class="commodity" th:each="c : ${order.commodities}">
+                <div style="width: 30%;margin-bottom: -1.3em;"><label th:text="${c.commodityName}">可乐</label></div>
+                <div style="width: 30%;margin-bottom: -1.3em;">￥<label th:text="${c.commodityPrice}">3.00</label></div>
+                <div style="width: 3%;margin-right: 1em;margin-bottom: -1.3em;">x<d th:each="ol : ${order.orderLists}"><label th:if="${c.commodityId==ol.commodity_Id}" th:text="${ol.commoditynum}">3</label></d></div>
+            </div>
+
+            <div style="position: absolute; bottom: 0;right: 1em;">
+                共<span th:text="${order.sum}">6</span>件商品,实付￥<span th:text="${order.totalPrice}">18.00</span>
+            </div>
+        </div>
+    </div>
+    <hr style="width: 98%"/>
+</div>
+
+</body>
+</html>

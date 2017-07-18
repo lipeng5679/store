@@ -48,4 +48,19 @@ public class OrderServiceImpl implements OrderService {
     public void update(Order order) {
         orderMapper.update(order);
     }
+
+    @Override
+    public List<Order> findAllorderByModuleId(Serializable moduleId) {
+        return orderMapper.findAllorderByModuleId(moduleId);
+    }
+
+    @Override
+    public List<Order> findAllorderByModuleIdAndUserId(Map map) {
+        return orderMapper.findAllorderByModuleIdAndUserId(map);
+    }
+
+    @Override
+    public Order findOrderByorderNo(Serializable orderNo) {
+        return orderMapper.findOrderByorderNo(orderNo);
+    }
 }
