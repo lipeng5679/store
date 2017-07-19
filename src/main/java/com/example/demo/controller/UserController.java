@@ -127,7 +127,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         User user = userService.getnumberAndpassword(phonenumber, password);
         if (user != null) {
-            modelAndView.setViewName("index");
+            modelAndView.setViewName("redirect:/index");
             modelAndView.addObject("user",user);
             modelAndView.addObject("imgList",scrollService.findAll());
             modelAndView.addObject("moduleList",moduleService.findAll());

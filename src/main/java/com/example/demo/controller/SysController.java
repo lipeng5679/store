@@ -65,7 +65,7 @@ public class SysController {
         }
 
 
-        modelAndView.setViewName("admin/index");
+        modelAndView.setViewName("redirect:/admin/editcommodity");
         return modelAndView;
     }
 

@@ -21,7 +21,7 @@
 
 </head>
 <body style="display: flex;flex-flow: column wrap;padding-bottom: 50px">
-<s class="s">
+<d class="s">
 <div>
 <nav>
 
@@ -94,8 +94,6 @@
         <div class="sanjiao"></div>
         <div  class="new-sub">
             <ul>
-                <li><a href="/user/login">登陆</a></li>
-                <li><a href="/user/register" >注册</a></li>
                 <li><a href="/user/back" >找回密码</a></li>
                 <li th:each="u : ${user}">
                     <span th:text="${user.name}"></span>
@@ -125,7 +123,7 @@
 
 </div>
 </div>
-</s>
+</d>
 <script type="text/javascript">
     
     $(function () {
