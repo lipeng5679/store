@@ -42,10 +42,12 @@ public class HomeController {
     private ModuleService moduleService;
     @Autowired
     private CommentsService commentsService;
+    @Autowired
+    private OrderService orderService;
 
     //首页
     @GetMapping("/index")
-    public ModelAndView toIndex(){
+    public ModelAndView toIndex(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
         List<Scroll> imgList = scrollService.findAll();
         List<Module> moduleList = moduleService.findAll();
@@ -54,7 +56,6 @@ public class HomeController {
         modelAndView.addObject("moduleList",moduleList);
 
         modelAndView.setViewName("index");
-
         return modelAndView;
     }
 

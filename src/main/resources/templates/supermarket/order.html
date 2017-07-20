@@ -52,7 +52,7 @@
 
 <div>
     <span style="display: block;margin-left: 1em;">商品列表</span>
-    <div style="display: flex;flex-flow: row nowrap;justify-content: space-between;margin-left: 1em;" th:each="s : ${map}">
+    <div style="display: flex;flex-flow: row nowrap;justify-content: space-between;margin-left: 1em;" th:each="s : ${session.order}">
         <div style="width: 33%">
             <span style="color: #333333" th:text="${s.key.commodityName}">可口可乐</span>
         </div>
@@ -62,13 +62,13 @@
         </div>
 
         <div class="btn" style="margin-right: 4em;"style="width: 13%">
-            <button class="minus">
+            <button class="minus" th:id="${s.key.commodityId}">
                 <strong></strong>
             </button>
             <i style="display: inline-block">
-                <span th:text="${s.value}">0</span>
+                <span th:text="${s.value}" style="color: black">0</span>
             </i>
-            <button class="add">
+            <button class="add" th:id="${s.key.commodityId}">
                 <strong></strong>
             </button>
         </div>
@@ -87,8 +87,8 @@
 <div>
     <span style="display: block;margin-left: 1em;">配送时间</span>
     <label style="display: block;float: left;width: 51%;text-align: right;">预约时间:</label>
-    <input readonly="readonly" value="14:23" style="margin-top: 0.13em;float: left;display: block;width: 44%;border: none;outline:none;font-size: 1em;text-align: left" type="text">
-    <label style="display:block;float: left">></label>
+    <input readonly="readonly" value="立即配送" style="margin-top: 0.13em;float: left;display: block;width: 44%;border: none;outline:none;font-size: 1em;text-align: left" type="text" class="conTime">
+    <label style="display:block;float: left;">></label>
     <hr style="width: 94%;margin-top: -0.06em;">
 </div>
 
@@ -100,12 +100,12 @@
 
 <div class="footer"  style="height: 70px;">
     <div class="right" >
-        <a th:href="'/supermarket/toupdate/'+${orderId}" style="height: 70px;width: 100px;" id="btnselect" class="xhlbtn  disable" href="#">支付订单</a>
+        <a style="height: 70px;width: 100px;" id="btnselect" class="xhlbtn  disable">支付订单</a>
     </div>
     <div class="left" style="">
         <span id="cartN" style="font-size: 2em;">
-            实付款：￥<span th:if="${sum==null}" id="totalpriceshow">0</span>
-            <span th:if="${sum!=null}" id="totalpriceshow" th:text="${sum}">0</span>
+            实付款：￥<span th:if="${session.ordersum==null}" id="totalpriceshow">0</span>
+            <span th:if="${session.ordersum!=null}" id="totalpriceshow" th:text="${session.ordersum}">0</span>
         </span>元
     </div>
 
@@ -113,6 +113,26 @@
 
 <script type="text/javascript">
     $(function () {
+        //支付订单
+        $("#btnselect").click(function () {
+            var url="/supermarket/payoff";
+            var conTime = $(".conTime").attr("value");
+            $.ajax({
+                url: url,
+                data: { "conTime": conTime },
+                dataType: "text",
+                type: "post",
+                traditional: true,
+                success: function (data) {
+                    location.href = "/supermarket//toupdate/"+data;
+                },
+                error: function (data, status, er) {
+
+                }
+            });
+        })
+
+        //按钮样式
         $(".right").find("a").removeClass("disable");
 
         //加的效果
@@ -121,7 +141,7 @@
             var id = $(this).attr("id");
             var state = $(this).attr("class");
             $.ajax({
-                url: "/supermarket/car/"+id,
+                url: "/supermarket/ordercar/"+id,
                 data: { "state": state },
                 dataType: "json",
                 type: "post",
@@ -133,7 +153,6 @@
 
                 }
             });
-
 
             $(this).prevAll().css("display", "inline-block");
             var n = $(this).prev().text();
@@ -149,13 +168,14 @@
             jss();//<span style='font-family: Arial, Helvetica, sans-serif;'></span>   改变按钮样式
 
         });
+
         //减的效果
         $(".minus").click(function () {
 
             var id = $(this).attr("id");
             var state = $(this).attr("class");
             $.ajax({
-                url: "/supermarket/car/"+id,
+                url: "/supermarket/ordercar/"+id,
                 data: { "state": state },
                 dataType: "json",
                 type: "post",

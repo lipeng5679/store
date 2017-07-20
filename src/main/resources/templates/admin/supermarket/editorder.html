@@ -6,6 +6,9 @@
     <script src="http://ors703hgy.bkt.clouddn.com/store/js/jquery-3.1.1.min.js"></script>
     <link rel="stylesheet" href="/css/table.css"/>
 </head>
+<style>
+    a{color: blue}
+</style>
 <body>
 
 <table id="tab" width="50%" class="table">
@@ -24,8 +27,8 @@
     <tr align="center" th:each="o : ${orderList}">
         <td th:text="${o.module.name}"></td>
         <td><a th:href="'/admin/show/'+${o.orderNo}" th:text="${o.orderNo}"></a></td>
-        <td th:text="${#calendars.format(o.submitTime,'yyyy-MM-dd hh:mm:ss')}"></td>
-        <td th:text="${#calendars.format(o.conTime,'yyyy-MM-dd hh:mm:ss')}"></td>
+        <td th:text="${#calendars.format(o.submitTime,'yyyy-MM-dd hh:mm')}"></td>
+        <td th:text="${#calendars.format(o.conTime,'yyyy-MM-dd hh:mm')}"></td>
         <td th:text="${o.sum}"></td>
         <td th:text="${o.totalPrice}"></td>
         <td th:text="${o.user.address}"></td>

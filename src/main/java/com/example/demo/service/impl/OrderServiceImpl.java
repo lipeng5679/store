@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findCommoditynum(Serializable oid) {
+    public Order findCommoditynum(Serializable oid) {
         return orderMapper.findCommoditynum(oid);
     }
 

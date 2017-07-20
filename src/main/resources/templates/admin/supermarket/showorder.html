@@ -22,7 +22,7 @@
     <div class="content">
 
         <div>
-            <img src="/img/user/301.jp" th:src="${order.module.src}" style="display: block">
+            <img src="/img/user/301.jp" th:src="${order.module.src}" style="display: block;border-radius: 100%">
             <label style="margin-left: 1em;margin-top: 0.5em;" th:text="${order.module.name}">社区</label>订单
         </div>
 
@@ -31,7 +31,7 @@
                 <label style="float: left;">订单编号:</label>
                 <input type="text" readonly="readonly" th:value="${order.orderNo}">
                 <label style="float: left;">预定送达时间:</label>
-                <input type="text" readonly="readonly" th:value="${#calendars.format(order.conTime,'yyyy-MM-dd hh:mm:ss')}">
+                <input type="text" readonly="readonly" th:value="${#calendars.format(order.conTime,'yyyy-MM-dd hh:mm')}">
             </div>
 
             <div><hr style="margin-top: -0.1em;"/></div>

@@ -2,6 +2,7 @@ package com.example.demo.controller.supermarket;
 
 import com.example.demo.domain.*;
 import com.example.demo.service.*;
+import com.example.demo.util.MapUtil;
 import lombok.experimental.var;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
@@ -43,8 +44,32 @@ public class SuperController {
         ModelAndView modelAndView = new ModelAndView();
         List<CommodityClass> commodityClassList = commodityClassService.findAllcommodityAndclass();
 
+
         modelAndView.addObject("commodityClassList",commodityClassList);
         modelAndView.setViewName("supermarket/index");
+
+        //准备某模块的评论数据
+        HttpSession session = request.getSession();
+        Module module = (Module) session.getAttribute("module");
+
+        List<Comments> commentsList = commentsService.findAllBymoduleId(module.getModuleId());
+        List<Map> mapList = new ArrayList<>();
+
+        for (Comments c:commentsList
+                ) {
+            String src = c.getSrc();
+            String[] split = src.split("'");
+            for(int i=0;i<split.length;i++){
+                Map map = new HashMap();
+                map.put(c.getCommentsId(),split[i]);
+                mapList.add(map);
+            }
+        }
+        Map map1 = MapUtil.mapCombine(mapList);
+
+        modelAndView.addObject("commentsList",commentsList);
+        modelAndView.addObject("map1",map1);
+
         return modelAndView;
     }
 
@@ -61,7 +86,7 @@ public class SuperController {
         return json;
     }
 
-    //跳转订单页面
+    //跳转订单列表页面
     @GetMapping("/orderlist")
     public ModelAndView toOrder(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
@@ -91,7 +116,20 @@ public class SuperController {
         if(isPayoff == 0){
             order.setIsPayoff(1);
         }else if(isPayoff == 1){
+            //退款
             order.setIscon(2);
+            //更改库存
+            Order order1 = orderService.findCommoditynum(orderId);
+            List<Commodity> commodities = order1.getCommodities();
+            List<OrderList> orderLists = order1.getOrderLists();
+            for(int i=0;i<commodities.size();i++){
+                Commodity commodity = commodities.get(i);
+                int commodityStock = commodity.getCommodityStock();
+                int commoditynum = orderLists.get(i).getCommoditynum();
+                commodity.setCommodityStock(commodityStock+commoditynum);
+                commodityService.update(commodity);
+            }
+
         }
         orderService.update(order);
 
@@ -104,27 +142,119 @@ public class SuperController {
         ModelAndView modelAndView = new ModelAndView();
         HttpSession session = request.getSession();
 
-        Map<Commodity,Integer> map = (Map<Commodity, Integer>) session.getAttribute("car");
-        modelAndView.addObject("map",map);
-        modelAndView.addObject("sum",session.getAttribute("sum"));
-
-        //插入数据库
-        Order order = new Order();
-        order.setTotalPrice((Double) session.getAttribute("sum"));
-        order.setUser((User) session.getAttribute("user"));
-        order.setSum((Integer) session.getAttribute("num"));
-        order.setModule((Module) session.getAttribute("module"));
-        order.setSubmitTime(new Date());
-        orderService.insertOrder(order);
+        Map<Commodity,Integer> car = (Map<Commodity, Integer>) session.getAttribute("car");
+        Double sum = (Double) session.getAttribute("sum");
+        Integer num = (Integer) session.getAttribute("num");
+       /* modelAndView.addObject("map",map);
+        modelAndView.addObject("sum",session.getAttribute("sum"));*/
+       if(car != null){
+           session.setAttribute("order",car);
+       }
+       if(sum != null){
+           session.setAttribute("ordersum",sum);
+       }
+       if(num != null){
+           session.setAttribute("ordernum",num);
+       }
 
         //删除购物车数据
         session.removeAttribute("car");
         session.removeAttribute("num");
         session.removeAttribute("sum");
 
+        modelAndView.setViewName("supermarket/order");
+        /*modelAndView.addObject("orderId",order.getOrderId());*/
+        return modelAndView;
+    }
+
+    //处理订单车
+    @PostMapping("/ordercar/{id}")
+    @ResponseBody
+    public String ordercar(@PathVariable Long id,String state,HttpServletRequest request){
+        Commodity commodity = commodityService.getById(id);
+        HttpSession session = request.getSession();
+        Map<Commodity,Integer> order = (Map<Commodity, Integer>) session.getAttribute("order");
+
+        //便利map中的商品对象
+        Iterator<Commodity> it = order.keySet().iterator();
+        boolean f = true;
+
+        //如果是添加商品
+        if("add".equals(state)){
+            //如果购物车存在相同id商品则在数量上加1
+            while (it.hasNext()) {
+                Commodity c = (Commodity)it.next();
+                if (c.getCommodityId().equals(commodity.getCommodityId())) {
+                    order.put(c, order.get(c)+1);
+                    f = false;
+                }
+            }
+            if(f){
+                order.put(commodity,1);
+            }
+
+        }
+        //如果是减少商品
+        else if("minus".equals(state)){
+            while (it.hasNext()){
+                Commodity c = (Commodity)it.next();
+                if(c.getCommodityId().equals(commodity.getCommodityId())){
+                    Integer num = order.get(c);
+                    if(num > 1){
+                        order.put(c,order.get(c)-1);
+                    }else{
+                        order.remove(c);
+                    }
+                }
+            }
+        }
+        session.setAttribute("order", order);
+
+        //获取购物车中商品数量，和总价
+        Integer num = 0;
+        Double sum = 0.0;
+        for (Map.Entry<Commodity,Integer> entry:order.entrySet()
+                ) {
+            Commodity commodity1 = (Commodity) entry.getKey();
+            Integer n = entry.getValue();
+            Double price = commodity1.getCommodityPrice();
+            Double s = n*price;
+            num = num+n;
+            sum = sum+s;
+        }
+        session.setAttribute("ordernum",num);
+        session.setAttribute("ordersum",sum);
+
+        return "success";
+    }
+
+
+    //支付订单
+    @PostMapping("/payoff")
+    @ResponseBody
+    public Long payoff(HttpServletRequest request,String conTime){
+        ModelAndView modelAndView = new ModelAndView();
+        HttpSession session = request.getSession();
+        Map<Commodity,Integer> orderMap = (Map<Commodity, Integer>) request.getSession().getAttribute("order");
+        Integer ordernum = (Integer) request.getSession().getAttribute("ordernum");
+        Double ordersum = (Double) request.getSession().getAttribute("ordersum");
+        User user = (User) session.getAttribute("user");
+        Module module = (Module) session.getAttribute("module");
+
+        //插入订单
+        Order order = new Order();
+        order.setTotalPrice(ordersum);
+        order.setUser(user);
+        order.setSum(ordernum);
+        order.setModule(module);
+        order.setSubmitTime(new Date());
+
+        orderService.insertOrder(order);
+
+        //插入订单商品关系表
         Long order_Id = order.getOrderId();
-        for (Map.Entry<Commodity,Integer> entry:map.entrySet()
-             ) {
+        for (Map.Entry<Commodity,Integer> entry:orderMap.entrySet()
+                ) {
             Commodity commodity = (Commodity) entry.getKey();
 
             //插入ordelist表
@@ -136,11 +266,15 @@ public class SuperController {
             m.put("order_Id",order_Id);
             orderService.saveRelation(m);
 
+            //更改库存
+            int stock = commodity.getCommodityStock() - commoditynum;
+            commodity.setCommodityStock(stock);
+            commodityService.update(commodity);
+
         }
 
-        modelAndView.setViewName("supermarket/order");
-        modelAndView.addObject("orderId",order.getOrderId());
-        return modelAndView;
+
+        return order_Id;
     }
 
     //跳转评价页面

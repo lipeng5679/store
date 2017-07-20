@@ -4,6 +4,8 @@
     <meta charset="UTF-8"/>
     <title>超市首页</title>
     <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="/js/supermarket/content_zoom.js"></script>
+
 </head>
 <style>
     body{padding: 0;margin: 0;background:#fff;}
@@ -76,7 +78,7 @@
 
     <div style="display: flex;flex-flow: row nowrap">
 
-        <div style="width: 50%;text-align: center">
+        <div style="width: 50%;text-align: center" class="sp">
             商品
         </div>
 
@@ -86,8 +88,9 @@
 
     </div>
 
-    <div class="main" style="display: flex;flex-flow: row nowrap">
-        <div class="left-menu">
+    <!--商品-->
+    <div  class="main" style="display: flex;flex-flow: row nowrap">
+        <div class="left-menu" style="position:relative;float:left;width:6em;overflow:auto;">
             <ul>
                 <li class="active" th:each="cc : ${commodityClassList}">
                     <a th:text="${cc.commodityClassName}" th:href="'#'+${cc.commodityClassId}"></a>
@@ -95,9 +98,9 @@
             </ul>
         </div>
 
-        <div class="con" style="width: 100%;background-color: #FFFFFF;" >
+        <div class="con" style="width: 100%;background-color: #FFFFFF;overflow:auto;overflow-x: hidden;height: 70em;" >
             <font th:each="cc : ${commodityClassList}">
-                <div style="margin-top: 1em;"><font color="red">|</font><a th:id="${cc.commodityClassId}" th:text="${cc.commodityClassName}"></a></div>
+                <div style="margin-top: 1em;"><font color="red">|</font><a th:id="${cc.commodityClassId}"  th:text="${cc.commodityClassName}"></a></div>
             <div class="right-con con-active" style="width: 100%;" th:each="c : ${cc.commodities}">
                 <ul>
                     <li>
@@ -106,7 +109,7 @@
                             <h4 style="margin-bottom: -1px;" th:text="${c.commodityName}">宫保鸡丁</h4>
                             <p class="list1" th:text="${c.commodityDescribe}" style="color: grey">家常菜</p>
                             <p class="list2">
-                                <b>￥<span th:text="${c.commodityPrice}"></span></b>
+                                <b>&yen;<span th:text="${c.commodityPrice}"></span></b>
                                 <span style="display: block;color: grey">库存:<font color="#808080"  th:text="${c.commodityStock}"></font></span>
                             <div class="btn">
                                 <button class="minus" th:id="${c.commodityId}">
@@ -131,25 +134,89 @@
             </font>
         </div>
 
-        <div class="footer">
-            <div class="left">已选：
-                <span id="cartN">
-			        <span th:if="${session.car==null}" id="totalcountshow">0</span>
-                    <span th:if="${session.car!=null}" id="totalcountshow" th:text="${session.num}">0</span>
-                    份　总计：￥<span th:if="${session.car==null}" id="totalpriceshow">0</span>
-                    <span th:if="${session.car!=null}" id="totalpriceshow" th:text="${session.sum}">0</span>
-                </span>元
+        <div class="footer" style="background-color: #3d3d3d;height: 45px">
+            <div class="left" style="flex-flow: row nowrap;display: flex">
+                <div>
+                    <img src="/img/car.jpg" style="border-radius: 100%;float: left" class="car"/>
+                </div>
+                <div id="cartN" style="width: 400px;display: flex;flex-flow: column wrap;margin-left: 2em;">
+                    <d style="color: #FFFFFF;margin-top: -5px;font-size: 1.7em;">
+                        &yen;<span th:if="${session.car==null}" id="totalpriceshow">0</span>
+                        <span th:if="${session.car!=null}" id="totalpriceshow" th:text="${session.sum}">0</span>
+                    </d>
+
+			        <d style="color: grey;margin-top: -1.3em;font-size: 8px">当前购物车有
+                        <span th:if="${session.car==null}" id="totalcountshow">0</span>
+                        <span th:if="${session.car!=null}" id="totalcountshow" th:text="${session.num}">0</span>件商品
+                    </d>
+                </div>
             </div>
             <div class="right">
-                <a id="btnselect" class="xhlbtn  disable" href="/supermarket/order">前往购物车</a>
+                <a id="btnselect" class="xhlbtn  disable" href="/supermarket/order">结算订单</a>
             </div>
         </div>
     </div>
+
+    <!--评价-->
+    <div class="pj" style="display: none"  th:each="c : ${commentsList}">
+        <div class="content" style="display: flex;display: -webkit-flex;flex-flow: row nowrap;">
+
+            <div style="margin-top: 0.4em;margin-left: 0.4em;">
+                <img src="/img/user/301.jpg" style="border-radius:100px;height: 3em;width: 3em;">
+            </div>
+
+            <div style="width: 100%;margin-left: 0.4em;" >
+                <div style="display: flex;display: -webkit-flex;flex-flow: row nowrap;justify-content: space-between">
+                    <div style="margin-top: 0.5em;">
+                        <span th:text="${c.user.name}">demo</span>
+                    </div>
+
+                    <div style="margin-top: 0.5em;margin-right: 0.2em">
+                        <span th:text="${#calendars.format(c.dateTime,'yyyy-MM-dd')}">2017-7-1</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 0.3em;">
+                    <span style="display: block" th:text="${c.content}"> 卖的不错，良心</span>
+                    <font th:each="m : ${map1}">
+                        <font th:each="mm : ${m.value}">
+                            <a class="img" th:href="'#'+${c.commentsId}"><img th:if="${c.commentsId == m.key}" th:src="${mm}" src="/img/user/1.jpg" style="height: 3em;width: 3em;margin-top: 1em;"/></a>
+                            <div th:if="${c.commentsId == m.key}" th:id="${c.commentsId}" style="display:none;"><img th:src="${mm}" style="height: 16em;width: 16em;"/></div>
+                        </font>
+                    </font>
+                </div>
+
+            </div>
+        </div>
+        <hr style="display: block;width: 96%;background-color: grey"/>
+    </div>
+
 </div>
 <script type="text/javascript">
-    $(function () {
 
-        $(".right").find("a").removeClass("disable");
+    $(document).ready(function () {
+        //图片放大
+        $(".img").fancyZoom({scaleImg: true, closeOnClick: true});
+
+
+        //购物车图片
+        jss()
+        $(".car").click(function () {
+
+        })
+
+
+        $(".pinglun").click(function () {
+            $(".pj").show();
+            $(".main").hide();
+        })
+        $(".sp").click(function () {
+            $(".main").show();
+            $(".pj").hide();
+        })
+
+
+
 
         //只显示i标签下面span的第一个元素
         $("i").each(function () {
@@ -161,6 +228,13 @@
 
         //加的效果
         $(".add").click(function () {
+
+            //获取库存
+            var kc = $(this).parent().parent().children().eq(2).children().eq(1).children().text()
+            if(kc<=0){
+                alert("库存不足")
+                return false;
+            }
 
             var id = $(this).attr("id");
             var state = $(this).attr("class");
@@ -191,6 +265,9 @@
             var nm = $("#totalcountshow").html();//获取数量
             $("#totalcountshow").html(nm*1+1);
             jss();//<span style='font-family: Arial, Helvetica, sans-serif;'></span>   改变按钮样式
+
+            $(this).parent().parent().children().eq(2).children().eq(1).children().text(parseInt(kc)-1)
+
 
         });
         //减的效果
@@ -226,14 +303,22 @@
 
             var nm = $("#totalcountshow").html();//获取数量
             $("#totalcountshow").html(nm * 1 - 1);
+            jss()
+
+            //获取库存
+            var kc = $(this).parent().parent().children().eq(2).children().eq(1).children().text()
+            $(this).parent().parent().children().eq(2).children().eq(1).children().text(parseInt(kc)+1)
 
         });
         function jss() {
             var m = $("#totalcountshow").html();
             if (m > 0) {
                 $(".right").find("a").removeClass("disable");
+                $(".right").find("a").attr("href","/supermarket/order");
+
             } else {
                 $(".right").find("a").addClass("disable");
+                $(".right").find("a").removeAttr("href");
             }
         };
 

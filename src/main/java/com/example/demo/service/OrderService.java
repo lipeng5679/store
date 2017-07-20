@@ -19,7 +19,7 @@ public interface OrderService {
 
     List<Order> findOrderByuid(Serializable uid);
 
-    List<Order> findCommoditynum(Serializable oid);
+    Order findCommoditynum(Serializable oid);
 
     void update(Order order);
 
