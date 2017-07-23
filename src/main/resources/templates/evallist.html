@@ -33,7 +33,7 @@
            <span style="display: block" th:text="${c.content}"> 卖的不错，良心</span>
             <font th:each="m : ${map1}">
                 <font th:each="mm : ${m.value}">
-            <img class="img" th:if="${c.commentsId == m.key}" th:src="${mm}" src="/img/user/1.jpg" style="height: 3em;width: 3em;margin-top: 1em;"/>
+                    <img class="img" th:if="${c.commentsId == m.key}" th:src="${mm}" src="/img/user/1.jpg" style="height: 3em;width: 3em;margin-top: 1em;"/>
                 </font>
             </font>
         </div>

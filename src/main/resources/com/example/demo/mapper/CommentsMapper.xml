@@ -40,7 +40,7 @@
         on u.id=cs.u_id
         left join module m
         on cs.m_id=m.moduleId
-        where m.moduleId=#{moduleId};
+        where m.moduleId=#{moduleId} order BY cs.dateTime DESC
     </select>
 
     <!--查询所有-->

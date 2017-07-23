@@ -21,6 +21,8 @@ public class WebMvcConf extends WebMvcConfigurerAdapter {
         InterceptorRegistration interceptor = registry.addInterceptor(myInterceptor);
         interceptor.addPathPatterns("/user/back");
         interceptor.addPathPatterns("/supermarket/*");
+        interceptor.addPathPatterns("/admin");
+        interceptor.addPathPatterns("/admin/*");
     }
 
 }

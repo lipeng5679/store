@@ -101,7 +101,7 @@
         on ol.commodity_Id=c.commodityId
         left join module m
         on o.module_id=m.moduleId
-        where o.user_id=#{id}
+        where o.user_id=#{id} order by o.orderId DESC
     </select>
 
     <!--根据订单id查询订单信息与模块信息-->

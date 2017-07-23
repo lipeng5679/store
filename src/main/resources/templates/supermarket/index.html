@@ -42,6 +42,14 @@
     .footer .right{float:right;}
     .footer .right .disable{background:#dbdbdb;}
     .footer .xhlbtn{display:block;text-align:center;line-height:45px;background-color:#F03C03;padding:0 15px;color:#fff;font-weight:bold;}
+    .tanchu{overflow-Y:auto;background: #FFFFFF;display:none;position:fixed;width:100%;bottom:45px;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
+    .btn button.minus{margin-right:-10px;}
+    .btn button{width:40px;height:40px;border:0;background:transparent;padding:0;}
+    .btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;padding:5px 11px;height:12px;}
+    .btn button.minus strong{background:url(/img/down.png) no-repeat;background-size:22px 22px;}
+    .btn i{display:none;width:22px;text-align:center;font-style:normal;vertical-align:top;margin-top:11px;line-height:18px;}
+    .btn button.add{margin-left:-10px;}
+    .btn button.add strong{background:url(/img/up.png) no-repeat;background-size:22px 22px;}
 
 </style>
 
@@ -50,7 +58,7 @@
 <div style="display: flex;flex-flow: column nowrap;">
     <div class="header" style="background-color: #d34a5a">
         <div>
-            <img src="/img/a.jpg"style="float: left" onclick="javascript:history.back(-1);"/>
+            <a href="/index"><img src="/img/a.jpg"style="float: left"/></a>
             <img src="/img/b.jpg"style="float: right"/>
         </div>
 
@@ -90,7 +98,7 @@
 
     <!--商品-->
     <div  class="main" style="display: flex;flex-flow: row nowrap">
-        <div class="left-menu" style="position:relative;float:left;width:6em;overflow:auto;">
+        <div class="left-menu">
             <ul>
                 <li class="active" th:each="cc : ${commodityClassList}">
                     <a th:text="${cc.commodityClassName}" th:href="'#'+${cc.commodityClassId}"></a>
@@ -98,7 +106,7 @@
             </ul>
         </div>
 
-        <div class="con" style="width: 100%;background-color: #FFFFFF;overflow:auto;overflow-x: hidden;height: 70em;" >
+        <div class="con" style="width: 100%;background-color: #FFFFFF;" >
             <font th:each="cc : ${commodityClassList}">
                 <div style="margin-top: 1em;"><font color="red">|</font><a th:id="${cc.commodityClassId}"  th:text="${cc.commodityClassName}"></a></div>
             <div class="right-con con-active" style="width: 100%;" th:each="c : ${cc.commodities}">
@@ -180,7 +188,9 @@
                     <span style="display: block" th:text="${c.content}"> 卖的不错，良心</span>
                     <font th:each="m : ${map1}">
                         <font th:each="mm : ${m.value}">
-                            <a class="img" th:href="'#'+${c.commentsId}"><img th:if="${c.commentsId == m.key}" th:src="${mm}" src="/img/user/1.jpg" style="height: 3em;width: 3em;margin-top: 1em;"/></a>
+                            <font th:if="${mm !=''}">
+                                <a class="img" th:href="'#'+${c.commentsId}"><img th:if="${c.commentsId == m.key}" th:src="${mm}" style="height: 3em;width: 3em;margin-top: 1em;"/></a>
+                            </font>
                             <div th:if="${c.commentsId == m.key}" th:id="${c.commentsId}" style="display:none;"><img th:src="${mm}" style="height: 16em;width: 16em;"/></div>
                         </font>
                     </font>
@@ -192,6 +202,47 @@
     </div>
 
 </div>
+
+<!--弹出层-->
+<div class="tanchu">
+    <div style="background: #f1f1f1;height: 1.5em;line-height: 1.5em;">
+        <font color="red">|</font><span style="margin-left: 0.3em;">购物车详情</span>
+        <span style="float: right;margin-right: 1em;">清空购物车</span>
+    </div>
+
+    <div class="con" style="width: 100%;background-color: #FFFFFF;" >
+        <font th:each="cc : ${commodityClassList}">
+            <font th:each="c : ${cc.commodities}">
+            <div class="right-con con-active" style="display: none;width: 100%;" th:class="${c.commodityId}">
+                        <div class="menu-txt" style="margin-left: 120px;display: flex;flex-flow: row nowrap">
+                            <span style="width: 43%;margin-bottom: -1px;" th:text="${c.commodityName}">宫保鸡丁</span>
+                            <p class="list1" th:text="${c.commodityDescribe}" style="color: grey;display: none">家常菜</p>
+                            <p class="list2" style="width: 43%;">
+                                <b style="color: red">&yen;<span th:text="${c.commodityPrice}"></span></b>
+                                <span style="display: none;color: grey">库存:<font color="#808080"  th:text="${c.commodityStock}"></font></span>
+                                <div class="btn" >
+                                    <button class="minus" th:id="${c.commodityId}">
+                                        <strong></strong>
+                                    </button>
+                                    <i style="display: inline-block" th:class="${c.commodityId}">
+                                        <d th:each="s : ${session.car}">
+                                            <span th:if="${s.key.commodityId == c.commodityId}" th:text="${s.value}">0</span>
+                                        </d>
+                                        <span style="display: none">0</span>
+                                    </i>
+                                    <button class="add" th:id="${c.commodityId}">
+                                        <strong></strong>
+                                    </button>
+                                </div>
+                            </p>
+                        </div>
+            </div>
+            </font>
+        </font>
+    </div>
+
+</div>
+
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -202,6 +253,7 @@
         //购物车图片
         jss()
         $(".car").click(function () {
+            $(".tanchu").toggle().animate({height:'400px'});
 
         })
 
@@ -216,8 +268,6 @@
         })
 
 
-
-
         //只显示i标签下面span的第一个元素
         $("i").each(function () {
             var ns = $(this).attr("class")
@@ -230,7 +280,7 @@
         $(".add").click(function () {
 
             //获取库存
-            var kc = $(this).parent().parent().children().eq(2).children().eq(1).children().text()
+            var kc = $(this).parent().parent().children().eq(2).children().eq(1).children().eq(0).text();
             if(kc<=0){
                 alert("库存不足")
                 return false;
@@ -252,12 +302,12 @@
                 }
             });
 
-
             $(this).prevAll().css("display", "inline-block");
             var n = $(this).prev().text();
             var num = parseInt(n) + 1;
             if (num == 0) { return; }
             $(this).prev().text(num);
+
             var danjia = $(this).parent().prev().children().children().eq(0).text();//获取单价
             var a = $("#totalpriceshow").html();//获取当前所选总价
             $("#totalpriceshow").html((a * 1 + danjia * 1).toFixed(1));//计算当前所选总价

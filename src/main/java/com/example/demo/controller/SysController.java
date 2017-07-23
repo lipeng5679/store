@@ -134,7 +134,6 @@ public class SysController {
     public String toeditorder(ModelMap modelMap){
         List<Order> orderList = orderService.findAllorderByModuleId(1);
         modelMap.put("orderList",orderList);
-        System.out.println(orderList);
 
         return "admin/supermarket/editorder";
     }

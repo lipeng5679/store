@@ -14,6 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -232,7 +235,8 @@ public class SuperController {
     //支付订单
     @PostMapping("/payoff")
     @ResponseBody
-    public Long payoff(HttpServletRequest request,String conTime){
+    public Long payoff(HttpServletRequest request,String conTime,String youhui) throws ParseException {
+
         ModelAndView modelAndView = new ModelAndView();
         HttpSession session = request.getSession();
         Map<Commodity,Integer> orderMap = (Map<Commodity, Integer>) request.getSession().getAttribute("order");
@@ -243,11 +247,25 @@ public class SuperController {
 
         //插入订单
         Order order = new Order();
-        order.setTotalPrice(ordersum);
+        if("请选择优惠券".equals(youhui)){
+            order.setTotalPrice(ordersum);
+        }else{
+            Double d = new BigDecimal(Double.parseDouble(youhui)).doubleValue();
+            order.setTotalPrice(ordersum - d);
+        }
         order.setUser(user);
         order.setSum(ordernum);
         order.setModule(module);
         order.setSubmitTime(new Date());
+        if("立即配送".equals(conTime)){
+            order.setConTime(new Date());
+        }else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String format = sdf.format(new Date());
+            String time = format + " " + conTime ;
+            Date date = (new SimpleDateFormat("yyyy-MM-dd HH:mm")).parse(time);
+            order.setConTime(date);
+        }
 
         orderService.insertOrder(order);
 

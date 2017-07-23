@@ -27,6 +27,12 @@
     .footer .right .disable{background:#dbdbdb;}
     .footer .xhlbtn{display:block;text-align:center;line-height:70px;background-color:#F03C03;padding:0 15px;color:#fff;font-weight:bold;}
 
+    .youhui{text-align: center;overflow-Y:auto;background: #FFFFFF;display:none;position:fixed;width:100%;bottom:45px;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
+    .youhui span{display: block}
+    .time{text-align: center;overflow-Y:auto;background: #FFFFFF;display:none;position:fixed;width:100%;bottom:45px;line-height:35px;font-size:15px;border-top:1px solid #e2e2e2;}
+    .time span{display: block;}
+
+
 </style>
 
 <body>
@@ -61,7 +67,7 @@
             ￥<span style="color: #333333" th:text="${s.key.commodityPrice}">3.00</span>
         </div>
 
-        <div class="btn" style="margin-right: 4em;"style="width: 13%">
+        <div class="btn" style="margin-right: 4em;width: 13%">
             <button class="minus" th:id="${s.key.commodityId}">
                 <strong></strong>
             </button>
@@ -77,14 +83,14 @@
 </div>
 <hr style="height: 1em;background-color: #f4f4f4;border: none">
 
-<div>
+<div class="yh">
     <span style="display: block;margin-left: 1em;">优惠券</span>
-    <input readonly="readonly" value="暂无可用优惠券" style="float: left;display: block;width: 92%;margin-left: 1em;border: none;outline:none;font-size: 1em;text-align: center" type="text">
+    <input readonly="readonly" value="请选择优惠券" style="float: left;display: block;width: 92%;margin-left: 1em;border: none;outline:none;font-size: 1em;text-align: center" type="text" class="yhj">
     <label style="display:block;float: left">></label>
     <hr style="width: 94%;margin-top: -0.06em;">
 </div>
 
-<div>
+<div class="ps">
     <span style="display: block;margin-left: 1em;">配送时间</span>
     <label style="display: block;float: left;width: 51%;text-align: right;">预约时间:</label>
     <input readonly="readonly" value="立即配送" style="margin-top: 0.13em;float: left;display: block;width: 44%;border: none;outline:none;font-size: 1em;text-align: left" type="text" class="conTime">
@@ -111,15 +117,98 @@
 
 </div>
 
+<!--优惠层-->
+<div class="youhui">
+    <a class="gb1" style="display: block;float: right">关闭</a>
+    <a style="display: block">优惠券</a>
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+</div>
+
+<!--选择时间层-->
+<div class="time">
+    <a class="gb2" style="display: block;float: right">关闭</a>
+    <a>请选择配送时间</a>
+    <span>立即配送</span>
+    <span>00:30</span><span>01:00</span><span>01:30</span><span>02:00</span><span>02:30</span><span>03:00</span><span>03:30</span><span>04:00</span><span>04:30</span>
+    <span>05:00</span><span>05:30</span><span>05:30</span><span>06:00</span><span>06:30</span><span>07:00</span><span>07:30</span><span>08:00</span>
+    <span>08:30</span><span>09:00</span><span>09:30</span><span>10:00</span><span>10:30</span><span>11:00</span><span>11:30</span><span>12:00</span><span>12:30</span>
+    <span>13:00</span><span>13:30</span><span>14:00</span><span>14:30</span><span>15:00</span><span>15:30</span>
+    <span>16:00</span><span>16:30</span><span>17:00</span><span>17:30</span><span>18:00</span><span>18:30</span><span>19:00</span><span>19:30</span><span>20:00</span>
+    <span>20:30</span><span>21:00</span><span>21:30</span><span>22:00</span><span>22:30</span><span>23:00</span><span>23:30</span><span>24:00</span>
+</div>
+
 <script type="text/javascript">
     $(function () {
+
+        //弹出优惠层
+        $(".yh").click(function () {
+            $(".youhui").show().animate({height:'300px'});
+        })
+        $(".gb1").click(function () {
+            $(".youhui").hide()
+        })
+        $(".youhui span").click(function () {
+            var youhuinum = $(this).text();
+            var moren = $(".yhj").val();
+            $(".yhj").val(youhuinum);
+            var a = $("#totalpriceshow").html();//获取当前所选总价
+            if(moren == "请选择优惠券"){
+                $("#totalpriceshow").html((a * 1 - youhuinum * 1).toFixed(1));
+            }else{
+                $("#totalpriceshow").html((a * 1 + moren * 1 - youhuinum * 1).toFixed(1));
+            }
+            $(".youhui").hide();
+        })
+
+
+        //弹出选择时间
+        $(".ps").click(function () {
+            $(".time").show().animate({height:'300px'});
+        })
+        $(".gb2").click(function () {
+            $(".time").hide()
+        })
+        $(".time span").each(function () {
+            var conTime = $(this).text();
+            var ss = new Date().getHours();
+            var ff = new Date().getMinutes();
+            var nowTime = ss + ":" + ff;
+           if( comptime(nowTime,conTime) != -1){
+               //都得隐藏
+               $(this).hide();
+           }
+           if(conTime == "立即配送"){
+               $(this).show();
+           }
+        })
+        $(".time span").click(function () {
+            var conTime = $(this).text();
+            $(".conTime").val(conTime);
+            $(".time").hide();
+        })
+        //时间对比函数，如果a>b返回1，如果a<b返回-1，相等返回0
+        function comptime(a,b)
+        {
+            var dateA = new Date("1900/1/1 " + a);
+            var dateB = new Date("1900/1/1 " + b);
+            if(isNaN(dateA) || isNaN(dateB)) return null;
+            if(dateA > dateB) return 1;
+            if(dateA < dateB) return -1;
+            return 0;
+        }
+
+
+
         //支付订单
         $("#btnselect").click(function () {
             var url="/supermarket/payoff";
-            var conTime = $(".conTime").attr("value");
+            var conTime = $(".conTime").val();
+            var youhui = $(".yhj").val();
             $.ajax({
                 url: url,
-                data: { "conTime": conTime },
+                data: { "conTime": conTime,"youhui" : youhui },
                 dataType: "text",
                 type: "post",
                 traditional: true,
@@ -130,6 +219,7 @@
 
                 }
             });
+
         })
 
         //按钮样式

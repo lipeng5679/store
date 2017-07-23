@@ -6,9 +6,11 @@
     <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
+<div style="text-align: center;">
 <form action="/supermarket/updateorder" method="post">
     <input type="hidden" name="orderId" th:value="${orderId}"/>
-    <input type="submit" value="确认"/>
+    <input type="submit" value="确认" style="height: 50px;width: 50px;"/>
 </form>
+</div>
 </body>
 </html>
